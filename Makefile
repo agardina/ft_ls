@@ -22,28 +22,42 @@ LIB = $(addprefix $(LIB_DIR), $(LIB_NAME))
 ##### SRC #####
 
 SRC_DIR = src/
-SRC_FILES =
+SRC_FILES = add_options.c \
+				add_options_utils.c \
+				display.c \
+				main.c \
+				parsing.c \
+				parsing_operands.c \
+				parsing_options.c \
+				print_date.c \
+				print_file_modes.c \
+				print_file_type.c \
+				print_group.c \
+				print_nb_links.c \
+				print_owner.c \
+				print_size.c
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 
 ##### OBJ #####
 
 OBJ_DIR = obj/
-LS_OBJ_FILES =
-LS_OBJ = $(addprefix $(OBJ_DIR), $(LS_OBJ_FILES))
+OBJ_FILES = $(SRC_FILES:.c=.o)
+OBJ = $(addprefix $(OBJ_DIR), $(OBJ_FILES))
 
 ##### HDR #####
 
 HDR_DIR = inc/
-HDR_FILES =
+HDR_FILES = prototypes.h \
+				structs.h
 HDR = $(addprefix $(HDR_DIR), $(HDR_FILES))
 
 ##### Rules #####
 
 all: $(OBJ_DIR) $(NAME)
 
-$(NAME): $(LS_OBJ) $(LIB) Makefile
+$(NAME): $(OBJ) $(LIB) Makefile
 	@echo "Object files related to ft_ls created"
-	@$(CC) $(CFLAGS) $(LS_OBJ) $(LIB_FLAGS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) $(LIB_FLAGS) -o $(NAME)
 	@echo "$(BOLD)$(NAME)$(RESET_FORMAT) [$(GREEN)OK$(RESET_FORMAT)]"
 
 $(LIB): FORCE
@@ -59,7 +73,7 @@ $(OBJ_DIR)%.o:$(SRC_DIR)%.c $(HDR)
 
 clean:
 	@make -C $(LIB_DIR) clean
-	@rm -rf $(LS_OBJ)
+	@rm -rf $(OBJ)
 	@rm -rf $(OBJ_DIR)
 	@echo "Object files related to ft_ls deleted"
 
