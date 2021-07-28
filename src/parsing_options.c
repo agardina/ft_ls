@@ -36,7 +36,7 @@ static int	is_valid_option(char c)
 */
 static void	print_message_illegal_option(char c)
 {
-	ft_printf("ls: illegal option -- %c\n usage: ls [-RSUalnrtu]\n", c);
+	ft_printf("ls: illegal option -- %c\nusage: ./ft_ls [-RSUalnrtu]\n", c);
 }
 
 /**

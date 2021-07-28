@@ -19,8 +19,8 @@
 */
 static void	clean_ls_structure(t_ls *ls)
 {
-	ft_btree_str_clean(&ls->dir);
-	ft_btree_str_clean(&ls->files);
+	ft_btree_gen_clean(&ls->dir);
+	ft_btree_gen_clean(&ls->files);
 }
 
 /**
@@ -31,10 +31,8 @@ static void	clean_ls_structure(t_ls *ls)
 static void	init_ls_structure(t_ls *ls)
 {
 	ls->flags = 0;
-	ls->dir.nb_nodes = 0;
-	ls->dir.root = NULL;
-	ls->files.nb_nodes = 0;
-	ls->files.root = NULL;
+	ft_btree_gen_init(&ls->dir);
+	ft_btree_gen_init(&ls->files);
 }
 
 /**
@@ -56,7 +54,7 @@ int main(int argc, char **argv)
 	if (-1 < ret)
 		ls_display(&ls);
 	clean_ls_structure(&ls);
-	if (-1 < ret)
+	if (ret == -1)
 		return (1);
 	return (0);
 }

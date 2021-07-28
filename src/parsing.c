@@ -30,6 +30,7 @@ int	ls_parsing(t_ls *ls, int argc, char **argv)
 	if (-1 < ret)
 	{
 		clean_options(ls);
+		ls_tree_configure_functions(ls);
 		ret = ls_parsing_operands(ls, argc, argv, ret);
 	}
 	else

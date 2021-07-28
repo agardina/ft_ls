@@ -41,14 +41,23 @@ int	is_option_activated(t_ls *ls, unsigned int option)
 ** \brief Clean the options in order to properly finish the parsing
 ** of the options
 **
+** \details To activate the -u or the -U option, the -t or the -l option
+** must be activated too.
+**
 ** \param ls the ft_ls structure
 */
 void	clean_options(t_ls *ls)
 {
-	if (is_option_activated(ls, FL_USE_TIME_FILE_CREATION)
-		&& !is_option_activated(ls, FL_SORT_BY_TIME_MODIFIED))
-		deactivate_option(ls, FL_USE_TIME_FILE_CREATION);
-	if (is_option_activated(ls, FL_USE_TIME_LAST_ACCESS)
-		&& !is_option_activated(ls, FL_SORT_BY_TIME_MODIFIED))
-		deactivate_option(ls, FL_USE_TIME_FILE_CREATION);
+	if (is_option_activated(ls, FL_USE_TIME_FILE_CREATION))
+	{
+		if (!is_option_activated(ls, FL_SORT_BY_TIME_MODIFIED) ||
+			!is_option_activated(ls, FL_LONG_FORMAT))
+			deactivate_option(ls, FL_USE_TIME_FILE_CREATION);
+	}
+	if (is_option_activated(ls, FL_USE_TIME_LAST_ACCESS))
+	{
+		if (!is_option_activated(ls, FL_SORT_BY_TIME_MODIFIED) ||
+			!is_option_activated(ls, FL_LONG_FORMAT))
+			deactivate_option(ls, FL_USE_TIME_LAST_ACCESS);
+	}
 }

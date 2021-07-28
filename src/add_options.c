@@ -72,8 +72,6 @@ static void	deal_with_big_s_option(t_ls *ls)
 **
 ** \details
 ** - The option -S always trumps the options -t, -tu and -tU.
-** - To activate the -u or the -U option, the -t or the -l option
-** must be activated.
 ** - If several -u or -U are specified in the command line arguments,
 ** the last option specified gets the upper hand.
 **

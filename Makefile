@@ -35,7 +35,18 @@ SRC_FILES = add_options.c \
 				print_group.c \
 				print_nb_links.c \
 				print_owner.c \
-				print_size.c
+				print_size.c \
+				tree_compare_content_lexico.c \
+				tree_compare_content_size.c \
+				tree_compare_content_time.c \
+				tree_configure_comparison_function.c \
+				tree_configure_creation_function.c \
+				tree_configure_free_function.c \
+				tree_configure_functions.c \
+				tree_create_content_date.c \
+				tree_create_content_lexico.c \
+				tree_create_content_size.c \
+				tree_free_content.c
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 
 ##### OBJ #####
