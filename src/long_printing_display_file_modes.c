@@ -12,7 +12,12 @@
 
 #include "prototypes.h"
 
-static void	print_file_modes_o(struct stat *info)
+/**
+** \brief Print the permissions granted to those who are not the owner nor part of the group of a file
+**
+** \param info a stat structure containing the information regarding the file
+*/
+static void	display_file_modes_o(struct stat *info)
 {
 	if (info->st_mode & S_IROTH)
 		ft_printf("r");
@@ -32,7 +37,12 @@ static void	print_file_modes_o(struct stat *info)
 		ft_printf("-");
 }
 
-static void	print_file_modes_g(struct stat *info)
+/**
+** \brief Print the permissions granted to the group of a file
+**
+** \param info a stat structure containing the information regarding the file
+*/
+static void	display_file_modes_g(struct stat *info)
 {
 	if (info->st_mode & S_IRGRP)
 		ft_printf("r");
@@ -52,7 +62,12 @@ static void	print_file_modes_g(struct stat *info)
 		ft_printf("-");
 }
 
-static void	print_file_modes_u(struct stat *info)
+/**
+** \brief Print the permissions granted to the owner of a file
+**
+** \param info a stat structure containing the information regarding the file
+*/
+static void	display_file_modes_u(struct stat *info)
 {
 	if (info->st_mode & S_IRUSR)
 		ft_printf("r");
@@ -72,9 +87,34 @@ static void	print_file_modes_u(struct stat *info)
 		ft_printf("-");
 }
 
-void	print_file_modes(struct stat *info)
+/**
+** \brief Print the type of the file
+**
+** \param info a stat structure containing the information regarding the file
+*/
+static void	display_file_type(struct stat *info)
 {
-	print_file_modes_u(info);
-	print_file_modes_g(info);
-	print_file_modes_o(info);
+	if (S_ISBLK(info->st_mode))
+		ft_printf("b");
+	else if (S_ISCHR(info->st_mode))
+		ft_printf("c");
+	else if (S_ISDIR(info->st_mode))
+		ft_printf("d");
+	else if (S_ISLNK(info->st_mode))
+		ft_printf("l");
+	else if (S_ISSOCK(info->st_mode))
+		ft_printf("s");
+	else if (S_ISFIFO(info->st_mode))
+		ft_printf("p");
+	else if (S_ISREG(info->st_mode))
+		ft_printf("-");
+}
+
+void	display_file_modes(struct stat *info)
+{
+	display_file_type(info);
+	display_file_modes_u(info);
+	display_file_modes_g(info);
+	display_file_modes_o(info);
+	ft_printf("  ");
 }

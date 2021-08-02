@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: agardina <agardina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/28 11:38:54 by agardina          #+#    #+#             */
-/*   Updated: 2021/07/28 11:38:55 by agardina         ###   ########.fr       */
+/*   Created: 2021/07/30 10:40:03 by agardina          #+#    #+#             */
+/*   Updated: 2021/07/30 10:40:09 by agardina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,12 @@ static void	deal_with_big_s_option(t_ls *ls)
 	ls->flags |= FL_SORT_BY_SIZE;
 }
 
-/**
-** \brief Add the given option to the ft_ls structure
-**
-** \details
-** - The option -S always trumps the options -t, -tu and -tU.
-** - If several -u or -U are specified in the command line arguments,
-** the last option specified gets the upper hand.
-**
-** \param ls the ft_ls structure
-** \param option the option to add
-*/
-void	add_option(t_ls *ls, char option)
+void	add_option_from_flag(t_ls *ls, unsigned int flag)
+{
+	ls->flags |= flag;
+}
+
+void	add_option_from_letter(t_ls *ls, char option)
 {
 	if (option == 'R')
 		ls->flags |= FL_RECURSIVE_MODE;
@@ -89,7 +83,7 @@ void	add_option(t_ls *ls, char option)
 	else if (option == 'a')
 		ls->flags |= FL_DISPLAY_NAMES_DOT;
 	else if (option == 'l')
-		ls->flags |= FL_LONG_FORMAT;
+		ls->flags |= FL_LONG_PRINTING;
 	else if (option == 'n')
 		ls->flags |= FL_DISPLAY_UID_GID;
 	else if (option == 'r')

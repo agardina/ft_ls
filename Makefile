@@ -22,20 +22,34 @@ LIB = $(addprefix $(LIB_DIR), $(LIB_NAME))
 ##### SRC #####
 
 SRC_DIR = src/
-SRC_FILES = add_options.c \
-				add_options_utils.c \
+SRC_FILES = debug_print_tree.c \
 				display.c \
+				display_dir_content.c \
+				display_entries_of_a_dir.c \
+				display_entry.c \
+				display_main_dir_tree.c \
+				display_main_files_tree.c \
+				display_name.c \
+				display_utils.c \
+				get_dir_entries.c \
+				get_subdirs_list.c \
+				init_ls_tree_node.c \
+				long_printing_columns_length.c \
+				long_printing_display_date.c \
+				long_printing_display_file_modes.c \
+				long_printing_display_group.c \
+				long_printing_display_link.c \
+				long_printing_display_nb_links.c \
+				long_printing_display_owner.c \
+				long_printing_display_size_or_devices.c \
+				long_printing_display_total_sum.c \
 				main.c \
+				options_utils.c \
 				parsing.c \
 				parsing_operands.c \
 				parsing_options.c \
-				print_date.c \
-				print_file_modes.c \
-				print_file_type.c \
-				print_group.c \
-				print_nb_links.c \
-				print_owner.c \
-				print_size.c \
+				parsing_options_clean_options.c \
+				parsing_options_utils.c \
 				tree_compare_content_lexico.c \
 				tree_compare_content_size.c \
 				tree_compare_content_time.c \
@@ -46,7 +60,9 @@ SRC_FILES = add_options.c \
 				tree_create_content_date.c \
 				tree_create_content_lexico.c \
 				tree_create_content_size.c \
-				tree_free_content.c
+				tree_free_content.c \
+				tree_utils.c
+
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 
 ##### OBJ #####

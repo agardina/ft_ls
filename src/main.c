@@ -19,8 +19,8 @@
 */
 static void	clean_ls_structure(t_ls *ls)
 {
-	ft_btree_gen_clean(&ls->dir);
-	ft_btree_gen_clean(&ls->files);
+	ft_btree_gen_clean(&ls->main_dir_tree);
+	ft_btree_gen_clean(&ls->main_files_tree);
 }
 
 /**
@@ -31,8 +31,8 @@ static void	clean_ls_structure(t_ls *ls)
 static void	init_ls_structure(t_ls *ls)
 {
 	ls->flags = 0;
-	ft_btree_gen_init(&ls->dir);
-	ft_btree_gen_init(&ls->files);
+	ft_btree_gen_init(&ls->main_dir_tree);
+	ft_btree_gen_init(&ls->main_files_tree);
 }
 
 /**
@@ -44,17 +44,15 @@ static void	init_ls_structure(t_ls *ls)
 ** \return 0 if everything went well
 ** \return 1 otherwise
 */
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_ls	ls;
 	int		ret;
 
 	init_ls_structure(&ls);
 	ret = ls_parsing(&ls, argc, argv);
-	if (-1 < ret)
-		ls_display(&ls);
+	if (!ret)
+		ret = ls_display(&ls);
 	clean_ls_structure(&ls);
-	if (ret == -1)
-		return (1);
-	return (0);
+	return (ret);
 }

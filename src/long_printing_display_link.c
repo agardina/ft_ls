@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_owner.c                                      :+:      :+:    :+:   */
+/*   print_link.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agardina <agardina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/28 11:39:45 by agardina          #+#    #+#             */
-/*   Updated: 2021/07/28 11:39:45 by agardina         ###   ########.fr       */
+/*   Created: 2021/09/23 19:12:35 by agardina          #+#    #+#             */
+/*   Updated: 2021/09/23 19:12:37 by agardina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prototypes.h"
 
-void	print_owner(struct stat *info)
+void	display_linked_file(t_ls_tree_node *node)
 {
-	struct passwd *us;
+	char	buffer[__DARWIN_MAXPATHLEN + 1];
 
-	us = getpwuid(info->st_uid);
-	ft_printf("%s", us->pw_name);
+	ft_bzero(buffer, __DARWIN_MAXPATHLEN + 1);
+	readlink(node->fullpath, buffer, __DARWIN_MAXPATHLEN);
+	printf(" -> %s", buffer);
 }

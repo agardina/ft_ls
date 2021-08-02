@@ -12,8 +12,6 @@
 
 #include "prototypes.h"
 
-// TODO : add the support of the ft_ls structure in order to parse the options
-
 /*
 ** \brief Compute the difference in seconds between two given times
 **
@@ -33,29 +31,31 @@ static long	ft_difftime(time_t t1, time_t t2)
 ** \brief Return the date string corresponding to the type of time
 ** used by ft_ls (modification, access or creation time)
 **
-** \param info WIP
+** \param time_used the time to convert to a string
 **
 ** \return a date string
 */
-static char	*get_time_str(struct stat *info)
+static char	*get_time_str(struct timespec *time_used)
 {
-	return (ctime(&info->st_mtimespec.tv_sec));
+	return (ctime(&time_used->tv_sec));
 }
 
-/*
-** \brief Print the time column of a line in the ft_ls output
-**
-** \param info WIP
-*/
-void	print_date(struct stat *info)
+void	display_date(t_ls *ls, struct stat *info)
 {
-	char	*full;
-	char	date[7];
-	char	hour_or_year[6];
-	long	diff;
+	char			*full;
+	char			date[7];
+	char			hour_or_year[6];
+	long			diff;
+	struct timespec	*time_used;
 
-	full = get_time_str(info);
-	diff = ft_difftime(time(NULL), info->st_mtimespec.tv_sec);
+	if (is_option_activated(ls, FL_USE_TIME_FILE_CREATION))
+		time_used = &(info->st_birthtimespec);
+	else if (is_option_activated(ls, FL_USE_TIME_LAST_ACCESS))
+		time_used = &(info->st_atimespec);
+	else
+		time_used = &(info->st_mtimespec);
+	full = get_time_str(time_used);
+	diff = ft_difftime(time(NULL), time_used->tv_sec);
 	ft_strncpy(date, full + 4, 6);
 	date[6] = '\0';
 	if (SIX_MONTHS < diff)
@@ -66,5 +66,5 @@ void	print_date(struct stat *info)
 	else
 		ft_strncpy(hour_or_year, full + 11, 5);
 	hour_or_year[5] = '\0';
-	ft_printf("%s %s", date, hour_or_year);
+	ft_printf("%s %5s ", date, hour_or_year);
 }

@@ -34,24 +34,11 @@ static int	is_valid_option(char c)
 **
 ** \param c the invalid option that was specified
 */
-static void	print_message_illegal_option(char c)
+static void	display_message_illegal_option(char c)
 {
-	ft_printf("ls: illegal option -- %c\nusage: ./ft_ls [-RSUalnrtu]\n", c);
+	ft_dprintf(2, "ls: illegal option -- %c\nusage: ./ft_ls [-RSUalnrtu]\n", c);
 }
 
-/**
-** \brief Parse the options specified by the user of the ft_ls program
-**
-** \details Supported options: -R, -S, -U, -a, -l, -n, -r, -t, -u
-**
-** \param ls the ls structure
-** \param argc number of command line arguments + 1
-** \param argv array of command line arguments
-**
-** \return the number of command line arguments that were parsed by
-** the function if success
-** \return -1 if an unsupported option was found
-*/
 int	ls_parsing_options(t_ls *ls, int argc, char **argv)
 {
 	int	i;
@@ -72,11 +59,11 @@ int	ls_parsing_options(t_ls *ls, int argc, char **argv)
 		{
 			if (!is_valid_option(argv[i][j]))
 			{
-				print_message_illegal_option(argv[i][j]);
+				display_message_illegal_option(argv[i][j]);
 				return (-1);
 			}
 			else
-				add_option(ls, argv[i][j]);
+				add_option_from_letter(ls, argv[i][j]);
 		}
 		if (argv[i][j + 1] == '\0')
 		{

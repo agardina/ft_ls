@@ -1,23 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tree_free_content.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agardina <agardina@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/07/30 10:41:25 by agardina          #+#    #+#             */
+/*   Updated: 2021/07/30 10:41:26 by agardina         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "prototypes.h"
 
-void ls_tree_free_content_lexico(void **content)
+void	ls_tree_free_content(void **content)
 {
-	free(*content);
-	*content = NULL;
-}
+	t_ls_tree_node	*node;
 
-void ls_tree_free_content_size(void **content)
-{
-	free(*content);
-	*content = NULL;
-}
-
-void ls_tree_free_content_date(void **content)
-{
-	t_ls_date_and_size	*s;
-
-	s = (t_ls_date_and_size *)(*content);
-	free(s->path);
+	node = (t_ls_tree_node *)(*content);
+	free(node->path);
+	free(node->fullpath);
 	free(*content);
 	*content = NULL;
 }

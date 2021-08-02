@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_file_type.c                                  :+:      :+:    :+:   */
+/*   print_nb_links.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agardina <agardina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/28 11:39:34 by agardina          #+#    #+#             */
-/*   Updated: 2021/07/28 11:39:35 by agardina         ###   ########.fr       */
+/*   Created: 2021/07/28 11:39:42 by agardina          #+#    #+#             */
+/*   Updated: 2021/07/28 11:39:43 by agardina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prototypes.h"
 
-void	print_file_type(struct stat *info)
+void	display_nb_links(struct stat *info, t_column_lengths *column_lengths)
 {
-	printf("Type : ");
-	if (S_ISREG(info->st_mode))
-		ft_printf("-");
-	if (S_ISDIR(info->st_mode))
-		ft_printf("d");
+	ft_printf("%*d ", column_lengths->links, info->st_nlink);
 }
