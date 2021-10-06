@@ -87,34 +87,35 @@ static void	display_file_modes_u(struct stat *info)
 		ft_printf("-");
 }
 
-/**
-** \brief Print the type of the file
-**
-** \param info a stat structure containing the information regarding the file
-*/
-static void	display_file_type(struct stat *info)
+// A commenter
+static void	display_xattr_acl_indicator(t_ls_tree_node *node)
 {
-	if (S_ISBLK(info->st_mode))
-		ft_printf("b");
-	else if (S_ISCHR(info->st_mode))
-		ft_printf("c");
-	else if (S_ISDIR(info->st_mode))
-		ft_printf("d");
-	else if (S_ISLNK(info->st_mode))
-		ft_printf("l");
-	else if (S_ISSOCK(info->st_mode))
-		ft_printf("s");
-	else if (S_ISFIFO(info->st_mode))
-		ft_printf("p");
-	else if (S_ISREG(info->st_mode))
-		ft_printf("-");
+	const char	*path;
+	char		buffer[__DARWIN_MAXPATHLEN + 1];
+
+	if (S_ISLNK(node->info.st_mode))
+	{
+		ft_bzero(buffer, __DARWIN_MAXPATHLEN + 1);
+		readlink(node->fullpath, buffer, __DARWIN_MAXPATHLEN);
+		path = (const char *)buffer;
+	}
+	else
+		path = (const char *)node->fullpath;
+	if (file_has_xattr(node) && file_has_acl_free(node))
+		ft_printf("@");
+	else if (file_has_xattr(node))
+		ft_printf("@");
+	else if (file_has_acl_free(node))
+		ft_printf("+");
+	else
+		ft_printf(" ");
 }
 
-void	display_file_modes(struct stat *info)
+void	display_file_modes(t_ls_tree_node *node)
 {
-	display_file_type(info);
-	display_file_modes_u(info);
-	display_file_modes_g(info);
-	display_file_modes_o(info);
-	ft_printf("  ");
+	display_file_modes_u(&node->info);
+	display_file_modes_g(&node->info);
+	display_file_modes_o(&node->info);
+	display_xattr_acl_indicator(node);
+	ft_printf(" ");
 }

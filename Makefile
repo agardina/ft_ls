@@ -22,7 +22,8 @@ LIB = $(addprefix $(LIB_DIR), $(LIB_NAME))
 ##### SRC #####
 
 SRC_DIR = src/
-SRC_FILES = debug_print_tree.c \
+SRC_FILES = acl_utils.c \
+				debug_print_tree.c \
 				display.c \
 				display_dir_content.c \
 				display_entries_of_a_dir.c \
@@ -37,6 +38,7 @@ SRC_FILES = debug_print_tree.c \
 				long_printing_columns_length.c \
 				long_printing_display_date.c \
 				long_printing_display_file_modes.c \
+				long_printing_display_file_type.c \
 				long_printing_display_group.c \
 				long_printing_display_link.c \
 				long_printing_display_nb_links.c \
@@ -61,7 +63,8 @@ SRC_FILES = debug_print_tree.c \
 				tree_create_content_lexico.c \
 				tree_create_content_size.c \
 				tree_free_content.c \
-				tree_utils.c
+				tree_utils.c \
+				xattr_utils.c
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 

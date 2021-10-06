@@ -22,8 +22,8 @@
 */
 static int	is_valid_option(char c)
 {
-	if (c == 'R' || c == 'S' || c == 'U' || c == 'a' || c == 'l' || c == 'n'
-		|| c == 'r' || c == 't' || c == 'u')
+	if (c == '@' || c == 'R' || c == 'S' || c == 'U' || c == 'a' || c == 'e'
+		|| c == 'l' || c == 'n' || c == 'r' || c == 't' || c == 'u')
 		return (1);
 	return (0);
 }
@@ -36,7 +36,7 @@ static int	is_valid_option(char c)
 */
 static void	display_message_illegal_option(char c)
 {
-	ft_dprintf(2, "ls: illegal option -- %c\nusage: ./ft_ls [-RSUalnrtu]\n", c);
+	ft_dprintf(2, "ls: illegal option -- %c\nusage: ./ft_ls [-@RSUaelnrtu]\n", c);
 }
 
 int	ls_parsing_options(t_ls *ls, int argc, char **argv)

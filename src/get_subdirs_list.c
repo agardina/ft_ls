@@ -50,7 +50,7 @@ static int	get_subdirs_list_cb(const char *dir_path, t_btree_gen_node *node, t_s
 	ret = get_subdirs_list_cb(dir_path, node->left_child, subdirs);
 	if (ret)
 		return (1);
-	if (S_ISDIR(content->info.st_mode))
+	if (S_ISDIR(content->info.st_mode) && content->path && content->path[0] != '.')
 		ret = fill_array_of_subdirs(subdirs, dir_path, (const char *)content->path);
 	if (ret)
 		return (1);

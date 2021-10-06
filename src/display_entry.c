@@ -9,7 +9,8 @@
 */
 static void	display_entry_long_format(t_ls *ls, t_ls_tree_node *node, t_column_lengths *column_lengths)
 {
-	display_file_modes(&node->info);
+	display_file_type(&node->info);
+	display_file_modes(node);
 	display_nb_links(&node->info, column_lengths);
 	display_owner(ls, &node->info, column_lengths);
 	display_group(ls, &node->info, column_lengths);
@@ -18,6 +19,10 @@ static void	display_entry_long_format(t_ls *ls, t_ls_tree_node *node, t_column_l
 	display_name(node);
 	if (S_ISLNK(node->info.st_mode))
 		display_linked_file(node);
+	if (is_option_activated(ls, FL_DISPLAY_XATTR))
+		display_xattr_list(node);
+	if (is_option_activated(ls, FL_DISPLAY_ACL))
+		display_acl(node);
 	printf("\n");
 }
 

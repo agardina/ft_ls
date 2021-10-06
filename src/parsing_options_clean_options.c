@@ -16,4 +16,10 @@ void	clean_options(t_ls *ls)
 	}
 	if (is_option_activated(ls, FL_DISPLAY_UID_GID))
 		add_option_from_flag(ls, FL_LONG_PRINTING);
+	if (is_option_activated(ls, FL_DISPLAY_XATTR)
+		&& !is_option_activated(ls, FL_LONG_PRINTING))
+		deactivate_option(ls, FL_DISPLAY_XATTR);
+	if (is_option_activated(ls, FL_DISPLAY_ACL)
+		&& !is_option_activated(ls, FL_LONG_PRINTING))
+		deactivate_option(ls, FL_DISPLAY_ACL);
 }

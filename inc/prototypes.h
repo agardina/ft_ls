@@ -19,6 +19,8 @@
 # include <time.h>
 # include <sys/errno.h>
 # include <sys/types.h>
+# include <sys/acl.h>
+# include <sys/xattr.h>
 # include <dirent.h>
 # include "libft.h"
 # include "structs.h"
@@ -33,6 +35,8 @@
 # define FL_REVERSE_ORDER 0x40
 # define FL_SORT_BY_TIME_MODIFIED 0x80
 # define FL_USE_TIME_LAST_ACCESS 0x100
+# define FL_DISPLAY_XATTR 0x200
+# define FL_DISPLAY_ACL 0x400
 
 /* ===== DISPLAYING ===== */
 
@@ -82,9 +86,16 @@ void	display_date(t_ls *ls, struct stat *info);
 /**
 ** \brief Print the modes of a file
 **
+** \param node node the content of the tree node associated to the file
+*/
+void	display_file_modes(t_ls_tree_node *node);
+
+/**
+** \brief Print the type of the file
+**
 ** \param info a stat structure containing the information regarding the file
 */
-void	display_file_modes(struct stat *info);
+void	display_file_type(struct stat *info);
 
 /**
 ** \brief Print the group that owns the specified file
@@ -510,5 +521,17 @@ void	get_columns_length(t_ls *ls, t_btree_gen_node *root, t_column_lengths *data
 ** \param the content of a tree node
 */
 void	init_ls_tree_node(t_ls_tree_node *node);
+
+/* ===== EXTENDED ATTRIBUTES ===== */
+
+int		file_has_xattr(t_ls_tree_node *node);
+void	display_xattr_list(t_ls_tree_node *node);
+
+/* ===== ACL ===== */
+
+int		file_has_acl_free(t_ls_tree_node *node);
+void	display_acl(t_ls_tree_node *node);
+acl_t	file_has_acl_return_ptr(t_ls_tree_node *node);
+void	display_acl_text(const char *text);
 
 #endif

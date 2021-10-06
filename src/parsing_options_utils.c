@@ -74,7 +74,9 @@ void	add_option_from_flag(t_ls *ls, unsigned int flag)
 
 void	add_option_from_letter(t_ls *ls, char option)
 {
-	if (option == 'R')
+	if (option == '@')
+		ls->flags |= FL_DISPLAY_XATTR;
+	else if (option == 'R')
 		ls->flags |= FL_RECURSIVE_MODE;
 	else if (option == 'S')
 		deal_with_big_s_option(ls);
@@ -82,6 +84,8 @@ void	add_option_from_letter(t_ls *ls, char option)
 		deal_with_big_u_option(ls);
 	else if (option == 'a')
 		ls->flags |= FL_DISPLAY_NAMES_DOT;
+	else if (option == 'e')
+		ls->flags |= FL_DISPLAY_ACL;
 	else if (option == 'l')
 		ls->flags |= FL_LONG_PRINTING;
 	else if (option == 'n')
