@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_link.c                                       :+:      :+:    :+:   */
+/*   long_printing_display_link.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agardina <agardina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/23 19:12:35 by agardina          #+#    #+#             */
-/*   Updated: 2021/09/23 19:12:37 by agardina         ###   ########.fr       */
+/*   Created: 2021/10/07 15:28:54 by agardina          #+#    #+#             */
+/*   Updated: 2021/10/07 15:28:56 by agardina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,5 @@ void	display_linked_file(t_ls_tree_node *node)
 
 	ft_bzero(buffer, __DARWIN_MAXPATHLEN + 1);
 	readlink(node->fullpath, buffer, __DARWIN_MAXPATHLEN);
-	printf(" -> %s", buffer);
+	ft_printf(" -> %s", buffer);
 }

@@ -12,7 +12,7 @@
 
 #include "prototypes.h"
 
-int	compare_operands_time_reverse(void *content1, void *content2)
+int	cmp_operands_time_reverse(void *content1, void *content2)
 {
 	struct timespec	s1;
 	struct timespec	s2;
@@ -30,10 +30,10 @@ int	compare_operands_time_reverse(void *content1, void *content2)
 		else if (s1.tv_nsec - s2.tv_nsec < 0)
 			return (-1);
 	}
-	return (compare_operands_lexico_reverse(content1, content2));
+	return (cmp_operands_lexico_reverse(content1, content2));
 }
 
-int	compare_operands_time(void *content1, void *content2)
+int	cmp_operands_time(void *content1, void *content2)
 {
 	struct timespec	s1;
 	struct timespec	s2;
@@ -51,5 +51,5 @@ int	compare_operands_time(void *content1, void *content2)
 		else if (s1.tv_nsec - s2.tv_nsec < 0)
 			return (1);
 	}
-	return (compare_operands_lexico(content1, content2));
+	return (cmp_operands_lexico(content1, content2));
 }

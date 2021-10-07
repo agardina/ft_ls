@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   display_entry.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agardina <agardina@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/07 15:27:15 by agardina          #+#    #+#             */
+/*   Updated: 2021/10/07 15:27:17 by agardina         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "prototypes.h"
 
 /**
@@ -7,7 +19,8 @@
 ** \param node the tree node that contains the content associated to the entry
 ** \param column_lengths length of the columns that will be printed
 */
-static void	display_entry_long_format(t_ls *ls, t_ls_tree_node *node, t_column_lengths *column_lengths)
+static void	display_entry_long_format(t_ls *ls, t_ls_tree_node *node,
+				t_column_lengths *column_lengths)
 {
 	display_file_type(&node->info);
 	display_file_modes(node);
@@ -23,7 +36,7 @@ static void	display_entry_long_format(t_ls *ls, t_ls_tree_node *node, t_column_l
 		display_xattr_list(node);
 	if (is_option_activated(ls, FL_DISPLAY_ACL))
 		display_acl(node);
-	printf("\n");
+	ft_printf("\n");
 }
 
 /**
@@ -40,7 +53,8 @@ static void	display_entry_normal_format(t_ls *ls, char *name)
 	ft_printf("%s\n", name);
 }
 
-void	display_entry(t_ls *ls, t_btree_gen_node *node, t_column_lengths *column_lengths)
+void	display_entry(t_ls *ls, t_btree_gen_node *node,
+			t_column_lengths *column_lengths)
 {
 	t_ls_tree_node	*content;
 

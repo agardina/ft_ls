@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_file_modes.c                                 :+:      :+:    :+:   */
+/*   long_printing_display_file_modes.c                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agardina <agardina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/28 11:39:30 by agardina          #+#    #+#             */
-/*   Updated: 2021/07/28 11:39:31 by agardina         ###   ########.fr       */
+/*   Created: 2021/10/07 15:28:20 by agardina          #+#    #+#             */
+/*   Updated: 2021/10/07 15:28:28 by agardina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prototypes.h"
 
 /**
-** \brief Print the permissions granted to those who are not the owner nor part of the group of a file
+** \brief Print the permissions granted to those who are not the owner nor
+** part of the group of a file
 **
 ** \param info a stat structure containing the information regarding the file
 */

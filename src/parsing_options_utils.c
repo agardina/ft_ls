@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   add_options.c                                      :+:      :+:    :+:   */
+/*   parsing_options_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agardina <agardina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/30 10:40:03 by agardina          #+#    #+#             */
-/*   Updated: 2021/07/30 10:40:09 by agardina         ###   ########.fr       */
+/*   Created: 2021/10/07 15:30:28 by agardina          #+#    #+#             */
+/*   Updated: 2021/10/07 15:30:30 by agardina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,6 @@ static void	deal_with_big_s_option(t_ls *ls)
 	ls->flags |= FL_SORT_BY_SIZE;
 }
 
-void	add_option_from_flag(t_ls *ls, unsigned int flag)
-{
-	ls->flags |= flag;
-}
-
 void	add_option_from_letter(t_ls *ls, char option)
 {
 	if (option == '@')
@@ -84,6 +79,8 @@ void	add_option_from_letter(t_ls *ls, char option)
 		deal_with_big_u_option(ls);
 	else if (option == 'a')
 		ls->flags |= FL_DISPLAY_NAMES_DOT;
+	else if (option == 'd')
+		ls->flags |= FL_DISPLAY_DIR_AS_PLAIN_FILES;
 	else if (option == 'e')
 		ls->flags |= FL_DISPLAY_ACL;
 	else if (option == 'l')

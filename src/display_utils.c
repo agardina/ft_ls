@@ -27,13 +27,15 @@ char	*get_fullpath(const char *dir_path, const char *entry_name)
 	unsigned int	entry_name_len;
 
 	dir_path_len = ft_strlen(dir_path);
+	if (dir_path[dir_path_len - 1] == '/')
+		dir_path_len--;
 	entry_name_len = ft_strlen(entry_name);
 	fullpath = (char *)malloc(sizeof(char)
 			* (dir_path_len + 1 + entry_name_len + 1));
 	if (!fullpath)
 		return (NULL);
 	ft_bzero(fullpath, dir_path_len + 1 + entry_name_len + 1);
-	ft_strcpy(fullpath, dir_path);
+	ft_strncpy(fullpath, dir_path, dir_path_len);
 	ft_strcpy(fullpath + dir_path_len, "/");
 	ft_strcpy(fullpath + dir_path_len + 1, entry_name);
 	fullpath[dir_path_len + 1 + entry_name_len] = '\0';

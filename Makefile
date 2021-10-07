@@ -22,7 +22,8 @@ LIB = $(addprefix $(LIB_DIR), $(LIB_NAME))
 ##### SRC #####
 
 SRC_DIR = src/
-SRC_FILES = acl_utils.c \
+SRC_FILES = acl_display.c \
+				acl_utils.c \
 				debug_print_tree.c \
 				display.c \
 				display_dir_content.c \
@@ -52,6 +53,8 @@ SRC_FILES = acl_utils.c \
 				parsing_options.c \
 				parsing_options_clean_options.c \
 				parsing_options_utils.c \
+				parsing_options_utils_2.c \
+				populate_trees_with_operands.c \
 				tree_compare_content_lexico.c \
 				tree_compare_content_size.c \
 				tree_compare_content_time.c \
@@ -64,7 +67,7 @@ SRC_FILES = acl_utils.c \
 				tree_create_content_size.c \
 				tree_free_content.c \
 				tree_utils.c \
-				xattr_utils.c
+				xattr_display.c
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 

@@ -22,8 +22,9 @@
 */
 static int	is_valid_option(char c)
 {
-	if (c == '@' || c == 'R' || c == 'S' || c == 'U' || c == 'a' || c == 'e'
-		|| c == 'l' || c == 'n' || c == 'r' || c == 't' || c == 'u')
+	if (c == '@' || c == 'R' || c == 'S' || c == 'U' || c == 'a' || c == 'd'
+		|| c == 'e' || c == 'l' || c == 'n' || c == 'r' || c == 't'
+		|| c == 'u')
 		return (1);
 	return (0);
 }
@@ -36,42 +37,53 @@ static int	is_valid_option(char c)
 */
 static void	display_message_illegal_option(char c)
 {
-	ft_dprintf(2, "ls: illegal option -- %c\nusage: ./ft_ls [-@RSUaelnrtu]\n", c);
+	ft_dprintf(2,
+		"ft_ls: illegal option -- %c\nusage: ./ft_ls [-@RSUadelnrtu]\n", c);
+}
+
+/**
+** \brief Move forward to the next option to parse
+**
+** \param argv array of command line arguments
+** \param arg_nb current position in the array of command line arguments
+** \param i current position in the argument in use
+*/
+static void	parsing_options_move_forward(char **argv, int *arg_nb, int *i)
+{
+	if (argv[*arg_nb][*i + 1] == '\0')
+	{
+		(*arg_nb)++;
+		*i = 0;
+	}
+	else
+		(*i)++;
 }
 
 int	ls_parsing_options(t_ls *ls, int argc, char **argv)
 {
-	int	i;
-	int	j;
+	int	arg_nb;
+	int	pos;
 
-	i = 1;
-	j = 0;
-	while (i < argc)
+	arg_nb = 1;
+	pos = 0;
+	while (arg_nb < argc)
 	{
-		if (j == 0)
+		if (pos == 0)
 		{
-			if (argv[i][j] != '-')
-				return (i);
-			else if (argv[i][j + 1] == '\0')
-				return (i);
+			if (argv[arg_nb][pos] != '-' || argv[arg_nb][pos + 1] == '\0')
+				return (arg_nb);
 		}
 		else
 		{
-			if (!is_valid_option(argv[i][j]))
+			if (!is_valid_option(argv[arg_nb][pos]))
 			{
-				display_message_illegal_option(argv[i][j]);
+				display_message_illegal_option(argv[arg_nb][pos]);
 				return (-1);
 			}
 			else
-				add_option_from_letter(ls, argv[i][j]);
+				add_option_from_letter(ls, argv[arg_nb][pos]);
 		}
-		if (argv[i][j + 1] == '\0')
-		{
-			i++;
-			j = 0;
-		}
-		else
-			j++;
+		parsing_options_move_forward(argv, &arg_nb, &pos);
 	}
-	return (i);
+	return (arg_nb);
 }

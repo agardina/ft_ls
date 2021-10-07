@@ -13,7 +13,8 @@
 #include "prototypes.h"
 
 /**
-** \brief Assign the right node content creation function to the trees contained the t_ls structure (when files are sorted by date)
+** \brief Assign the right node content creation function to the trees
+** contained the t_ls structure (when files are sorted by date)
 **
 ** \param ls the ft_ls structure
 */
@@ -21,17 +22,20 @@ static void	ls_tree_configure_date_creation_function(t_ls *ls)
 {
 	if (is_option_activated(ls, FL_USE_TIME_FILE_CREATION))
 	{
-		ls->main_files_tree.create_content = &ls_tree_create_content_creation_date;
+		ls->main_files_tree.create_content
+			= &ls_tree_create_content_creation_date;
 		ls->main_dir_tree.create_content = ls->main_files_tree.create_content;
 	}
 	else if (is_option_activated(ls, FL_USE_TIME_LAST_ACCESS))
 	{
-		ls->main_files_tree.create_content = &ls_tree_create_content_access_date;
+		ls->main_files_tree.create_content
+			= &ls_tree_create_content_access_date;
 		ls->main_dir_tree.create_content = ls->main_files_tree.create_content;
 	}
 	else
 	{
-		ls->main_files_tree.create_content = &ls_tree_create_content_modification_date;
+		ls->main_files_tree.create_content
+			= &ls_tree_create_content_modification_date;
 		ls->main_dir_tree.create_content = ls->main_files_tree.create_content;
 	}
 }

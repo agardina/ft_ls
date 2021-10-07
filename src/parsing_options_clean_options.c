@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_options_clean_options.c                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agardina <agardina@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/07 15:30:17 by agardina          #+#    #+#             */
+/*   Updated: 2021/10/07 15:30:19 by agardina         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "prototypes.h"
 
 void	clean_options(t_ls *ls)
@@ -22,4 +34,7 @@ void	clean_options(t_ls *ls)
 	if (is_option_activated(ls, FL_DISPLAY_ACL)
 		&& !is_option_activated(ls, FL_LONG_PRINTING))
 		deactivate_option(ls, FL_DISPLAY_ACL);
+	if (is_option_activated(ls, FL_DISPLAY_DIR_AS_PLAIN_FILES)
+		&& is_option_activated(ls, FL_RECURSIVE_MODE))
+		deactivate_option(ls, FL_RECURSIVE_MODE);
 }

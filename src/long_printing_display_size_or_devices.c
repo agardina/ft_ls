@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_size_or_devices.c                            :+:      :+:    :+:   */
+/*   long_printing_display_size_or_devices.c            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agardina <agardina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/23 19:05:20 by agardina          #+#    #+#             */
-/*   Updated: 2021/09/23 19:05:24 by agardina         ###   ########.fr       */
+/*   Created: 2021/10/07 15:29:32 by agardina          #+#    #+#             */
+/*   Updated: 2021/10/07 15:29:43 by agardina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prototypes.h"
 
 /**
-** \brief Print the major and minor device numbers of a file (when the file is a character special or block special file)
+** \brief Print the major and minor device numbers of a file (when the file
+** is a character special or block special file)
 **
 ** \param info a stat structure containing the information regarding the file
-** \param column_lengths a structure containing the length of the printed columns (used when the long printing option is activated)
+** \param column_lengths a structure containing the length of the printed
+** columns (used when the long printing option is activated)
 */
 static void	display_major_minor_devices(struct stat *info,
 			t_column_lengths *column_lengths)
@@ -38,7 +40,8 @@ static void	display_major_minor_devices(struct stat *info,
 ** \brief Print the size field (when the long printing option is activated)
 **
 ** \param info a stat structure containing the information regarding the file
-** \param column_lengths a structure containing the length of the printed columns (used when the long printing option is activated)
+** \param column_lengths a structure containing the length of the printed
+** columns (used when the long printing option is activated)
 */
 static void	display_size(struct stat *info, t_column_lengths *column_lengths)
 {

@@ -12,11 +12,11 @@
 
 #include "prototypes.h"
 
-int	compare_operands_lexico(void *s1, void *s2)
+int	cmp_operands_lexico(void *s1, void *s2)
 {
 	int				ret;
-	t_ls_tree_node 	*content1;
-	t_ls_tree_node 	*content2;
+	t_ls_tree_node	*content1;
+	t_ls_tree_node	*content2;
 
 	content1 = (t_ls_tree_node *)s1;
 	content2 = (t_ls_tree_node *)s2;
@@ -29,11 +29,11 @@ int	compare_operands_lexico(void *s1, void *s2)
 	return (ret);
 }
 
-int	compare_operands_lexico_reverse(void *s1, void *s2)
+int	cmp_operands_lexico_reverse(void *s1, void *s2)
 {
 	int				ret;
-	t_ls_tree_node 	*content1;
-	t_ls_tree_node 	*content2;
+	t_ls_tree_node	*content1;
+	t_ls_tree_node	*content2;
 
 	content1 = (t_ls_tree_node *)s1;
 	content2 = (t_ls_tree_node *)s2;

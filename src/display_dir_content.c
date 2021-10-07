@@ -17,17 +17,19 @@
 **
 ** \param ls the ft_ls structure
 ** \param dir_path path of the directory
-** \param is_root 1 if the given directory is the root directory
 */
-static void	print_dir_path(t_ls *ls, const char *dir_path, int is_root)
+static void	print_dir_path(t_ls *ls, const char *dir_path)
 {
-	if (!is_root)
-		ft_printf("\n");
-	if (is_root && (1 < ls->main_dir_tree.nb_nodes
-			|| ls->main_files_tree.nb_nodes))
-		ft_printf("%s:\n", dir_path);
-	else if (!is_root)
-		ft_printf("%s:\n", dir_path);
+	t_ls_tree_node	*content;
+
+	content = (t_ls_tree_node *)ls->first_displayed_dir->content;
+	if (!ft_strcmp(dir_path, content->path))
+	{
+		if (ls->main_files_tree.nb_nodes || 1 < ls->main_dir_tree.nb_nodes)
+			ft_printf("%s:\n", dir_path);
+	}
+	else
+			ft_printf("\n%s:\n", dir_path);
 }
 
 /**
@@ -59,7 +61,7 @@ static int	display_subdirs_content(t_ls *ls, const char *dir_path,
 	}
 	while (i < subdirs->used_size)
 	{
-		if (display_dir_content(ls, subdirs->tab[i], 0))
+		if (display_dir_content(ls, subdirs->tab[i]))
 		{
 			ret = 1;
 			break ;
@@ -70,13 +72,13 @@ static int	display_subdirs_content(t_ls *ls, const char *dir_path,
 	return (ret);
 }
 
-int	display_dir_content(t_ls *ls, const char *dir_path, int is_root)
+int	display_dir_content(t_ls *ls, const char *dir_path)
 {
 	t_btree_gen		dir_entries;
 	unsigned int	i;
 	int				ret;
 
-	print_dir_path(ls, dir_path, is_root);
+	print_dir_path(ls, dir_path);
 	i = 0;
 	ft_btree_gen_init(&dir_entries);
 	tree_copy_functions(&dir_entries, &ls->main_dir_tree);

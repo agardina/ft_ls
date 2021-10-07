@@ -13,80 +13,55 @@
 #include "prototypes.h"
 
 /**
-** \brief Allocate memory for the content of the tree node associated to
-** the given operand
+** \brief This function adds the current directory as the only operand, when
+** no operands were given by the user
 **
-** \param ls the ft_ls structure
-** \param path the name of the operand
+** \param operands the tree containing the operands
 **
 ** \retval 0 if success
 ** \retval 1 otherwise
 */
-static int	from_operand_to_tree_node(t_ls *ls, char *name)
+static int	ls_parsing_no_operands(t_btree_str *operands)
 {
-	t_ls_tree_node	content;
-	int				ret;
+	int	ret;
 
-	if (lstat(name, &content.info) == -1)
+	ret = ft_btree_str_add_node(operands, ".");
+	if (ret == -1)
 	{
-		if (errno == ENOENT)
-			ft_dprintf(2, "ft_ls: %s: No such file or directory\n", name);
-		else
-			perror(NULL);
-		return (0);
-	}
-	content.path = name;
-	content.fullpath = name;
-	ret = 0;
-	if (S_ISREG(content.info.st_mode) || S_ISLNK(content.info.st_mode))
-		ret = ft_btree_gen_add_node(&ls->main_files_tree, (void *)&content);
-	else if (S_ISDIR(content.info.st_mode))
-		ret = ft_btree_gen_add_node(&ls->main_dir_tree, (void *)&content);
-	if (ret)
+		ft_btree_str_clean(operands);
 		return (1);
+	}
 	return (0);
 }
 
 /**
-** \brief Callback function used by the
-** function \ref populate_trees_with_operands
+** \brief Store the operands into a tree
 **
-** \param ls the ft_ls structure
-** \param node a node of the tree of operands
+** \param argc number of command line arguments + 1
+** \param argv array of command line arguments
+** \param index_parsed the number of command line arguments already parsed
+** (by the \ref ls_parsing_options function)
+** \param operands the tree containing the operands
 **
 ** \retval 0 if success
 ** \retval 1 otherwise
 */
-static int	populate_trees_with_operands_cb(t_ls *ls, t_btree_str_node *node)
+static int	store_operands(int argc, char **argv,
+			int index_parsed, t_btree_str *operands)
 {
-	if (!node)
-		return (0);
-	if (populate_trees_with_operands_cb(ls, node->left_child))
-		return (1);
-	while (node->count)
+	int			ret;
+
+	while (index_parsed < argc)
 	{
-		if (from_operand_to_tree_node(ls, node->content))
+		ret = ft_btree_str_add_node(operands, argv[index_parsed]);
+		if (ret == -1)
+		{
+			ft_btree_str_clean(operands);
 			return (1);
-		node->count--;
+		}
+		index_parsed++;
 	}
-	if (populate_trees_with_operands_cb(ls, node->right_child))
-		return (1);
 	return (0);
-}
-
-/**
-** \brief Populate the main tree of files and the main tree of directories
-** with the operands given to the ft_ls command by the user
-**
-** \param ls the ft_ls structure
-** \param operands the tree of operands
-**
-** \retval 0 if success
-** \retval 1 otherwise
-*/
-static int	populate_trees_with_operands(t_ls *ls, t_btree_str *operands)
-{
-	return (populate_trees_with_operands_cb(ls, operands->root));
 }
 
 int	ls_parsing_operands(t_ls *ls, int argc, char **argv, int index_parsed)
@@ -96,25 +71,12 @@ int	ls_parsing_operands(t_ls *ls, int argc, char **argv, int index_parsed)
 
 	ft_btree_str_init(&operands);
 	if (index_parsed == argc)
-	{
-		ret = ft_btree_str_add_node(&operands, ".");
-		if (ret == -1)
-		{
-			ft_btree_str_clean(&operands);
-			return (1);
-		}
-	}
-	while (index_parsed < argc)
-	{
-		ret = ft_btree_str_add_node(&operands, argv[index_parsed]);
-		if (ret == -1)
-		{
-			ft_btree_str_clean(&operands);
-			return (1);
-		}
-		index_parsed++;
-	}
-	if (populate_trees_with_operands(ls, &operands) == -1)
+		ret = ls_parsing_no_operands(&operands);
+	else
+		ret = store_operands(argc, argv, index_parsed, &operands);
+	if (ret)
+		return (1);
+	if (populate_trees_with_operands(ls, &operands) == 1)
 	{
 		ft_btree_str_clean(&operands);
 		return (1);

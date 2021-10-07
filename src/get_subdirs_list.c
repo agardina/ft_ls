@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_subdirs_list.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agardina <agardina@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/07 15:27:39 by agardina          #+#    #+#             */
+/*   Updated: 2021/10/07 15:27:41 by agardina         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "prototypes.h"
 
 /**
@@ -10,7 +22,8 @@
 ** \retval 0 if success
 ** \retval 1 otherwise
 */
-static int	fill_array_of_subdirs(t_str_vector **subdirs, const char *dir_path, const char *subdir_name)
+static int	fill_array_of_subdirs(t_str_vector **subdirs, const char *dir_path,
+									const char *subdir_name)
 {
 	char	*subdir_path;
 
@@ -38,7 +51,8 @@ static int	fill_array_of_subdirs(t_str_vector **subdirs, const char *dir_path, c
 ** \retval 0 if success
 ** \retval 1 otherwise
 */
-static int	get_subdirs_list_cb(const char *dir_path, t_btree_gen_node *node, t_str_vector **subdirs)
+static int	get_subdirs_list_cb(const char *dir_path, t_btree_gen_node *node,
+									t_str_vector **subdirs)
 {
 	t_ls_tree_node	*content;
 	int				ret;
@@ -50,15 +64,18 @@ static int	get_subdirs_list_cb(const char *dir_path, t_btree_gen_node *node, t_s
 	ret = get_subdirs_list_cb(dir_path, node->left_child, subdirs);
 	if (ret)
 		return (1);
-	if (S_ISDIR(content->info.st_mode) && content->path && content->path[0] != '.')
-		ret = fill_array_of_subdirs(subdirs, dir_path, (const char *)content->path);
+	if (S_ISDIR(content->info.st_mode) && content->path
+		&& content->path[0] != '.')
+		ret = fill_array_of_subdirs(subdirs, dir_path,
+				(const char *)content->path);
 	if (ret)
 		return (1);
 	ret = get_subdirs_list_cb(dir_path, node->right_child, subdirs);
 	return (ret);
 }
 
-int	get_subdirs_list(const char *dir_path,t_btree_gen *dir_entries, t_str_vector **subdirs)
+int	get_subdirs_list(const char *dir_path, t_btree_gen *dir_entries,
+						t_str_vector **subdirs)
 {
 	return (get_subdirs_list_cb(dir_path, dir_entries->root, subdirs));
 }

@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   acl_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agardina <agardina@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/07 15:26:49 by agardina          #+#    #+#             */
+/*   Updated: 2021/10/07 15:26:51 by agardina         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "prototypes.h"
 
 int	file_has_acl_free(t_ls_tree_node *node)
 {
-	acl_t	a;
+	acl_t		a;
 	const char	*path;
 	char		buffer[__DARWIN_MAXPATHLEN + 1];
 
@@ -22,29 +34,9 @@ int	file_has_acl_free(t_ls_tree_node *node)
 	return (1);
 }
 
-void	display_acl(t_ls_tree_node *node)
+acl_t	file_has_acl_return_ptr(t_ls_tree_node *node)
 {
-	acl_t a;
-	char	*text;
-	ssize_t	len;
-
-	text = NULL;
-	len = 0;
-	a = file_has_acl_return_ptr(node);
-	if (!a)
-		return ;
-	text = acl_to_text(a, &len);
-	if (text)
-		display_acl_text((const char *)text);
-	else
-		perror("");
-	acl_free((void *)a);
-	acl_free((void *)text);
-}
-
-acl_t file_has_acl_return_ptr(t_ls_tree_node *node)
-{
-	acl_t	a;
+	acl_t		a;
 	const char	*path;
 	char		buffer[__DARWIN_MAXPATHLEN + 1];
 
@@ -56,39 +48,7 @@ acl_t file_has_acl_return_ptr(t_ls_tree_node *node)
 	}
 	else
 		path = (const char *)node->fullpath;
-
 	a = NULL;
 	a = acl_get_file(path, ACL_TYPE_EXTENDED);
 	return (a);
-}
-
-void	display_acl_text(const char *text)
-{
-	char 	*word;
-	char 	*new_line;
-	int		word_length;
-	int		index;
-
-	new_line = ft_strchr(text, '\n') + 1;
-	index = 0;
-	while (new_line[0])
-	{
-		ft_printf("\n");
-		ft_printf(" %d: ", index++);
-		word = new_line;
-		word_length = ft_strchr(word, ':') - word;
-		ft_printf("%.*s:", word_length, word);
-		word = ft_strchr(word, ':') + 1;
-		word = ft_strchr(word, ':') + 1;
-		word_length = ft_strchr(word, ':') - word;
-		ft_printf("%.*s ", word_length, word);
-		word = ft_strchr(word, ':') + 1;
-		word = ft_strchr(word, ':') + 1;
-		word_length = ft_strchr(word, ':') - word;
-		ft_printf("%.*s ", word_length, word);
-		word = ft_strchr(word, ':') + 1;
-		word_length = ft_strchr(word, '\n') - word;
-		ft_printf("%.*s", word_length, word);
-		new_line = ft_strchr(word, '\n') + 1;
-	}
 }

@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_owner.c                                      :+:      :+:    :+:   */
+/*   long_printing_display_owner.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agardina <agardina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/28 11:39:45 by agardina          #+#    #+#             */
-/*   Updated: 2021/07/28 11:39:45 by agardina         ###   ########.fr       */
+/*   Created: 2021/10/07 15:29:13 by agardina          #+#    #+#             */
+/*   Updated: 2021/10/07 15:29:15 by agardina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prototypes.h"
 
-void	display_owner(t_ls *ls, struct stat *info, t_column_lengths *column_lengths)
+void	display_owner(t_ls *ls, struct stat *info,
+			t_column_lengths *column_lengths)
 {
 	struct passwd	*us;
 

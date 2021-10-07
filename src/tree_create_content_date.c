@@ -33,7 +33,8 @@ void	*ls_tree_create_content_access_date(void *content)
 		free(new);
 		return (NULL);
 	}
-	ft_memcpy(&(new->criteria.date), &(new->info.st_atimespec), sizeof(struct timespec));
+	ft_memcpy(&(new->criteria.date), &(new->info.st_atimespec),
+		sizeof(struct timespec));
 	return (new);
 }
 
@@ -58,7 +59,8 @@ void	*ls_tree_create_content_creation_date(void *content)
 		free(new);
 		return (NULL);
 	}
-	ft_memcpy(&(new->criteria.date), &(new->info.st_birthtimespec), sizeof(struct timespec));
+	ft_memcpy(&(new->criteria.date), &(new->info.st_birthtimespec),
+		sizeof(struct timespec));
 	return (new);
 }
 
@@ -83,6 +85,7 @@ void	*ls_tree_create_content_modification_date(void *content)
 		free(new);
 		return (NULL);
 	}
-	ft_memcpy(&(new->criteria.date), &(new->info.st_mtimespec), sizeof(struct timespec));
+	ft_memcpy(&(new->criteria.date), &(new->info.st_mtimespec),
+		sizeof(struct timespec));
 	return (new);
 }

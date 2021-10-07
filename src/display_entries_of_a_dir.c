@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   display_entries_of_a_dir.c                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agardina <agardina@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/07 15:27:09 by agardina          #+#    #+#             */
+/*   Updated: 2021/10/07 15:27:10 by agardina         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "prototypes.h"
 
 /**
@@ -5,9 +17,11 @@
 **
 ** \param ls the ft_ls structure
 ** \param node current node whose content will be displayed
-** \param column_lengths length of the displayed columns (used when the long printing option is activated)
+** \param column_lengths length of the displayed columns (used when the long
+** printing option is activated)
 */
-static void	display_dir_entries_cb(t_ls *ls, t_btree_gen_node *node, t_column_lengths *column_lengths)
+static void	display_dir_entries_cb(t_ls *ls, t_btree_gen_node *node,
+				t_column_lengths *column_lengths)
 {
 	// ft_printf("Debug\n");
 	if (!node)
@@ -21,7 +35,7 @@ static void	display_dir_entries_cb(t_ls *ls, t_btree_gen_node *node, t_column_le
 
 void	display_dir_entries(t_ls *ls, t_btree_gen *dir_entries)
 {
-	t_column_lengths column_lengths;
+	t_column_lengths	column_lengths;
 
 	if (is_option_activated(ls, FL_LONG_PRINTING))
 		get_columns_length(ls, dir_entries->root, &column_lengths);

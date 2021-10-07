@@ -13,6 +13,41 @@
 #include "prototypes.h"
 
 /**
+** \brief Add a directory entry to the tree of directory entries
+**
+** \param entry the entry to add to the tree of directory entries
+** \param dir_path the path of the currently used directory
+** \param dir_entries the tree of directory entries
+**
+** \retval 0 if success
+** \retval 1 otherwise
+*/
+static int	add_dir_entry_to_tree(struct dirent *entry, const char *dir_path,
+									t_btree_gen *dir_entries)
+{
+	char			*fullpath;
+	int				ret;
+	t_ls_tree_node	content;
+
+	ret = 0;
+	content.fullpath = NULL;
+	content.path = entry->d_name;
+	fullpath = get_fullpath(dir_path, entry->d_name);
+	if (!fullpath)
+		return (1);
+	content.fullpath = fullpath;
+	if (lstat(fullpath, &content.info) == -1)
+	{
+		free(fullpath);
+		perror("Error with the lstat function");
+		return (1);
+	}
+	ret = ft_btree_gen_add_node(dir_entries, (void *)&content);
+	free(fullpath);
+	return (ret);
+}
+
+/**
 ** \brief Fill the tree of directory entries
 **
 ** \param ls the ft_ls structure
@@ -27,33 +62,27 @@ static int	fill_tree_of_dir_entries(t_ls *ls, DIR *dir, const char *dir_path,
 			t_btree_gen *dir_entries)
 {
 	struct dirent	*entry;
-	t_ls_tree_node	content;
-	char			*fullpath;
 	int				ret;
 
 	ret = 0;
-	content.fullpath = NULL;
-	while (1)
+	entry = readdir(dir);
+	errno = 0;
+	while (entry)
 	{
-		entry = readdir(dir);
-		if (!entry) // Gestion d'erreur plus fine ?
-			break ;
 		if (entry->d_name[0] != '.'
 			|| is_option_activated(ls, FL_DISPLAY_NAMES_DOT))
 		{
-			content.path = entry->d_name;
-			fullpath = get_fullpath(dir_path, entry->d_name);
-			if (!fullpath)
-				return (1);
-			content.fullpath = fullpath;
-			lstat(fullpath, &content.info);
-			ret = ft_btree_gen_add_node(dir_entries, (void *)&content);
-			free(fullpath);
-			if (ret)
+			if (add_dir_entry_to_tree(entry, dir_path, dir_entries))
 				break ;
 		}
+		entry = readdir(dir);
 	}
-	return (ret);
+	if ((!entry && errno) || entry)
+	{
+		perror("Error while trying to retrieve the next directory entry");
+		return (1);
+	}
+	return (0);
 }
 
 int	get_dir_entries(t_ls *ls, const char *dir_path, t_btree_gen *dir_entries)
@@ -62,7 +91,7 @@ int	get_dir_entries(t_ls *ls, const char *dir_path, t_btree_gen *dir_entries)
 	int	ret;
 
 	ret = 0;
-	dir = opendir(dir_path); // Open the directory whose path is given
+	dir = opendir(dir_path);
 	if (!dir)
 	{
 		if (errno == 1)

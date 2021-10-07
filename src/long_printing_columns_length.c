@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   long_printing_columns_length.c                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agardina <agardina@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/07 15:27:52 by agardina          #+#    #+#             */
+/*   Updated: 2021/10/07 15:27:54 by agardina         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "prototypes.h"
 
 /**
@@ -7,7 +19,7 @@
 **
 ** \return the number of digits of the given integer
 */
-static int		get_number_length(int a)
+static int	get_number_length(int a)
 {
 	int	res;
 
@@ -30,7 +42,8 @@ static int		get_number_length(int a)
 ** \param data the structure containing the column lengths associated to the
 ** tree
 */
-static void	get_size_or_devices_column_length(t_btree_gen_node *node, t_column_lengths *data)
+static void	get_size_or_devices_column_length(t_btree_gen_node *node,
+												t_column_lengths *data)
 {
 	t_ls_tree_node	*content;
 	struct stat		*info;
@@ -47,12 +60,15 @@ static void	get_size_or_devices_column_length(t_btree_gen_node *node, t_column_l
 		minor = get_number_length(minor(info->st_rdev));
 		if (data->major_minor_devices.minor < minor)
 			data->major_minor_devices.minor = minor;
-		data->major_minor_devices.total_length = data->major_minor_devices.major + 2 + data->major_minor_devices.minor;
+		data->major_minor_devices.total_length
+			= data->major_minor_devices.major + 2
+			+ data->major_minor_devices.minor;
 		if (data->size_or_devices < data->major_minor_devices.total_length)
 			data->size_or_devices = data->major_minor_devices.total_length;
 	}
 	else
-		data->size_or_devices = ft_max(data->size_or_devices, get_number_length(info->st_size));
+		data->size_or_devices = ft_max(data->size_or_devices,
+				get_number_length(info->st_size));
 }
 
 /**
@@ -65,7 +81,8 @@ static void	get_size_or_devices_column_length(t_btree_gen_node *node, t_column_l
 ** \param data the structure containing the column lengths associated to the
 ** tree
 */
-static void	get_columns_length_cb(t_ls *ls, t_btree_gen_node *node, t_column_lengths *data)
+static void	get_columns_length_cb(t_ls *ls, t_btree_gen_node *node,
+									t_column_lengths *data)
 {
 	t_ls_tree_node	*content;
 	struct stat		*info;
@@ -92,7 +109,8 @@ static void	get_columns_length_cb(t_ls *ls, t_btree_gen_node *node, t_column_len
 	get_columns_length_cb(ls, node->right_child, data);
 }
 
-void	get_columns_length(t_ls *ls, t_btree_gen_node *root, t_column_lengths *data)
+void	get_columns_length(t_ls *ls, t_btree_gen_node *root,
+							t_column_lengths *data)
 {
 	data->group = -1;
 	data->links = -1;

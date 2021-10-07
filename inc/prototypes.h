@@ -37,6 +37,7 @@
 # define FL_USE_TIME_LAST_ACCESS 0x100
 # define FL_DISPLAY_XATTR 0x200
 # define FL_DISPLAY_ACL 0x400
+# define FL_DISPLAY_DIR_AS_PLAIN_FILES 0x800
 
 /* ===== DISPLAYING ===== */
 
@@ -45,13 +46,12 @@
 **
 ** \param ls the ft_ls structure
 ** \param dir_path the path of the directory
-** \param is_root 1 to indicate the root of the main tree of directories
 ** is going to be displayed, 0 otherwise
 **
 ** \retval 0 if success
 ** \retval 1 otherwise
 */
-int		display_dir_content(t_ls *ls, const char *dir_path, int is_root);
+int		display_dir_content(t_ls *ls, const char *dir_path);
 
 /**
 ** \brief Display the main tree of directory operands
@@ -158,10 +158,10 @@ void	display_size_or_devices(struct stat *info, t_column_lengths *column_lengths
 int		ls_display(t_ls *ls);
 
 /**
-** \brief Get the entries of the given directory and put them into a tree
+** \brief Open a directory and put its entries into a tree
 **
 ** \param ls the ft_ls structure
-** \param dir_path the path of the currently used directory
+** \param dir_path the path of a directory
 ** \param dir_entries the tree of directory entries
 **
 ** \retval 1 in case of error
@@ -309,6 +309,18 @@ int		ls_parsing_operands(t_ls *ls, int argc, char **argv, int index_parsed);
 */
 int		ls_parsing_options(t_ls *ls, int argc, char **argv);
 
+/**
+** \brief Populate the main tree of files and the main tree of directories
+** with the operands given to the ft_ls command by the user
+**
+** \param ls the ft_ls structure
+** \param operands the tree of operands
+**
+** \retval 0 if success
+** \retval 1 otherwise
+*/
+int		populate_trees_with_operands(t_ls *ls, t_btree_str *operands);
+
 /* ===== CREATION OF TREE NODES CONTENT ===== */
 
 // void	*ls_tree_create_content(t_ls *ls, char *path);
@@ -379,7 +391,7 @@ void	ls_tree_free_content(void **content);
 ** \retval 0 if the name of the first operand is equal to that of the second one
 ** \retval 1 if the name of the first operand is greater than that of the second one
 */
-int		compare_operands_lexico(void *content1, void *content2);
+int		cmp_operands_lexico(void *content1, void *content2);
 
 /**
 ** \brief Compare two operands using their name (reverse lexicographical order)
@@ -391,7 +403,7 @@ int		compare_operands_lexico(void *content1, void *content2);
 ** \retval 0 if the name of the first operand is equal to that of the second one
 ** \retval 1 if the name of the first operand is less than that of the second one
 */
-int		compare_operands_lexico_reverse(void *content1, void *content2);
+int		cmp_operands_lexico_reverse(void *content1, void *content2);
 
 /**
 ** \brief Compare two operands using their size (ascending order)
@@ -405,7 +417,7 @@ int		compare_operands_lexico_reverse(void *content1, void *content2);
 ** \retval 0 if both operands have the same size and name
 ** \retval 1 if the name of the first operand's size is greater than that of the second one, or if they are equal and the name of the first operand is greater than that of the second one
 */
-int		compare_operands_size(void *content1, void *content2);
+int		cmp_operands_size(void *content1, void *content2);
 
 /**
 ** \brief Compare two operands using their size (descending order)
@@ -419,7 +431,7 @@ int		compare_operands_size(void *content1, void *content2);
 ** \retval 0 if both operands have the same size and name
 ** \retval 1 if the name of the first operand's size is less than that of the second one, or if they are equal and the name of the first operand is less than that of the second one
 */
-int		compare_operands_size_reverse(void *content1, void *content2);
+int		cmp_operands_size_reverse(void *content1, void *content2);
 
 /**
 ** \brief Compare two operands using their date (ascending order)
@@ -433,7 +445,7 @@ int		compare_operands_size_reverse(void *content1, void *content2);
 ** \retval 0 if both operands have the same date and name
 ** \retval 1 if the name of the first operand's date is less recent than that of the second one, or if they are equal and the name of the first operand is less recent than that of the second one
 */
-int		compare_operands_time(void *content1, void *content2);
+int		cmp_operands_time(void *content1, void *content2);
 
 /**
 ** \brief Compare two operands using their date (descending order)
@@ -447,7 +459,7 @@ int		compare_operands_time(void *content1, void *content2);
 ** \retval 0 if both operands have the same date and name
 ** \retval 1 if the name of the first operand's date is more recent than that of the second one, or if they are equal and the name of the first operand is more recent than that of the second one
 */
-int		compare_operands_time_reverse(void *content1, void *content2);
+int		cmp_operands_time_reverse(void *content1, void *content2);
 
 /* ===== TREE FUNCTIONS CONFIGURATION ===== */
 
@@ -524,14 +536,49 @@ void	init_ls_tree_node(t_ls_tree_node *node);
 
 /* ===== EXTENDED ATTRIBUTES ===== */
 
+/**
+** \brief Find out if a file has extended attributes
+**
+** \param node a tree node related to the file
+**
+** \retval 0 if the file does not have extended attributes
+** \retval 1 otherwise
+*/
 int		file_has_xattr(t_ls_tree_node *node);
+
+/**
+** \brief Display the extended attributes of a file
+**
+** \param node the content of a tree node related to the file
+*/
 void	display_xattr_list(t_ls_tree_node *node);
 
 /* ===== ACL ===== */
 
+/**
+** \brief Find out if a file has an ACL and free the ACL that was retrieved
+**
+** \param node the content of a tree node related to the file
+**
+** \retval 0 if the file does not have an ACL
+** \retval 1 otherwise
+*/
 int		file_has_acl_free(t_ls_tree_node *node);
+
+/**
+** \brief Find out if a file has an ACL and return a pointer to the ACL that was retrieved
+**
+** \param node the content of a tree node related to the file
+**
+** \return a pointer to the ACL that was retrieved if success, NULL otherwise
+*/
+acl_t 	file_has_acl_return_ptr(t_ls_tree_node *node);
+
+/**
+** \brief Display the ACL of a file
+**
+** \param node the content of a tree node related to the file
+*/
 void	display_acl(t_ls_tree_node *node);
-acl_t	file_has_acl_return_ptr(t_ls_tree_node *node);
-void	display_acl_text(const char *text);
 
 #endif
