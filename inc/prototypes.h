@@ -38,8 +38,16 @@
 # define FL_DISPLAY_XATTR 0x200
 # define FL_DISPLAY_ACL 0x400
 # define FL_DISPLAY_DIR_AS_PLAIN_FILES 0x800
+# define FL_DISPLAY_CHAR_TO_INDICATE_TYPE 0x1000
 
 /* ===== DISPLAYING ===== */
+
+/**
+** \brief Display a char to indicate the type of a file
+**
+** \param content the content of the tree node related to the file
+*/
+void	display_char_to_indicate_type(t_ls_tree_node *content);
 
 /**
 ** \brief Display the content of a directory

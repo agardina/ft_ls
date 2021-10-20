@@ -67,10 +67,31 @@ static void	deal_with_big_s_option(t_ls *ls)
 	ls->flags |= FL_SORT_BY_SIZE;
 }
 
+/**
+** \brief Add an option to the ft_ls structure from a letter parsed in the command line
+**
+** \details
+** - The option -S always trumps the options -t, -tu and -tU.
+** - If several -u or -U are specified in the command line arguments,
+** the last option specified gets the upper hand.
+**
+** \param ls the ft_ls structure
+** \param option the option to add
+*/
+static void	add_option_from_letter_part_2(t_ls *ls, char option)
+{
+	if (option == 't')
+		deal_with_little_t_option(ls);
+	else if (option == 'u')
+		deal_with_little_u_option(ls);
+}
+
 void	add_option_from_letter(t_ls *ls, char option)
 {
 	if (option == '@')
 		ls->flags |= FL_DISPLAY_XATTR;
+	else if (option == 'F')
+		ls->flags |= FL_DISPLAY_CHAR_TO_INDICATE_TYPE;
 	else if (option == 'R')
 		ls->flags |= FL_RECURSIVE_MODE;
 	else if (option == 'S')
@@ -89,8 +110,6 @@ void	add_option_from_letter(t_ls *ls, char option)
 		ls->flags |= FL_DISPLAY_UID_GID;
 	else if (option == 'r')
 		ls->flags |= FL_REVERSE_ORDER;
-	else if (option == 't')
-		deal_with_little_t_option(ls);
-	else if (option == 'u')
-		deal_with_little_u_option(ls);
+	else
+		add_option_from_letter_part_2(ls, option);
 }

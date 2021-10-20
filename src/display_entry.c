@@ -30,6 +30,8 @@ static void	display_entry_long_format(t_ls *ls, t_ls_tree_node *node,
 	display_size_or_devices(&node->info, column_lengths);
 	display_date(ls, &node->info);
 	display_name(node);
+	if (is_option_activated(ls, FL_DISPLAY_CHAR_TO_INDICATE_TYPE))
+		display_char_to_indicate_type(node);
 	if (S_ISLNK(node->info.st_mode))
 		display_linked_file(node);
 	if (is_option_activated(ls, FL_DISPLAY_XATTR))
@@ -47,10 +49,13 @@ static void	display_entry_long_format(t_ls *ls, t_ls_tree_node *node,
 ** \param ls the ft_ls structure
 ** \param name name of the entry
 */
-static void	display_entry_normal_format(t_ls *ls, char *name)
+static void	display_entry_normal_format(t_ls *ls, t_ls_tree_node *content)
 {
 	(void)ls;
-	ft_printf("%s\n", name);
+	ft_printf("%s", content->path);
+	if (is_option_activated(ls, FL_DISPLAY_CHAR_TO_INDICATE_TYPE))
+		display_char_to_indicate_type(content);
+	ft_printf("\n");
 }
 
 void	display_entry(t_ls *ls, t_btree_gen_node *node,
@@ -62,5 +67,5 @@ void	display_entry(t_ls *ls, t_btree_gen_node *node,
 	if (is_option_activated(ls, FL_LONG_PRINTING))
 		display_entry_long_format(ls, content, column_lengths);
 	else
-		display_entry_normal_format(ls, content->path);
+		display_entry_normal_format(ls, content);
 }

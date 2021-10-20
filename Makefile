@@ -26,6 +26,7 @@ SRC_FILES = acl_display.c \
 				acl_utils.c \
 				debug_print_tree.c \
 				display.c \
+				display_char_to_indicate_type.c \
 				display_dir_content.c \
 				display_entries_of_a_dir.c \
 				display_entry.c \
