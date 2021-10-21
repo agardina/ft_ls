@@ -75,11 +75,11 @@ int	ls_parsing_operands(t_ls *ls, int argc, char **argv, int index_parsed)
 	else
 		ret = store_operands(argc, argv, index_parsed, &operands);
 	if (ret)
-		return (1);
-	if (populate_trees_with_operands(ls, &operands) == 1)
 	{
 		ft_btree_str_clean(&operands);
 		return (1);
 	}
-	return (0);
+	ret = populate_trees_with_operands(ls, &operands);
+	ft_btree_str_clean(&operands);
+	return (ret);
 }

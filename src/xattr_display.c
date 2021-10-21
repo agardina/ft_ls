@@ -67,7 +67,7 @@ static void	print_xattr_list(t_ls_tree_node *node, char	*xattr_list,
 		if (0 <= value_size)
 			ft_printf("%lu", value_size);
 		else
-			perror("");
+			perror(NULL);
 		index += ft_strlen(xattr_list + index) + 1;
 	}
 }

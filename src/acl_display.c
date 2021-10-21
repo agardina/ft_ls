@@ -98,7 +98,7 @@ void	display_acl(t_ls_tree_node *node)
 	if (text)
 		print_acl_text((const char *)text);
 	else
-		perror("");
+		perror(NULL);
 	acl_free((void *)a);
 	acl_free((void *)text);
 }

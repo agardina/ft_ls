@@ -83,7 +83,10 @@ int	display_dir_content(t_ls *ls, const char *dir_path)
 	ft_btree_gen_init(&dir_entries);
 	tree_copy_functions(&dir_entries, &ls->main_dir_tree);
 	if (get_dir_entries(ls, dir_path, &dir_entries))
+	{
+		ft_btree_gen_clean(&dir_entries);
 		return (1);
+	}
 	// debug_print_tree(&dir_entries);
 	if (is_option_activated(ls, FL_LONG_PRINTING) && dir_entries.nb_nodes)
 		ft_display_total_sum(&dir_entries);

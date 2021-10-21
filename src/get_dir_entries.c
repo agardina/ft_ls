@@ -94,17 +94,9 @@ int	get_dir_entries(t_ls *ls, const char *dir_path, t_btree_gen *dir_entries)
 	dir = opendir(dir_path);
 	if (!dir)
 	{
-		if (errno == 1)
-		{
-			ft_dprintf(2, "./ft_ls: %s: Operation not permitted\n", dir_path);
+		ft_dprintf(2, "./ft_ls: %s: %s\n", dir_path, strerror(errno));
+		if (errno == 1 || errno == 13)
 			return (0);
-		}
-		else if (errno == 13)
-		{
-			ft_dprintf(2, "./ft_ls: %s: Permission denied\n", dir_path);
-			return (0);
-		}
-		perror(NULL);
 		return (1);
 	}
 	ret = fill_tree_of_dir_entries(ls, dir, dir_path, dir_entries);
