@@ -20,8 +20,6 @@
 */
 static void	deal_with_big_u_option(t_ls *ls)
 {
-	if (is_option_activated(ls, FL_SORT_BY_SIZE))
-		return ;
 	deactivate_option(ls, FL_USE_TIME_LAST_ACCESS);
 	ls->flags |= FL_USE_TIME_FILE_CREATION;
 }
@@ -34,8 +32,6 @@ static void	deal_with_big_u_option(t_ls *ls)
 */
 static void	deal_with_little_u_option(t_ls *ls)
 {
-	if (is_option_activated(ls, FL_SORT_BY_SIZE))
-		return ;
 	deactivate_option(ls, FL_USE_TIME_FILE_CREATION);
 	ls->flags |= FL_USE_TIME_LAST_ACCESS;
 }
@@ -62,8 +58,6 @@ static void	deal_with_little_t_option(t_ls *ls)
 static void	deal_with_big_s_option(t_ls *ls)
 {
 	deactivate_option(ls, FL_SORT_BY_TIME_MODIFIED);
-	deactivate_option(ls, FL_USE_TIME_LAST_ACCESS);
-	deactivate_option(ls, FL_USE_TIME_FILE_CREATION);
 	ls->flags |= FL_SORT_BY_SIZE;
 }
 
