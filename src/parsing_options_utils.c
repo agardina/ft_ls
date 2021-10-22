@@ -84,6 +84,8 @@ static void	add_option_from_letter_part_2(t_ls *ls, char option)
 		deal_with_little_t_option(ls);
 	else if (option == 'u')
 		deal_with_little_u_option(ls);
+	else
+		return ;
 }
 
 void	add_option_from_letter(t_ls *ls, char option)
