@@ -40,6 +40,43 @@ static char	*get_time_str(struct timespec *time_used)
 	return (ctime(&time_used->tv_sec));
 }
 
+/**
+** \brief "Translate" the month to French and print it
+**
+** \param date the char array containing the day and month
+*/
+static void	print_month(char *date)
+{
+	ft_strtolower(date);
+	if (!ft_strncmp(date, "feb", 3))
+		ft_printf("fév ");
+	else if (!ft_strncmp(date, "apr", 3))
+		ft_printf("avr ");
+	else if (!ft_strncmp(date, "may", 3))
+		ft_printf("mai ");
+	else if (!ft_strncmp(date, "jun", 3))
+		ft_printf("jui ");
+	else if (!ft_strncmp(date, "aug", 3))
+		ft_printf("aoû ");
+	else if (!ft_strncmp(date, "dec", 3))
+		ft_printf("déc ");
+	else
+		ft_printf("%.3s ", date);
+}
+
+/**
+** \brief Actual printing of the date
+**
+** \param date the char array containing the day and month
+** \param hour_or_year the char array containing the hour or the year
+*/
+static void	print_date(char date[7], char hour_or_year[6])
+{
+	ft_printf("%s ", (char *)date + 4);
+	print_month((char *)date);
+	ft_printf("%5s ", (char *)hour_or_year);
+}
+
 void	display_date(t_ls *ls, struct stat *info)
 {
 	char			*full;
@@ -66,5 +103,5 @@ void	display_date(t_ls *ls, struct stat *info)
 	else
 		ft_strncpy(hour_or_year, full + 11, 5);
 	hour_or_year[5] = '\0';
-	ft_printf("%s %5s ", date, hour_or_year);
+	print_date(date, hour_or_year);
 }
