@@ -25,13 +25,18 @@ static int	display_main_dir_tree_cb(t_ls *ls, t_btree_gen_node *node)
 {
 	char	*dir_path;
 	int		ret;
+	int		is_first_dir;
 
 	if (!node)
 		return (0);
 	if (display_main_dir_tree_cb(ls, node->left_child))
 		return (1);
 	dir_path = get_path_from_tree_node(ls, node->content);
-	ret = display_dir_content(ls, dir_path);
+	if (node == ls->first_displayed_dir)
+		is_first_dir = 1;
+	else
+		is_first_dir = 0;
+	ret = display_dir_content(ls, dir_path, is_first_dir);
 	if (ret)
 		return (1);
 	if (display_main_dir_tree_cb(ls, node->right_child))

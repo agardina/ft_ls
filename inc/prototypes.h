@@ -56,11 +56,12 @@ void	display_char_to_indicate_type(t_ls_tree_node *content);
 ** \param ls the ft_ls structure
 ** \param dir_path the path of the directory
 ** is going to be displayed, 0 otherwise
+** \param is_first_dir 1 if the directory is the first to be displayed
 **
 ** \retval 0 if success
 ** \retval 1 otherwise
 */
-int		display_dir_content(t_ls *ls, const char *dir_path);
+int		display_dir_content(t_ls *ls, const char *dir_path, int is_first_dir);
 
 /**
 ** \brief Display the main tree of directory operands
