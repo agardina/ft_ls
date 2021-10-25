@@ -3,30 +3,11 @@
 ### Variables ###
 
 DIFF_DIR=../diffs
-file_name_prefix="test"
-file_name_suffix_a="_a"
-file_name_suffix_b="_b"
-diff_name_suffix="_diff"
 home_dir=$HOME
 # test_dirs=("." "/dev/" $home_dir)
 test_dirs=("." "test" "test2" $home_dir)
 
-### Utils ###
-
-get_test_file_name_a()
-{
-	echo $file_name_prefix$1_$2$file_name_suffix_a
-}
-
-get_test_file_name_b()
-{
-	echo $file_name_prefix$1_$2$file_name_suffix_b
-}
-
-get_diff_file_name()
-{
-	echo $file_name_prefix$1_$2$diff_name_suffix
-}
+test_index=0
 
 ### Test functions ###
 
@@ -43,24 +24,226 @@ tests_on_given_dir()
 
 	for opt in ${options[*]}
 	do
-		testa=`get_test_file_name_a $2 $i`
-		testb=`get_test_file_name_b $2 $i`
-		diffname=`get_diff_file_name $2 $i`
-		printf "ls %s %s\n\n" $opt $1 > $DIFF_DIR/$testa
-		printf "ls %s %s\n\n" $opt $1 > $DIFF_DIR/$testb
-		ls $opt $1 >> $DIFF_DIR/$testa 2> /dev/null
-		./ft_ls $opt $1 >> $DIFF_DIR/$testb 2> /dev/null
-		diff $DIFF_DIR/$testa $DIFF_DIR/$testb > $DIFF_DIR/$diffname
-		if (( $? == 0 )) ; then
+		do_test $opt" "$1
+		if (( $? == 0 ))
+		then
 			(( nb_passed++ ))
-			mv $DIFF_DIR/$diffname $DIFF_DIR/$diffname"_OK"
 		fi
-		echo -n "./ft_" | cat - $DIFF_DIR/$testb > $DIFF_DIR/temp && mv $DIFF_DIR/temp $DIFF_DIR/$testb
 		(( i++ ))
 	done
 
 	# Print the result
 	printf "%d/%d passed\n" $nb_passed $nb_tests
+}
+
+# First arg = options and arguments passed to ls and ./ft_ls
+do_test()
+{
+	(( test_index++ ))
+
+	local res=0
+
+	local result_a=$DIFF_DIR/test"$test_index"_a.txt
+	local result_b=$DIFF_DIR/test"$test_index"_b.txt
+	local diff_file=$DIFF_DIR/test"$test_index"_diff.txt
+	local diff_file_KO=$DIFF_DIR/test"$test_index"_diff_KO.txt
+
+	echo ls" "$1 > $result_a && echo >> $result_a
+	echo ls" "$1 > $result_b && echo >> $result_b
+
+	ls $1 2> /dev/null | awk '{print $1,$2,$3,$4,$5,$6,$7,$8,$9}' >> $result_a
+	./ft_ls $1 2> /dev/null | awk '{print $1,$2,$3,$4,$5,$6,$7,$8,$9}' >> $result_b
+
+	diff $result_a $result_b > $diff_file
+
+	if (( $? == 0 )) ; then
+		res=0
+	else
+		res=1
+		mv $diff_file $diff_file_KO
+	fi
+
+	echo -n "./ft_" | cat - $result_b > $DIFF_DIR/temp && mv $DIFF_DIR/temp $result_b
+
+	return $res
+}
+
+basic_tests()
+{
+	local nb_passed=0
+	local nb_tests=0
+
+	printf "########## Basic tests ##########\n\n"
+
+	# No options, operands
+	nb_passed=0
+	nb_tests=1
+
+	do_test
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+
+	printf "Test with no options/operands: %d/%d passed\n" $nb_passed $nb_tests
+
+	# No option, one operand
+	nb_passed=0
+	nb_tests=4
+
+	do_test "Makefile"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+
+	do_test "inc/prototypes.h"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+
+	do_test "src"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+
+	do_test "inc"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+
+	printf "Tests with no options and one operand: %d/%d passed\n" $nb_passed $nb_tests
+
+	# Test parsing options
+	nb_passed=0
+	nb_tests=3
+
+	do_test "-a -l -t"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+
+	do_test "-al -t"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+
+	do_test "-alt"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+
+	printf "Tests parsing options: %d/%d passed\n" $nb_passed $nb_tests
+
+	# Test several files
+	nb_passed=0
+	nb_tests=5
+
+	do_test "-1 Makefile inc/prototypes.h Doxyfile"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+
+	do_test "-l Makefile inc/prototypes.h Doxyfile"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+
+	do_test "-la Makefile inc/prototypes.h Doxyfile"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+
+	do_test "Makefile Makefile Makefile"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+
+	do_test "-l Makefile Makefile Makefile"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+
+	printf "Tests several files: %d/%d passed\n" $nb_passed $nb_tests
+
+	# Test several directories
+	nb_passed=0
+	nb_tests=4
+
+	do_test "-1 src inc src "
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+
+	do_test "-l inc src"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+
+	do_test "-1 inc inc"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+
+	do_test "-l inc inc"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+
+	printf "Tests several directories: %d/%d passed\n" $nb_passed $nb_tests
+
+	### Test option -a
+	nb_passed=0
+	nb_tests=1
+
+	do_test "-a src/"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+
+	printf "Tests option -a: %d/%d passed\n" $nb_passed $nb_tests
+
+	### Test option -l
+	nb_passed=0
+	nb_tests=3
+
+	do_test "-l src/"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+
+	do_test "-l"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+
+	do_test "-l Makefile"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+
+	printf "Tests option -l: %d/%d passed\n" $nb_passed $nb_tests
+
+	printf "\n"
 }
 
 # First arg = directory name, second arg = index of the directory in the director array
@@ -76,19 +259,11 @@ tests_on_given_dir_long_printing()
 
 	for opt in ${options[*]}
 	do
-		testa=`get_test_file_name_a $2 $i`
-		testb=`get_test_file_name_b $2 $i`
-		diffname=`get_diff_file_name $2 $i`
-		printf "ls %s %s\n\n" $opt $1 > $DIFF_DIR/$testa
-		printf "ls %s %s\n\n" $opt $1 > $DIFF_DIR/$testb
-		ls $opt $1 2> /dev/null | awk '{print $1,$2,$3,$4,$5,$6,$7,$8,$9}' >> $DIFF_DIR/$testa
-		./ft_ls $opt $1 2> /dev/null | awk '{print $1,$2,$3,$4,$5,$6,$7,$8,$9}' >> $DIFF_DIR/$testb
-		diff $DIFF_DIR/$testa $DIFF_DIR/$testb > $DIFF_DIR/$diffname
-		if (( $? == 0 )) ; then
+		do_test $opt" "$1
+		if (( $? == 0 ))
+		then
 			(( nb_passed++ ))
-			mv $DIFF_DIR/$diffname $DIFF_DIR/$diffname"_OK"
 		fi
-		echo -n "./ft_" | cat - $DIFF_DIR/$testb > $DIFF_DIR/temp && mv $DIFF_DIR/temp $DIFF_DIR/$testb
 		(( i++ ))
 	done
 
@@ -131,9 +306,14 @@ tests_on_dirs_long_printing()
 	printf "\n"
 }
 
+###### Instructions #####
+
 rm -rf ../diffs
+
+# Check the presence of ./ft_ls
 
 mkdir $DIFF_DIR
 
-# tests_on_dirs
+basic_tests
+tests_on_dirs
 tests_on_dirs_long_printing
