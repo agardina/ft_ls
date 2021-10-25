@@ -50,7 +50,8 @@ static int	from_operand_to_tree_node(t_ls *ls, char *name)
 	content.path = name;
 	content.fullpath = name;
 	ret = 0;
-	if (!is_directory(&content))
+	if (!is_directory(&content) || is_option_activated(ls,
+			FL_DISPLAY_DIR_AS_PLAIN_FILES))
 		ret = ft_btree_gen_add_node(&ls->main_files_tree, (void *)&content);
 	else
 		ret = ft_btree_gen_add_node(&ls->main_dir_tree, (void *)&content);
