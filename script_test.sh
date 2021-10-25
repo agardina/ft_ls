@@ -51,18 +51,17 @@ do_test()
 	echo ls" "$1 > $result_a && echo >> $result_a
 	echo ls" "$1 > $result_b && echo >> $result_b
 
-	ls $1 2> /dev/null | awk '{print $1,$2,$3,$4,$5,$6,$7,$8,$9}' >> $result_a
-	./ft_ls $1 2> /dev/null | awk '{print $1,$2,$3,$4,$5,$6,$7,$8,$9}' >> $result_b
+	ls $1 2> /dev/null | awk '{print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11}' >> $result_a
+	./ft_ls $1 2> /dev/null | awk '{print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11}' >> $result_b
 
+	# Diff
 	diff $result_a $result_b > $diff_file
-
 	if (( $? == 0 )) ; then
 		res=0
 	else
 		res=1
 		mv $diff_file $diff_file_KO
 	fi
-
 	echo -n "./ft_" | cat - $result_b > $DIFF_DIR/temp && mv $DIFF_DIR/temp $result_b
 
 	return $res
@@ -77,171 +76,294 @@ basic_tests()
 
 	# No options, operands
 	nb_passed=0
-	nb_tests=1
+	nb_tests=0
 
 	do_test
 	if (( $? == 0 ))
 	then
 		(( nb_passed++ ))
 	fi
+	(( nb_tests++ ))
 
 	printf "Test with no options/operands: %d/%d passed\n" $nb_passed $nb_tests
 
 	# No option, one operand
 	nb_passed=0
-	nb_tests=4
+	nb_tests=0
 
 	do_test "Makefile"
 	if (( $? == 0 ))
 	then
 		(( nb_passed++ ))
 	fi
+	(( nb_tests++ ))
 
 	do_test "inc/prototypes.h"
 	if (( $? == 0 ))
 	then
 		(( nb_passed++ ))
 	fi
+	(( nb_tests++ ))
 
 	do_test "src"
 	if (( $? == 0 ))
 	then
 		(( nb_passed++ ))
 	fi
+	(( nb_tests++ ))
 
 	do_test "inc"
 	if (( $? == 0 ))
 	then
 		(( nb_passed++ ))
 	fi
+	(( nb_tests++ ))
 
 	printf "Tests with no options and one operand: %d/%d passed\n" $nb_passed $nb_tests
 
 	# Test parsing options
 	nb_passed=0
-	nb_tests=3
+	nb_tests=0
 
 	do_test "-a -l -t"
 	if (( $? == 0 ))
 	then
 		(( nb_passed++ ))
 	fi
+	(( nb_tests++ ))
 
 	do_test "-al -t"
 	if (( $? == 0 ))
 	then
 		(( nb_passed++ ))
 	fi
+	(( nb_tests++ ))
 
 	do_test "-alt"
 	if (( $? == 0 ))
 	then
 		(( nb_passed++ ))
 	fi
+	(( nb_tests++ ))
 
 	printf "Tests parsing options: %d/%d passed\n" $nb_passed $nb_tests
 
 	# Test several files
 	nb_passed=0
-	nb_tests=5
+	nb_tests=0
 
 	do_test "-1 Makefile inc/prototypes.h Doxyfile"
 	if (( $? == 0 ))
 	then
 		(( nb_passed++ ))
 	fi
+	(( nb_tests++ ))
 
 	do_test "-l Makefile inc/prototypes.h Doxyfile"
 	if (( $? == 0 ))
 	then
 		(( nb_passed++ ))
 	fi
+	(( nb_tests++ ))
 
 	do_test "-la Makefile inc/prototypes.h Doxyfile"
 	if (( $? == 0 ))
 	then
 		(( nb_passed++ ))
 	fi
+	(( nb_tests++ ))
 
 	do_test "Makefile Makefile Makefile"
 	if (( $? == 0 ))
 	then
 		(( nb_passed++ ))
 	fi
+	(( nb_tests++ ))
 
 	do_test "-l Makefile Makefile Makefile"
 	if (( $? == 0 ))
 	then
 		(( nb_passed++ ))
 	fi
+	(( nb_tests++ ))
 
 	printf "Tests several files: %d/%d passed\n" $nb_passed $nb_tests
 
 	# Test several directories
 	nb_passed=0
-	nb_tests=4
+	nb_tests=0
 
 	do_test "-1 src inc src "
 	if (( $? == 0 ))
 	then
 		(( nb_passed++ ))
 	fi
+	(( nb_tests++ ))
 
 	do_test "-l inc src"
 	if (( $? == 0 ))
 	then
 		(( nb_passed++ ))
 	fi
+	(( nb_tests++ ))
 
 	do_test "-1 inc inc"
 	if (( $? == 0 ))
 	then
 		(( nb_passed++ ))
 	fi
+	(( nb_tests++ ))
 
 	do_test "-l inc inc"
 	if (( $? == 0 ))
 	then
 		(( nb_passed++ ))
 	fi
+	(( nb_tests++ ))
 
 	printf "Tests several directories: %d/%d passed\n" $nb_passed $nb_tests
 
 	### Test option -a
 	nb_passed=0
-	nb_tests=1
+	nb_tests=0
 
-	do_test "-a src/"
+	do_test "-1a src/"
 	if (( $? == 0 ))
 	then
 		(( nb_passed++ ))
 	fi
+	(( nb_tests++ ))
+
+	do_test "-1al"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
 
 	printf "Tests option -a: %d/%d passed\n" $nb_passed $nb_tests
 
 	### Test option -l
 	nb_passed=0
-	nb_tests=3
+	nb_tests=0
 
 	do_test "-l src/"
 	if (( $? == 0 ))
 	then
 		(( nb_passed++ ))
 	fi
+	(( nb_tests++ ))
 
 	do_test "-l"
 	if (( $? == 0 ))
 	then
 		(( nb_passed++ ))
 	fi
+	(( nb_tests++ ))
 
 	do_test "-l Makefile"
 	if (( $? == 0 ))
 	then
 		(( nb_passed++ ))
 	fi
+	(( nb_tests++ ))
+
+	do_test "-l Makefile src inc"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
 
 	printf "Tests option -l: %d/%d passed\n" $nb_passed $nb_tests
+
+	### Test option -R
+	nb_passed=0
+	nb_tests=0
+
+	do_test "-R"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
+	do_test "-lR"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
+	printf "Tests option -R: %d/%d passed\n" $nb_passed $nb_tests
+
+	### Test option -d
+	nb_passed=0
+	nb_tests=0
+
+	do_test "-1d src"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
+	do_test "-1d src inc"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
+	do_test "-1d src inc Makefile / /dev $HOME"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
+	do_test "-ld src inc Makefile / /dev $HOME"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
+	do_test "-Rd"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
+	printf "Tests option -d: %d/%d passed\n" $nb_passed $nb_tests
+
+	### Test option -n
+	nb_passed=0
+	nb_tests=0
+
+	do_test "-lnd src inc Makefile / /dev $HOME"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
+	do_test "-nd src inc Makefile / /dev $HOME"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
+	do_test "-ln inc/prototypes.h"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
+	printf "Tests option -n: %d/%d passed\n" $nb_passed $nb_tests
 
 	printf "\n"
 }
@@ -306,6 +428,58 @@ tests_on_dirs_long_printing()
 	printf "\n"
 }
 
+tests_on_dev()
+{
+	local nb_passed=0
+	local nb_tests=0
+
+	printf "########## Tests on /dev ##########\n\n"
+
+	do_test "/dev"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
+	do_test "-l /dev"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
+	printf "Tests on /dev: %d/%d passed\n" $nb_passed $nb_tests
+
+	printf "\n"
+}
+
+tests_on_root_directory()
+{
+	local nb_passed=0
+	local nb_tests=0
+
+	printf "########## Tests on / ##########\n\n"
+
+	do_test "/"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
+	do_test "-l /"
+	if (( $? == 0 ))
+	then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
+	printf "Tests on /: %d/%d passed\n" $nb_passed $nb_tests
+
+	printf "\n"
+}
+
 ###### Instructions #####
 
 rm -rf ../diffs
@@ -317,3 +491,5 @@ mkdir $DIFF_DIR
 basic_tests
 tests_on_dirs
 tests_on_dirs_long_printing
+tests_on_dev
+tests_on_root_directory
