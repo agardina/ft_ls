@@ -32,6 +32,7 @@ static void	init_ls_structure(t_ls *ls)
 {
 	ls->first_displayed_dir = NULL;
 	ls->flags = FL_ONE_ENTRY_PER_LINE;
+	ls->nb_operands = 0;
 	ft_btree_gen_init(&ls->main_dir_tree);
 	ft_btree_gen_init(&ls->main_files_tree);
 }

@@ -26,7 +26,7 @@ static void	print_dir_path(t_ls *ls, const char *dir_path, int is_first_dir)
 	content = (t_ls_tree_node *)ls->first_displayed_dir->content;
 	if (is_first_dir)
 	{
-		if (ls->main_files_tree.nb_nodes || 1 < ls->main_dir_tree.nb_nodes)
+		if (1 < ls->nb_operands)
 			ft_printf("%s:\n", dir_path);
 	}
 	else
