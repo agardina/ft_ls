@@ -1,17 +1,26 @@
 #!/bin/bash
+#
+# Script used to test the validity of the ft_ls program
 
-### Variables ###
+### Global variables ###
 
 DIFF_DIR=../diffs
 home_dir=$HOME
-# test_dirs=("." "/dev/" $home_dir)
 test_dirs=("." "test" "test2" $home_dir)
-
 test_index=0
 
 ### Test functions ###
 
-# First arg = directory name, second arg = index of the directory in the director array
+##############################################################################
+# Perform some comparison tests between ls and ./ft_ls on the given directory
+# (the -l option is not used)
+# Globals:
+#	None
+# Arguments:
+#	Directory name, index of the directory in the test_dirs array
+# Output:
+#	Writes the number of passed tests to stdout
+##############################################################################
 tests_on_given_dir()
 {
 	options=("-1" "-1a" "-1t" "-1tu" "-1tU" "-1tuU" "-1tUu" "-1uU" "-1Uu" "-1rtU" "-1rtuU" "-1rtUu" "-1ruU" "-1rUu" "-1S" "-1rS" "-1St" "-1StU" "-1tS" "-1tUS" "-1F" "-1SF" "-1SFtUr")
@@ -25,8 +34,7 @@ tests_on_given_dir()
 	for opt in ${options[*]}
 	do
 		do_test $opt" "$1
-		if (( $? == 0 ))
-		then
+		if (( $? == 0 )); then
 			(( nb_passed++ ))
 		fi
 		(( i++ ))
@@ -36,7 +44,15 @@ tests_on_given_dir()
 	printf "%d/%d passed\n" $nb_passed $nb_tests
 }
 
-# First arg = options and arguments passed to ls and ./ft_ls
+#############################################################################
+# Execute ls and ./ft_ls with the provided arguments and compare the results
+# Global:
+#	test_index
+# Arguments:
+# 	A string containing the options and arguments passed to ls and ./ft_ls
+# Returns:
+#	0 if the results are identical, 1 otherwise
+#############################################################################
 do_test()
 {
 	(( test_index++ ))
@@ -67,6 +83,15 @@ do_test()
 	return $res
 }
 
+########################################################################
+# Perform some basic comparison tests between ls and ./ft_ls
+# Globals:
+#	None
+# Arguments:
+#	None
+# Output:
+#	For each test category, writes the number of passed tests to stdout
+########################################################################
 basic_tests()
 {
 	local nb_passed=0
@@ -79,8 +104,7 @@ basic_tests()
 	nb_tests=0
 
 	do_test
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
@@ -92,29 +116,25 @@ basic_tests()
 	nb_tests=0
 
 	do_test "Makefile"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
 
 	do_test "inc/prototypes.h"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
 
 	do_test "src"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
 
 	do_test "inc"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
@@ -126,22 +146,19 @@ basic_tests()
 	nb_tests=0
 
 	do_test "-a -l -t"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
 
 	do_test "-al -t"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
 
 	do_test "-alt"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
@@ -153,36 +170,31 @@ basic_tests()
 	nb_tests=0
 
 	do_test "-1 Makefile inc/prototypes.h Doxyfile"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
 
 	do_test "-l Makefile inc/prototypes.h Doxyfile"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
 
 	do_test "-la Makefile inc/prototypes.h Doxyfile"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
 
 	do_test "Makefile Makefile Makefile"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
 
 	do_test "-l Makefile Makefile Makefile"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
@@ -194,29 +206,25 @@ basic_tests()
 	nb_tests=0
 
 	do_test "-1 src inc src "
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
 
 	do_test "-l inc src"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
 
 	do_test "-1 inc inc"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
 
 	do_test "-l inc inc"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
@@ -228,15 +236,13 @@ basic_tests()
 	nb_tests=0
 
 	do_test "-1a src/"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
 
 	do_test "-1al"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
@@ -248,29 +254,25 @@ basic_tests()
 	nb_tests=0
 
 	do_test "-l src/"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
 
 	do_test "-l"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
 
 	do_test "-l Makefile"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
 
 	do_test "-l Makefile src inc"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
@@ -282,15 +284,13 @@ basic_tests()
 	nb_tests=0
 
 	do_test "-R"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
 
 	do_test "-lR"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
@@ -302,36 +302,31 @@ basic_tests()
 	nb_tests=0
 
 	do_test "-1d src"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
 
 	do_test "-1d src inc"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
 
 	do_test "-1d src inc Makefile / /dev $HOME"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
 
 	do_test "-ld src inc Makefile / /dev $HOME"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
 
 	do_test "-Rd"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
@@ -343,22 +338,19 @@ basic_tests()
 	nb_tests=0
 
 	do_test "-lnd src inc Makefile / /dev $HOME"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
 
 	do_test "-nd src inc Makefile / /dev $HOME"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
 
 	do_test "-ln inc/prototypes.h"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
@@ -368,7 +360,16 @@ basic_tests()
 	printf "\n"
 }
 
-# First arg = directory name, second arg = index of the directory in the director array
+##############################################################################
+# Perform some comparison tests between ls and ./ft_ls on the given directory
+# (the -l option is not used)
+# Globals:
+#	None
+# Arguments:
+#	Directory name, index of the directory in the test_dirs array
+# Output:
+#	Writes the number of passed tests to stdout
+##############################################################################
 tests_on_given_dir_long_printing()
 {
 	options=("-l" "-l@" "-le" "-l@e" "-ln" "-lF" "-la" "-lt" "-ltu" "-ltU" "-ltuU" "-ltUu" "-luU" "-lUu" "-lrtU" "-lrtuU" "-lrtUu" "-lruU" "-lrUu" "-lS" "-lrS" "-lSt" "-lStU" "-ltS" "-ltUS" "-lF" "-lSF" "-lSFtUr")
@@ -382,8 +383,7 @@ tests_on_given_dir_long_printing()
 	for opt in ${options[*]}
 	do
 		do_test $opt" "$1
-		if (( $? == 0 ))
-		then
+		if (( $? == 0 )); then
 			(( nb_passed++ ))
 		fi
 		(( i++ ))
@@ -395,6 +395,14 @@ tests_on_given_dir_long_printing()
 
 ### Tests ###
 
+###########################################################################
+# Perform comparison tests between ls and ./ft_ls on each directory of the
+# test_dirs array (the -l option is not used here)
+# Globals:
+#	test_dirs
+# Arguments:
+#	None
+###########################################################################
 tests_on_dirs()
 {
 	local i=1
@@ -411,6 +419,14 @@ tests_on_dirs()
 	printf "\n\n"
 }
 
+###########################################################################
+# Perform comparison tests between ls and ./ft_ls on each directory of the
+# test_dirs array (the -l option is used in each test)
+# Globals:
+#	test_dirs
+# Arguments:
+#	None
+###########################################################################
 tests_on_dirs_long_printing()
 {
 	local i=1
@@ -428,6 +444,15 @@ tests_on_dirs_long_printing()
 	printf "\n"
 }
 
+##################################################################################
+# Perform some basic comparison tests between ls and ./ft_ls on the directory /dev
+# Globals:
+#	None
+# Arguments:
+#	None
+# Output:
+#	Writes the number of passed tests to stdout
+##################################################################################
 tests_on_dev()
 {
 	local nb_passed=0
@@ -436,15 +461,13 @@ tests_on_dev()
 	printf "########## Tests on /dev ##########\n\n"
 
 	do_test "/dev"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
 
 	do_test "-l /dev"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
@@ -454,6 +477,16 @@ tests_on_dev()
 	printf "\n"
 }
 
+#########################################################################
+# Perform some basic comparison tests between ls and ./ft_ls on the root
+# directory
+# Globals:
+#	None
+# Arguments:
+#	None
+# Output:
+#	Writes the number of passed tests to stdout
+#########################################################################
 tests_on_root_directory()
 {
 	local nb_passed=0
@@ -462,15 +495,13 @@ tests_on_root_directory()
 	printf "########## Tests on / ##########\n\n"
 
 	do_test "/"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
 
 	do_test "-l /"
-	if (( $? == 0 ))
-	then
+	if (( $? == 0 )); then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
@@ -480,16 +511,18 @@ tests_on_root_directory()
 	printf "\n"
 }
 
-###### Instructions #####
+main()
+{
+	rm -rf ../diffs
+	mkdir $DIFF_DIR
 
-rm -rf ../diffs
+	# Check the presence of ./ft_ls (to do)
 
-# Check the presence of ./ft_ls
+	basic_tests
+	tests_on_dirs
+	tests_on_dirs_long_printing
+	tests_on_dev
+	tests_on_root_directory
+}
 
-mkdir $DIFF_DIR
-
-basic_tests
-tests_on_dirs
-tests_on_dirs_long_printing
-tests_on_dev
-tests_on_root_directory
+main
