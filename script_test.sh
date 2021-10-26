@@ -64,8 +64,8 @@ do_test()
 	local diff_file=$DIFF_DIR/test"$test_index"_diff.txt
 	local diff_file_KO=$DIFF_DIR/test"$test_index"_diff_KO.txt
 
-	echo ls" "$1 > $result_a && echo >> $result_a
-	echo ls" "$1 > $result_b && echo >> $result_b
+	echo ls $1 > $result_a && echo >> $result_a
+	echo ls $1 > $result_b && echo >> $result_b
 
 	ls $1 2> /dev/null | awk '{print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11}' >> $result_a
 	./ft_ls $1 2> /dev/null | awk '{print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11}' >> $result_b
