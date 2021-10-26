@@ -137,6 +137,11 @@ basic_tests()
 	fi
 	(( nb_tests++ ))
 
+	if do_test "non_existing_file"; then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
 	printf "Tests with no options and one operand: %d/%d passed\n" "$nb_passed" "$nb_tests"
 
 	# Test parsing options
@@ -185,6 +190,11 @@ basic_tests()
 	(( nb_tests++ ))
 
 	if do_test "-l Makefile Makefile Makefile"; then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
+	if do_test "-l . non_existing_file"; then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
