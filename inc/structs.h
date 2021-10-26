@@ -61,6 +61,7 @@ typedef struct s_path_and_stat
 typedef struct s_ls
 {
 	unsigned int		flags;
+	int					nb_operands;
 	t_btree_gen			main_files_tree;
 	t_btree_gen			main_dir_tree;
 	t_btree_gen_node	*first_displayed_dir;

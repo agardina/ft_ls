@@ -69,6 +69,7 @@ int	ls_parsing_operands(t_ls *ls, int argc, char **argv, int index_parsed)
 	t_btree_str	operands;
 	int			ret;
 
+	ls->nb_operands = argc - index_parsed;
 	ft_btree_str_init(&operands);
 	if (index_parsed == argc)
 		ret = ls_parsing_no_operands(&operands);
