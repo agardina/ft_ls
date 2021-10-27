@@ -36,7 +36,7 @@ static int	add_dir_entry_to_tree(struct dirent *entry, const char *dir_path,
 	if (!fullpath)
 		return (1);
 	content.fullpath = fullpath;
-	if (lstat(fullpath, &content.info) == -1)
+	if (stat(fullpath, &content.info) == -1)
 	{
 		free(fullpath);
 		perror("Error with the lstat function");

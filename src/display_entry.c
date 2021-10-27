@@ -62,10 +62,15 @@ void	display_entry(t_ls *ls, t_btree_gen_node *node,
 			t_column_lengths *column_lengths)
 {
 	t_ls_tree_node	*content;
+	struct stat		info;
 
 	content = (t_ls_tree_node *)node->content;
 	if (is_option_activated(ls, FL_LONG_PRINTING))
+	{
+		if (!lstat(content->fullpath, &info) && S_ISLNK(info.st_mode))
+			ft_memcpy(&content->info, (const void *)&info, sizeof(struct stat));
 		display_entry_long_format(ls, content, column_lengths);
+	}
 	else
 		display_entry_normal_format(ls, content);
 }

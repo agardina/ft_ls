@@ -42,7 +42,7 @@ static int	from_operand_to_tree_node(t_ls *ls, char *name)
 	t_ls_tree_node	content;
 	int				ret;
 
-	if (lstat(name, &content.info) == -1)
+	if (stat(name, &content.info) == -1)
 	{
 		ft_dprintf(2, "ft_ls: %s: %s\n", name, strerror(errno));
 		return (0);
