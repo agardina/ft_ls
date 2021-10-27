@@ -6,7 +6,7 @@
 ##### GLOBAL VARIABLES #####
 
 DIFF_DIR=../diffs
-TEST_DIRS=("." "test" "test2" "$HOME/Desktop" "$HOME")
+TEST_DIRS=("." "test" "test2" "$HOME/Desktop" ".git" "$HOME")
 TEST_INDEX=0
 
 ##### TEST FUNCTIONS #####
@@ -378,6 +378,16 @@ basic_tests()
 	(( nb_tests++ ))
 
 	if do_test "-lR test2/link_to_test2_itself"; then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
+	if do_test "-ltR test2/link_to_test2_itself"; then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
+	if do_test "-ltSr test2/link_to_test2_itself"; then
 		(( nb_passed++ ))
 	fi
 	(( nb_tests++ ))
