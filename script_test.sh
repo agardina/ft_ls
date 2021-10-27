@@ -343,6 +343,52 @@ basic_tests()
 
 	printf "Tests option -n: %d/%d passed\n" "$nb_passed" "$nb_tests"
 
+	# Tests with a symlink to a directory
+	nb_passed=0
+	nb_tests=0
+
+	if do_test "-1 test2/link_to_test2_itself"; then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
+	if do_test "-1 test2/link_to_test2_itself test2/link_to_test2_itself"; then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
+	if do_test "-1R test2/link_to_test2_itself"; then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
+	if do_test "-1R test2/link_to_test2_itself test2/link_to_test2_itself"; then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
+	if do_test "-l test2/link_to_test2_itself"; then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
+	if do_test "-l test2/link_to_test2_itself test2/link_to_test2_itself"; then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
+	if do_test "-lR test2/link_to_test2_itself"; then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
+	if do_test "-lR test2/link_to_test2_itself test2/link_to_test2_itself"; then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
+	printf "Tests with a symlink to a directory: %d/%d passed\n" "$nb_passed" "$nb_tests"
+
 	printf "\n"
 }
 
