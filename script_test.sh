@@ -1,14 +1,15 @@
 #!/bin/bash
 #
 # Script used to test the validity of the ft_ls program
+# Usage: bash script_test.sh
 
-### Global variables ###
+##### GLOBAL VARIABLES #####
 
 DIFF_DIR=../diffs
-test_dirs=("." "test" "test2" "$HOME")
-test_index=0
+TEST_DIRS=("." "test" "test2" "$HOME/Desktop" "$HOME")
+TEST_INDEX=0
 
-### Test functions ###
+##### TEST FUNCTIONS #####
 
 ##############################################################################
 # Perform some comparison tests between ls and ./ft_ls on the given directory
@@ -16,7 +17,7 @@ test_index=0
 # Globals:
 #	None
 # Arguments:
-#	Directory name, index of the directory in the test_dirs array
+#	Directory name, index of the directory in the TEST_DIRS array
 # Output:
 #	Writes the number of passed tests to stdout
 ##############################################################################
@@ -45,7 +46,7 @@ tests_on_given_dir()
 #############################################################################
 # Execute ls and ./ft_ls with the provided arguments and compare the results
 # Global:
-#	test_index
+#	TEST_INDEX
 # Arguments:
 # 	A string containing the options and arguments passed to ls and ./ft_ls
 # Returns:
@@ -53,15 +54,15 @@ tests_on_given_dir()
 #############################################################################
 do_test()
 {
-	(( test_index++ ))
+	(( TEST_INDEX++ ))
 
 	local res=0
 
-	local result_a=$DIFF_DIR/test"$test_index"_a.txt
-	local result_b=$DIFF_DIR/test"$test_index"_b.txt
-	local stderr=$DIFF_DIR/test"$test_index"_stderr.txt
-	local diff_file=$DIFF_DIR/test"$test_index"_diff.txt
-	local diff_file_KO=$DIFF_DIR/test"$test_index"_diff_KO.txt
+	local result_a=$DIFF_DIR/test"$TEST_INDEX"_a.txt
+	local result_b=$DIFF_DIR/test"$TEST_INDEX"_b.txt
+	local stderr=$DIFF_DIR/test"$TEST_INDEX"_stderr.txt
+	local diff_file=$DIFF_DIR/test"$TEST_INDEX"_diff.txt
+	local diff_file_KO=$DIFF_DIR/test"$TEST_INDEX"_diff_KO.txt
 
 	printf "ls %s\n\n" "$1" > $result_a
 	printf "ls %s\n\n" "$1" > $result_b
@@ -225,6 +226,11 @@ basic_tests()
 	fi
 	(( nb_tests++ ))
 
+	if do_test "-l inc non_existing_directory"; then
+		(( nb_passed++ ))
+	fi
+	(( nb_tests++ ))
+
 	printf "Tests several directories: %d/%d passed\n" "$nb_passed" "$nb_tests"
 
 	### Test option -a
@@ -243,7 +249,7 @@ basic_tests()
 
 	printf "Tests option -a: %d/%d passed\n" "$nb_passed" "$nb_tests"
 
-	### Test option -l
+	# Test option -l
 	nb_passed=0
 	nb_tests=0
 
@@ -269,7 +275,7 @@ basic_tests()
 
 	printf "Tests option -l: %d/%d passed\n" "$nb_passed" "$nb_tests"
 
-	### Test option -R
+	# Test option -R
 	nb_passed=0
 	nb_tests=0
 
@@ -285,7 +291,7 @@ basic_tests()
 
 	printf "Tests option -R: %d/%d passed\n" "$nb_passed" "$nb_tests"
 
-	### Test option -d
+	# Test option -d
 	nb_passed=0
 	nb_tests=0
 
@@ -316,7 +322,7 @@ basic_tests()
 
 	printf "Tests option -d: %d/%d passed\n" "$nb_passed" "$nb_tests"
 
-	### Test option -n
+	# Test option -n
 	nb_passed=0
 	nb_tests=0
 
@@ -346,7 +352,7 @@ basic_tests()
 # Globals:
 #	None
 # Arguments:
-#	Directory name, index of the directory in the test_dirs array
+#	Directory name, index of the directory in the TEST_DIRS array
 # Output:
 #	Writes the number of passed tests to stdout
 ##############################################################################
@@ -372,13 +378,11 @@ tests_on_given_dir_long_printing()
 	printf "%d/%d passed\n" "$nb_passed" "$nb_tests"
 }
 
-### Tests ###
-
 ###########################################################################
 # Perform comparison tests between ls and ./ft_ls on each directory of the
-# test_dirs array (the -l option is not used here)
+# TEST_DIRS array (the -l option is not used here)
 # Globals:
-#	test_dirs
+#	TEST_DIRS
 # Arguments:
 #	None
 ###########################################################################
@@ -388,7 +392,7 @@ tests_on_dirs()
 
 	printf "########## Test on directories ##########\n\n"
 
-	for current_dir in "${test_dirs[@]}"
+	for current_dir in "${TEST_DIRS[@]}"
 	do
 		# printf "%s:\n" $current_dir
 		tests_on_given_dir "$current_dir" $i
@@ -400,9 +404,9 @@ tests_on_dirs()
 
 ###########################################################################
 # Perform comparison tests between ls and ./ft_ls on each directory of the
-# test_dirs array (the -l option is used in each test)
+# TEST_DIRS array (the -l option is used in each test)
 # Globals:
-#	test_dirs
+#	TEST_DIRS
 # Arguments:
 #	None
 ###########################################################################
@@ -412,7 +416,7 @@ tests_on_dirs_long_printing()
 
 	printf "########## Test on directories - long printing ##########\n\n"
 
-	for current_dir in "${test_dirs[@]}"
+	for current_dir in "${TEST_DIRS[@]}"
 	do
 		# printf "%s:\n" $current_dir
 		tests_on_given_dir_long_printing "$current_dir" $i
@@ -485,12 +489,18 @@ tests_on_root_directory()
 	printf "\n"
 }
 
+##### MAIN FUNCTION #####
+
 main()
 {
 	rm -rf ../diffs
 	mkdir $DIFF_DIR
 
-	# Check the presence of ./ft_ls (to do)
+	# Check the presence of ./ft_ls
+	if [[ ! -f ./ft_ls ]]; then
+		printf "The file ft_ls doesn't exist\n"
+		exit 1
+	fi
 
 	basic_tests
 	tests_on_dirs
