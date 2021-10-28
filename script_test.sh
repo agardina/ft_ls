@@ -28,6 +28,7 @@ tests_on_given_dir()
 	local i=1
 	local nb_passed=0
 	local nb_tests=${#options[*]}
+	local old_test_index=$(( TEST_INDEX + 1 ))
 
 	printf "Tests on %s: " "$1"
 
@@ -40,7 +41,8 @@ tests_on_given_dir()
 	done
 
 	# Print the result
-	printf "%d/%d passed\n" "$nb_passed" "$nb_tests"
+	printf "%d/%d passed" "$nb_passed" "$nb_tests"
+	printf " [%d - %d]\n" "$old_test_index" "$TEST_INDEX"
 }
 
 #############################################################################
@@ -90,7 +92,7 @@ do_test()
 ########################################################################
 # Perform some basic comparison tests between ls and ./ft_ls
 # Globals:
-#	None
+#	TEST_INDEX
 # Arguments:
 #	None
 # Output:
@@ -100,6 +102,7 @@ basic_tests()
 {
 	local nb_passed=0
 	local nb_tests=0
+	local old_test_index=1
 
 	printf "########## Basic tests ##########\n\n"
 
@@ -112,11 +115,13 @@ basic_tests()
 	fi
 	(( nb_tests++ ))
 
-	printf "Test with no options/operands: %d/%d passed\n" "$nb_passed" "$nb_tests"
+	printf "Test with no options/operands: %d/%d passed" "$nb_passed" "$nb_tests"
+	printf " [%d - %d]\n" "$old_test_index" "$TEST_INDEX"
 
 	# No option, one operand
 	nb_passed=0
 	nb_tests=0
+	old_test_index=$(( TEST_INDEX +1 ))
 
 	if do_test "Makefile"; then
 		(( nb_passed++ ))
@@ -143,11 +148,13 @@ basic_tests()
 	fi
 	(( nb_tests++ ))
 
-	printf "Tests with no options and one operand: %d/%d passed\n" "$nb_passed" "$nb_tests"
+	printf "Tests with no options and one operand: %d/%d passed" "$nb_passed" "$nb_tests"
+	printf " [%d - %d]\n" "$old_test_index" "$TEST_INDEX"
 
 	# Test parsing options
 	nb_passed=0
 	nb_tests=0
+	old_test_index=$(( TEST_INDEX +1 ))
 
 	if do_test "-a -l -t"; then
 		(( nb_passed++ ))
@@ -164,11 +171,13 @@ basic_tests()
 	fi
 	(( nb_tests++ ))
 
-	printf "Tests parsing options: %d/%d passed\n" "$nb_passed" "$nb_tests"
+	printf "Tests parsing options: %d/%d passed" "$nb_passed" "$nb_tests"
+	printf " [%d - %d]\n" "$old_test_index" "$TEST_INDEX"
 
 	# Test several files
 	nb_passed=0
 	nb_tests=0
+	old_test_index=$(( TEST_INDEX +1 ))
 
 	if do_test "-1 Makefile inc/prototypes.h Doxyfile"; then
 		(( nb_passed++ ))
@@ -200,11 +209,13 @@ basic_tests()
 	fi
 	(( nb_tests++ ))
 
-	printf "Tests several files: %d/%d passed\n" "$nb_passed" "$nb_tests"
+	printf "Tests several files: %d/%d passed" "$nb_passed" "$nb_tests"
+	printf " [%d - %d]\n" "$old_test_index" "$TEST_INDEX"
 
 	# Test several directories
 	nb_passed=0
 	nb_tests=0
+	old_test_index=$(( TEST_INDEX +1 ))
 
 	if do_test "-1 src inc src "; then
 		(( nb_passed++ ))
@@ -231,11 +242,13 @@ basic_tests()
 	fi
 	(( nb_tests++ ))
 
-	printf "Tests several directories: %d/%d passed\n" "$nb_passed" "$nb_tests"
+	printf "Tests several directories: %d/%d passed" "$nb_passed" "$nb_tests"
+	printf " [%d - %d]\n" "$old_test_index" "$TEST_INDEX"
 
 	### Test option -a
 	nb_passed=0
 	nb_tests=0
+	old_test_index=$(( TEST_INDEX +1 ))
 
 	if do_test "-1a src/"; then
 		(( nb_passed++ ))
@@ -247,11 +260,13 @@ basic_tests()
 	fi
 	(( nb_tests++ ))
 
-	printf "Tests option -a: %d/%d passed\n" "$nb_passed" "$nb_tests"
+	printf "Tests option -a: %d/%d passed" "$nb_passed" "$nb_tests"
+	printf " [%d - %d]\n" "$old_test_index" "$TEST_INDEX"
 
 	# Test option -l
 	nb_passed=0
 	nb_tests=0
+	old_test_index=$(( TEST_INDEX +1 ))
 
 	if do_test "-l src/"; then
 		(( nb_passed++ ))
@@ -273,11 +288,13 @@ basic_tests()
 	fi
 	(( nb_tests++ ))
 
-	printf "Tests option -l: %d/%d passed\n" "$nb_passed" "$nb_tests"
+	printf "Tests option -l: %d/%d passed" "$nb_passed" "$nb_tests"
+	printf " [%d - %d]\n" "$old_test_index" "$TEST_INDEX"
 
 	# Test option -R
 	nb_passed=0
 	nb_tests=0
+	old_test_index=$(( TEST_INDEX +1 ))
 
 	if do_test "-R"; then
 		(( nb_passed++ ))
@@ -289,11 +306,13 @@ basic_tests()
 	fi
 	(( nb_tests++ ))
 
-	printf "Tests option -R: %d/%d passed\n" "$nb_passed" "$nb_tests"
+	printf "Tests option -R: %d/%d passed" "$nb_passed" "$nb_tests"
+	printf " [%d - %d]\n" "$old_test_index" "$TEST_INDEX"
 
 	# Test option -d
 	nb_passed=0
 	nb_tests=0
+	old_test_index=$(( TEST_INDEX +1 ))
 
 	if do_test "-1d src"; then
 		(( nb_passed++ ))
@@ -320,11 +339,13 @@ basic_tests()
 	fi
 	(( nb_tests++ ))
 
-	printf "Tests option -d: %d/%d passed\n" "$nb_passed" "$nb_tests"
+	printf "Tests option -d: %d/%d passed" "$nb_passed" "$nb_tests"
+	printf " [%d - %d]\n" "$old_test_index" "$TEST_INDEX"
 
 	# Test option -n
 	nb_passed=0
 	nb_tests=0
+	old_test_index=$(( TEST_INDEX +1 ))
 
 	if do_test "-lnd src inc Makefile / /dev $HOME"; then
 		(( nb_passed++ ))
@@ -341,11 +362,13 @@ basic_tests()
 	fi
 	(( nb_tests++ ))
 
-	printf "Tests option -n: %d/%d passed\n" "$nb_passed" "$nb_tests"
+	printf "Tests option -n: %d/%d passed" "$nb_passed" "$nb_tests"
+	printf " [%d - %d]\n" "$old_test_index" "$TEST_INDEX"
 
 	# Tests with a symlink to a directory
 	nb_passed=0
 	nb_tests=0
+	old_test_index=$(( TEST_INDEX +1 ))
 
 	if do_test "-1 test2/link_to_test2_itself"; then
 		(( nb_passed++ ))
@@ -397,7 +420,8 @@ basic_tests()
 	fi
 	(( nb_tests++ ))
 
-	printf "Tests with a symlink to a directory: %d/%d passed\n" "$nb_passed" "$nb_tests"
+	printf "Tests with a symlink to a directory: %d/%d passed" "$nb_passed" "$nb_tests"
+	printf " [%d - %d]\n" "$old_test_index" "$TEST_INDEX"
 
 	printf "\n"
 }
@@ -406,7 +430,7 @@ basic_tests()
 # Perform some comparison tests between ls and ./ft_ls on the given directory
 # (the -l option is not used)
 # Globals:
-#	None
+#	TEST_INDEX
 # Arguments:
 #	Directory name, index of the directory in the TEST_DIRS array
 # Output:
@@ -419,6 +443,7 @@ tests_on_given_dir_long_printing()
 	local i=1
 	local nb_passed=0
 	local nb_tests=${#options[*]}
+	local old_test_index=$(( TEST_INDEX + 1 ))
 
 	printf "Tests on %s: " "$1"
 
@@ -431,7 +456,8 @@ tests_on_given_dir_long_printing()
 	done
 
 	# Print the result
-	printf "%d/%d passed\n" "$nb_passed" "$nb_tests"
+	printf "%d/%d passed" "$nb_passed" "$nb_tests"
+	printf " [%d - %d]\n" "$old_test_index" "$TEST_INDEX"
 }
 
 ###########################################################################
@@ -495,6 +521,7 @@ tests_on_dev()
 {
 	local nb_passed=0
 	local nb_tests=0
+	local old_test_index=$(( TEST_INDEX + 1 ))
 
 	printf "########## Tests on /dev ##########\n\n"
 
@@ -508,7 +535,8 @@ tests_on_dev()
 	fi
 	(( nb_tests++ ))
 
-	printf "Tests on /dev: %d/%d passed\n" "$nb_passed" "$nb_tests"
+	printf "Tests on /dev: %d/%d passed" "$nb_passed" "$nb_tests"
+	printf " [%d - %d]\n" "$old_test_index" "$TEST_INDEX"
 
 	printf "\n"
 }
@@ -527,6 +555,7 @@ tests_on_root_directory()
 {
 	local nb_passed=0
 	local nb_tests=0
+	local old_test_index=$(( TEST_INDEX + 1 ))
 
 	printf "########## Tests on / ##########\n\n"
 
@@ -540,7 +569,8 @@ tests_on_root_directory()
 	fi
 	(( nb_tests++ ))
 
-	printf "Tests on /: %d/%d passed\n" "$nb_passed" "$nb_tests"
+	printf "Tests on /: %d/%d passed" "$nb_passed" "$nb_tests"
+	printf " [%d - %d]\n" "$old_test_index" "$TEST_INDEX"
 
 	printf "\n"
 }
