@@ -28,6 +28,39 @@ static int	is_directory(t_ls_tree_node	*content)
 }
 
 /**
+** \brief Get the stat of a file
+**
+** \param ls the ft_ls structure
+** \param name path of the file
+** \param content the content of the tree node related to the file
+**
+** \retval 0 if success
+** \retval 1 otherwise
+*/
+static int	get_file_stat(t_ls *ls, char *name, t_ls_tree_node *content)
+{
+	struct stat		linked;
+
+	if (lstat(name, &content->info) == -1)
+	{
+		ft_dprintf(2, "ft_ls: %s: %s\n", name, strerror(errno));
+		return (1);
+	}
+	if (S_ISLNK(content->info.st_mode)
+		&& is_option_activated(ls, FL_SYMLNK_CMD_FOLLOWED))
+	{
+		if (stat(name, &linked) == 1)
+		{
+			ft_dprintf(2, "ft_ls: %s: %s\n", name, strerror(errno));
+			return (1);
+		}
+		if (S_ISDIR(linked.st_mode))
+			ft_memcpy(&content->info, &linked, sizeof(struct stat));
+	}
+	return (0);
+}
+
+/**
 ** \brief Allocate memory for the content of the tree node associated to
 ** the given operand
 **
@@ -35,18 +68,15 @@ static int	is_directory(t_ls_tree_node	*content)
 ** \param path the name of the operand
 **
 ** \retval 0 if success or if error with the lstat function
-** \retval 1 in case of memory allocation error
+** \retval 1 in case of error
 */
 static int	from_operand_to_tree_node(t_ls *ls, char *name)
 {
 	t_ls_tree_node	content;
 	int				ret;
 
-	if (lstat(name, &content.info) == -1)
-	{
-		ft_dprintf(2, "ft_ls: %s: %s\n", name, strerror(errno));
-		return (0);
-	}
+	if (get_file_stat(ls, name, &content))
+		return (1);
 	content.path = name;
 	content.fullpath = name;
 	ret = 0;

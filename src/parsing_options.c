@@ -22,9 +22,9 @@
 */
 static int	is_valid_option(char c)
 {
-	if (c == '@' || c == 'F' || c == 'R' || c == 'S' || c == 'U' || c == 'a'
-		|| c == 'd' || c == 'e' || c == 'l' || c == 'n' || c == 'r' || c == 't'
-		|| c == 'u' || c == '1')
+	if (c == '@' || c == 'F' || c == 'H' || c == 'R' || c == 'S' || c == 'U'
+		|| c == 'a' || c == 'd' || c == 'e' || c == 'l' || c == 'n' || c == 'r'
+		|| c == 't' || c == 'u' || c == '1')
 		return (1);
 	return (0);
 }
@@ -38,7 +38,8 @@ static int	is_valid_option(char c)
 static void	display_message_illegal_option(char c)
 {
 	ft_dprintf(2,
-		"ft_ls: illegal option -- %c\nusage: ./ft_ls [-@FRSUadelnrtu1] [file ...]\n", c);
+		"ft_ls: illegal option -- %c\nusage: ./ft_ls [-@FHRSUadelnrtu1]"
+		"[file ...]\n", c);
 }
 
 /**
