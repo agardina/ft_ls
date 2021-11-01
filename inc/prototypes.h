@@ -173,11 +173,8 @@ int		ls_display(t_ls *ls);
 ** \param ls the ft_ls structure
 ** \param dir_path the path of a directory
 ** \param dir_entries the tree of directory entries
-**
-** \retval 1 in case of error
-** \retval 0 otherwise
 */
-int	get_dir_entries(t_ls *ls, const char *dir_path, t_btree_gen *dir_entries);
+void	get_dir_entries(t_ls *ls, const char *dir_path, t_btree_gen *dir_entries);
 
 /**
 ** \brief Get the list of the subdirectories contained in the given directory and put them into a string vector

@@ -39,8 +39,8 @@ static int	add_dir_entry_to_tree(struct dirent *entry, const char *dir_path,
 	if (lstat(fullpath, &content.info) == -1)
 	{
 		free(fullpath);
-		perror("Error with the lstat function");
-		return (1);
+		ft_dprintf(2, "./ft_ls: %s: %s\n", entry->d_name, strerror(errno));
+		return (0);
 	}
 	ret = ft_btree_gen_add_node(dir_entries, (void *)&content);
 	free(fullpath);
@@ -54,17 +54,12 @@ static int	add_dir_entry_to_tree(struct dirent *entry, const char *dir_path,
 ** \param dir a pointer to the DIR structure related to the directory
 ** \param dir_path the path of the currently used directory
 ** \param dir_entries the tree of directory entries
-**
-** \retval 0 if success
-** \retval 1 otherwise
 */
-static int	fill_tree_of_dir_entries(t_ls *ls, DIR *dir, const char *dir_path,
+static void	fill_tree_of_dir_entries(t_ls *ls, DIR *dir, const char *dir_path,
 			t_btree_gen *dir_entries)
 {
 	struct dirent	*entry;
-	int				ret;
 
-	ret = 0;
 	entry = readdir(dir);
 	errno = 0;
 	while (entry)
@@ -77,29 +72,45 @@ static int	fill_tree_of_dir_entries(t_ls *ls, DIR *dir, const char *dir_path,
 		}
 		entry = readdir(dir);
 	}
-	if ((!entry && errno) || entry)
-	{
-		perror("Error while trying to retrieve the next directory entry");
-		return (1);
-	}
-	return (0);
+	return ;
 }
 
-int	get_dir_entries(t_ls *ls, const char *dir_path, t_btree_gen *dir_entries)
+/**
+** \brief From the path of a directory, return its name only
+**
+** \param str the path of a directory
+**
+** \return a pointer to the name of the directory
+**
+** \remark The returned pointer is not allocated, so there is no need to free
+** memory after a call to this function
+*/
+static const char	*ft_transform_name(const char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	while (0 <= i && str[i] != '/')
+		i--;
+	if (i == 0)
+		return (str);
+	i++;
+	return (str + i);
+}
+
+void	get_dir_entries(t_ls *ls, const char *dir_path, t_btree_gen *dir_entries)
 {
 	DIR	*dir;
-	int	ret;
 
-	ret = 0;
 	dir = opendir(dir_path);
 	if (!dir)
 	{
-		ft_dprintf(2, "./ft_ls: %s: %s\n", dir_path, strerror(errno));
-		if (errno == 1 || errno == 13)
-			return (0);
-		return (1);
+		ft_dprintf(2, "./ft_ls: %s: %s\n", ft_transform_name(dir_path), strerror(errno));
+		return ;
 	}
-	ret = fill_tree_of_dir_entries(ls, dir, dir_path, dir_entries);
+	fill_tree_of_dir_entries(ls, dir, dir_path, dir_entries);
 	closedir(dir);
-	return (ret);
+	return ;
 }
