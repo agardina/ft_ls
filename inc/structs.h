@@ -15,13 +15,6 @@
 # define STRUCTS_H
 # include "libft.h"
 
-struct s_major_minor_devices
-{
-	int	major;
-	int	minor;
-	int	total_length;
-};
-
 /**
 ** \brief This structure is used when the long printing option is activated.
 ** It is used to compute the length of the output's columns.
@@ -31,19 +24,14 @@ typedef struct s_column_lengths
 	int								links;
 	int								owner;
 	int								group;
-	int								size_or_devices;
-	struct s_major_minor_devices	major_minor_devices;
+	int								size;
+	int								major;
+	int								minor;
+	int								major_minor_total_length;
+	int								padding_major;
+	int								padding_minor;
+	int								max_size_or_device;
 }	t_column_lengths;
-
-/**
-** \brief This structure is composed of a path to a file and a stat structure
-** that will be associated to it.
-*/
-typedef struct s_path_and_stat
-{
-	char		*path;
-	struct stat	info;
-}	t_path_and_stat;
 
 /**
 ** \brief Content of the trees used in the ft_ls program
@@ -67,27 +55,32 @@ typedef struct s_ls
 	t_btree_gen_node	*first_displayed_dir;
 }	t_ls;
 
-/**
-** \brief Criteria used to sort the entries to print when the lexicographical
-** order is not used. In this case the used criteria is either a size or
-** a date.
-*/
-union u_criteria
+// A commenter
+typedef struct s_create_node
 {
-	long long		size;
-	struct timespec	date;
-};
+	t_ls		*ls;
+	struct stat	*info;
+	char		*fullpath;
+	char		*name;
+}	t_create_node;
 
 /**
 ** \brief Content of the trees used in the program
 */
 typedef struct s_ls_tree_node
 {
-	char				*path;
+	char				*name;
 	char				*fullpath;
 	struct stat			info;
-	union u_criteria	criteria;
 	unsigned int		id;
+	char				mode[12];
+	unsigned long long	links;
+	char				*owner;
+	char				*group;
+	char				*size;
+	unsigned long long	major;
+	unsigned long long	minor;
+	char				date[14];
 }	t_ls_tree_node;
 
 #endif

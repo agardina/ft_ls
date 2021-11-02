@@ -1,73 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_options_utils.c                            :+:      :+:    :+:   */
+/*   parsing_opt_add_opt_from_letter.c                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agardina <agardina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/07 15:30:28 by agardina          #+#    #+#             */
-/*   Updated: 2021/10/07 15:30:30 by agardina         ###   ########.fr       */
+/*   Created: 2021/11/03 12:46:40 by agardina          #+#    #+#             */
+/*   Updated: 2021/11/03 12:46:41 by agardina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prototypes.h"
 
 /**
-** \brief Deal with the option flags when the -U option was found
-** in the command line arguments
-**
-** \param ls the ft_ls structure
-*/
-static void	deal_with_big_u_option(t_ls *ls)
-{
-	deactivate_option(ls, FL_USE_TIME_LAST_ACCESS);
-	ls->flags |= FL_USE_TIME_FILE_CREATION;
-}
-
-/**
-** \brief Deal with the option flags when the -u option was found
-** in the command line arguments
-**
-** \param ls the ft_ls structure
-*/
-static void	deal_with_little_u_option(t_ls *ls)
-{
-	deactivate_option(ls, FL_USE_TIME_FILE_CREATION);
-	ls->flags |= FL_USE_TIME_LAST_ACCESS;
-}
-
-/**
-** \brief Deal with the option flags when the -t option was found
-** in the command line arguments
-**
-** \param ls the ft_ls structure
-*/
-static void	deal_with_little_t_option(t_ls *ls)
-{
-	if (is_option_activated(ls, FL_SORT_BY_SIZE))
-		return ;
-	ls->flags |= FL_SORT_BY_TIME_MODIFIED;
-}
-
-/**
-** \brief Deal with the option flags when the -S option was found
-** in the command line arguments
-**
-** \param ls the ft_ls structure
-*/
-static void	deal_with_big_s_option(t_ls *ls)
-{
-	deactivate_option(ls, FL_SORT_BY_TIME_MODIFIED);
-	ls->flags |= FL_SORT_BY_SIZE;
-}
-
-static void	deal_with_big_h_option(t_ls *ls)
-{
-	ls->flags |= FL_SYMLNK_CMD_FOLLOWED;
-}
-
-/**
-** \brief Add an option to the ft_ls structure from a letter parsed in the command line
+** \brief Add an option to the ft_ls structure from a letter parsed in the
+** command line
 **
 ** \details
 ** - The option -S always trumps the options -t, -tu and -tU.

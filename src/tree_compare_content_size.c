@@ -14,28 +14,28 @@
 
 int	cmp_operands_size(void *content1, void *content2)
 {
-	t_ls_tree_node	*node1;
-	t_ls_tree_node	*node2;
+	unsigned long long	size1;
+	unsigned long long	size2;
 
-	node1 = (t_ls_tree_node *)content1;
-	node2 = (t_ls_tree_node *)content2;
-	if (node1->criteria.size > node2->criteria.size)
+	size1 = ((t_ls_tree_node *)content1)->info.st_size;
+	size2 = ((t_ls_tree_node *)content2)->info.st_size;
+	if (size1 > size2)
 		return (-1);
-	else if (node1->criteria.size == node2->criteria.size)
+	else if (size1 == size2)
 		return (cmp_operands_lexico(content1, content2));
 	return (1);
 }
 
 int	cmp_operands_size_reverse(void *content1, void *content2)
 {
-	t_ls_tree_node	*node1;
-	t_ls_tree_node	*node2;
+	unsigned long long	size1;
+	unsigned long long	size2;
 
-	node1 = (t_ls_tree_node *)content1;
-	node2 = (t_ls_tree_node *)content2;
-	if (node1->criteria.size > node2->criteria.size)
+	size1 = ((t_ls_tree_node *)content1)->info.st_size;
+	size2 = ((t_ls_tree_node *)content2)->info.st_size;
+	if (size1 > size2)
 		return (1);
-	else if (node1->criteria.size == node2->criteria.size)
+	else if (size1 == size2)
 		return (cmp_operands_lexico_reverse(content1, content2));
 	return (-1);
 }

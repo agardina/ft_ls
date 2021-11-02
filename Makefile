@@ -32,41 +32,42 @@ SRC_FILES = acl_display.c \
 				display_entry.c \
 				display_main_dir_tree.c \
 				display_main_files_tree.c \
-				display_name.c \
 				display_utils.c \
 				get_dir_entries.c \
 				get_subdirs_list.c \
-				init_ls_tree_node.c \
 				long_printing_columns_length.c \
-				long_printing_display_date.c \
-				long_printing_display_file_modes.c \
-				long_printing_display_file_type.c \
-				long_printing_display_group.c \
 				long_printing_display_link.c \
-				long_printing_display_nb_links.c \
-				long_printing_display_owner.c \
-				long_printing_display_size_or_devices.c \
 				long_printing_display_total_sum.c \
+				long_printing_get_date.c \
+				long_printing_get_elements.c \
+				long_printing_get_file_modes.c \
+				long_printing_get_file_type.c \
+				long_printing_get_group.c \
+				long_printing_get_nb_links.c \
+				long_printing_get_owner.c \
+				long_printing_get_size_or_devices.c \
 				main.c \
 				options_utils.c \
 				parsing.c \
 				parsing_operands.c \
-				parsing_options.c \
-				parsing_options_clean_options.c \
-				parsing_options_utils.c \
-				parsing_options_utils_2.c \
+				parsing_opt.c \
+				parsing_opt_add_opt_from_letter.c \
+				parsing_opt_clean_opt.c \
+				parsing_opt_utils.c \
+				parsing_opt_utils_2.c \
 				populate_trees_with_operands.c \
+				tree_compare_content_atime.c \
+				tree_compare_content_btime.c \
 				tree_compare_content_lexico.c \
+				tree_compare_content_mtime.c \
 				tree_compare_content_size.c \
-				tree_compare_content_time.c \
 				tree_configure_comparison_function.c \
 				tree_configure_creation_function.c \
 				tree_configure_free_function.c \
 				tree_configure_functions.c \
-				tree_create_content_date.c \
-				tree_create_content_lexico.c \
-				tree_create_content_size.c \
+				tree_create_content.c \
 				tree_free_content.c \
+				tree_init_content.c \
 				tree_utils.c \
 				xattr_display.c
 

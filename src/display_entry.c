@@ -19,25 +19,30 @@
 ** \param node the tree node that contains the content associated to the entry
 ** \param column_lengths length of the columns that will be printed
 */
-static void	display_entry_long_format(t_ls *ls, t_ls_tree_node *node,
-				t_column_lengths *column_lengths)
+static void	display_entry_long_format(t_ls *ls, t_ls_tree_node *content,
+				t_column_lengths *column_len)
 {
-	display_file_type(&node->info);
-	display_file_modes(node);
-	display_nb_links(&node->info, column_lengths);
-	display_owner(ls, &node->info, column_lengths);
-	display_group(ls, &node->info, column_lengths);
-	display_size_or_devices(&node->info, column_lengths);
-	display_date(ls, &node->info);
-	display_name(node);
+	if (S_ISBLK(content->info.st_mode) || S_ISCHR(content->info.st_mode))
+		ft_printf("%s %*llu %-*s  %-*s  %*d, %*d %s %s", content->mode,
+			column_len->links, content->links, column_len->owner,
+			content->owner, column_len->group, content->group,
+			column_len->padding_major, content->major,
+			column_len->padding_minor, content->minor, content->date,
+			content->name);
+	else
+		ft_printf("%s %*llu %-*s  %-*s  %*s %s %s", content->mode,
+			column_len->links, content->links, column_len->owner,
+			content->owner, column_len->group, content->group,
+			column_len->max_size_or_device, content->size,
+			content->date, content->name);
 	if (is_option_activated(ls, FL_DISPLAY_CHAR_TO_INDICATE_TYPE))
-		display_char_to_indicate_type(node);
-	if (S_ISLNK(node->info.st_mode))
-		display_linked_file(node);
+		display_char_to_indicate_type(content);
+	if (S_ISLNK(content->info.st_mode))
+		display_linked_file(content);
 	if (is_option_activated(ls, FL_DISPLAY_XATTR))
-		display_xattr_list(node);
+		display_xattr_list(content);
 	if (is_option_activated(ls, FL_DISPLAY_ACL))
-		display_acl(node);
+		display_acl(content);
 	ft_printf("\n");
 }
 
@@ -52,7 +57,7 @@ static void	display_entry_long_format(t_ls *ls, t_ls_tree_node *node,
 static void	display_entry_normal_format(t_ls *ls, t_ls_tree_node *content)
 {
 	(void)ls;
-	ft_printf("%s", content->path);
+	ft_printf("%s", content->name);
 	if (is_option_activated(ls, FL_DISPLAY_CHAR_TO_INDICATE_TYPE))
 		display_char_to_indicate_type(content);
 	ft_printf("\n");

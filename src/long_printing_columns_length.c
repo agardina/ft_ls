@@ -46,29 +46,25 @@ static void	get_size_or_devices_column_length(t_btree_gen_node *node,
 												t_column_lengths *data)
 {
 	t_ls_tree_node	*content;
-	struct stat		*info;
-	int				major;
-	int				minor;
+	int				major_length;
+	int				minor_length;
 
 	content = (t_ls_tree_node *)node->content;
-	info = &content->info;
-	if (S_ISCHR(info->st_mode) || S_ISBLK(info->st_mode))
+	if (S_ISCHR(content->info.st_mode) || S_ISBLK(content->info.st_mode))
 	{
-		major = get_number_length(major(info->st_rdev));
-		if (data->major_minor_devices.major < major)
-			data->major_minor_devices.major = major;
-		minor = get_number_length(minor(info->st_rdev));
-		if (data->major_minor_devices.minor < minor)
-			data->major_minor_devices.minor = minor;
-		data->major_minor_devices.total_length
-			= data->major_minor_devices.major + 2
-			+ data->major_minor_devices.minor;
-		if (data->size_or_devices < data->major_minor_devices.total_length)
-			data->size_or_devices = data->major_minor_devices.total_length;
+		major_length = get_number_length(content->major);
+		data->major = ft_max(data->major, major_length);
+		minor_length = get_number_length(content->minor);
+		data->minor = ft_max(data->minor, minor_length);
+		data->major_minor_total_length = data->major + 2 + data->minor;
+		data->max_size_or_device = ft_max(data->max_size_or_device,
+				data->major_minor_total_length);
 	}
 	else
-		data->size_or_devices = ft_max(data->size_or_devices,
-				get_number_length(info->st_size));
+	{
+		data->size = ft_max(data->size, ft_strlen(content->size));
+		data->max_size_or_device = ft_max(data->max_size_or_device, data->size);
+	}
 }
 
 /**
@@ -85,26 +81,14 @@ static void	get_columns_length_cb(t_ls *ls, t_btree_gen_node *node,
 									t_column_lengths *data)
 {
 	t_ls_tree_node	*content;
-	struct stat		*info;
-	struct passwd	*owner;
-	struct group	*gr;
 
 	if (!node)
 		return ;
 	get_columns_length_cb(ls, node->left_child, data);
 	content = (t_ls_tree_node *)node->content;
-	info = &content->info;
-	data->links = ft_max(data->links, get_number_length(info->st_nlink));
-	owner = getpwuid(info->st_uid);
-	if (is_option_activated(ls, FL_DISPLAY_UID_GID) || !owner)
-		data->owner = ft_max(data->owner, get_number_length(info->st_uid));
-	else
-		data->owner = ft_max(data->owner, (int)ft_strlen(owner->pw_name));
-	gr = getgrgid(info->st_gid);
-	if (is_option_activated(ls, FL_DISPLAY_UID_GID) || !gr)
-		data->group = ft_max(data->group, get_number_length(info->st_gid));
-	else
-		data->group = ft_max(data->group, (int)ft_strlen(gr->gr_name));
+	data->links = ft_max(data->links, get_number_length(content->links));
+	data->owner = ft_max(data->owner, (int)ft_strlen(content->owner));
+	data->group = ft_max(data->group, (int)ft_strlen(content->group));
 	get_size_or_devices_column_length(node, data);
 	get_columns_length_cb(ls, node->right_child, data);
 }
@@ -114,10 +98,15 @@ void	get_columns_length(t_ls *ls, t_btree_gen_node *root,
 {
 	data->group = -1;
 	data->links = -1;
-	data->major_minor_devices.major = -1;
-	data->major_minor_devices.minor = -1;
-	data->major_minor_devices.total_length = -1;
+	data->major = -1;
+	data->major_minor_total_length = -1;
+	data->minor = -1;
 	data->owner = -1;
-	data->size_or_devices = -1;
+	data->size = -1;
+	data->max_size_or_device = -1;
 	get_columns_length_cb(ls, root, data);
+	data->padding_major = data->max_size_or_device
+		- data->major_minor_total_length
+		+ data->major;
+	data->padding_minor = data->minor;
 }

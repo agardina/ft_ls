@@ -17,8 +17,11 @@ void	ls_tree_free_content(void **content)
 	t_ls_tree_node	*node;
 
 	node = (t_ls_tree_node *)(*content);
-	free(node->path);
+	free(node->name);
 	free(node->fullpath);
+	free(node->owner);
+	free(node->group);
+	free(node->size);
 	free(*content);
 	*content = NULL;
 }

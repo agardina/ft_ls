@@ -15,6 +15,7 @@
 /**
 ** \brief Add a directory entry to the tree of directory entries
 **
+** \param ls the ft_ls structure
 ** \param entry the entry to add to the tree of directory entries
 ** \param dir_path the path of the currently used directory
 ** \param dir_entries the tree of directory entries
@@ -22,27 +23,31 @@
 ** \retval 0 if success
 ** \retval 1 otherwise
 */
-static int	add_dir_entry_to_tree(struct dirent *entry, const char *dir_path,
+static int	add_dir_entry_to_tree(t_ls *ls, struct dirent *entry,
+									const char *dir_path,
 									t_btree_gen *dir_entries)
 {
 	char			*fullpath;
 	int				ret;
-	t_ls_tree_node	content;
+	t_create_node	data;
+	struct stat		info;
 
 	ret = 0;
-	content.fullpath = NULL;
-	content.path = entry->d_name;
+	data.fullpath = NULL;
+	data.name = entry->d_name;
 	fullpath = get_fullpath(dir_path, entry->d_name);
 	if (!fullpath)
 		return (1);
-	content.fullpath = fullpath;
-	if (lstat(fullpath, &content.info) == -1)
+	data.fullpath = fullpath;
+	data.info = &info;
+	data.ls = ls;
+	if (lstat(fullpath, &info) == -1)
 	{
 		free(fullpath);
 		ft_dprintf(2, "./ft_ls: %s: %s\n", entry->d_name, strerror(errno));
 		return (0);
 	}
-	ret = ft_btree_gen_add_node(dir_entries, (void *)&content);
+	ret = ft_btree_gen_add_node(dir_entries, (void *)&data);
 	free(fullpath);
 	return (ret);
 }
@@ -67,7 +72,7 @@ static void	fill_tree_of_dir_entries(t_ls *ls, DIR *dir, const char *dir_path,
 		if (entry->d_name[0] != '.'
 			|| is_option_activated(ls, FL_DISPLAY_NAMES_DOT))
 		{
-			if (add_dir_entry_to_tree(entry, dir_path, dir_entries))
+			if (add_dir_entry_to_tree(ls, entry, dir_path, dir_entries))
 				break ;
 		}
 		entry = readdir(dir);
@@ -87,7 +92,7 @@ static void	fill_tree_of_dir_entries(t_ls *ls, DIR *dir, const char *dir_path,
 */
 static const char	*ft_transform_name(const char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -100,14 +105,16 @@ static const char	*ft_transform_name(const char *str)
 	return (str + i);
 }
 
-void	get_dir_entries(t_ls *ls, const char *dir_path, t_btree_gen *dir_entries)
+void	get_dir_entries(t_ls *ls, const char *dir_path,
+						t_btree_gen *dir_entries)
 {
 	DIR	*dir;
 
 	dir = opendir(dir_path);
 	if (!dir)
 	{
-		ft_dprintf(2, "./ft_ls: %s: %s\n", ft_transform_name(dir_path), strerror(errno));
+		ft_dprintf(2, "./ft_ls: %s: %s\n",
+			ft_transform_name(dir_path), strerror(errno));
 		return ;
 	}
 	fill_tree_of_dir_entries(ls, dir, dir_path, dir_entries);

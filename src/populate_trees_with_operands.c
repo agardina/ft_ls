@@ -15,14 +15,14 @@
 /**
 ** \brief Find out if a file is a directory
 **
-** \param content the content of the tree node associated to the file
+** \param info the structure containing the information regarding the file
 **
 ** \retval 0 if the file is not a directory
 ** \retval 1 otherwise
 */
-static int	is_directory(t_ls_tree_node	*content)
+static int	is_directory(struct stat *info)
 {
-	if (S_ISDIR(content->info.st_mode))
+	if (S_ISDIR(info->st_mode))
 		return (1);
 	return (0);
 }
@@ -32,21 +32,21 @@ static int	is_directory(t_ls_tree_node	*content)
 **
 ** \param ls the ft_ls structure
 ** \param name path of the file
-** \param content the content of the tree node related to the file
+** \param info the structure that will contain the information regarding the file
 **
 ** \retval 0 if success
 ** \retval 1 otherwise
 */
-static int	get_file_stat(t_ls *ls, char *name, t_ls_tree_node *content)
+static int	get_file_stat(t_ls *ls, char *name, struct stat *info)
 {
-	struct stat		linked;
+	struct stat	linked;
 
-	if (lstat(name, &content->info) == -1)
+	if (lstat(name, info) == -1)
 	{
 		ft_dprintf(2, "ft_ls: %s: %s\n", name, strerror(errno));
 		return (1);
 	}
-	if (S_ISLNK(content->info.st_mode)
+	if (S_ISLNK(info->st_mode)
 		&& is_option_activated(ls, FL_SYMLNK_CMD_FOLLOWED))
 	{
 		if (stat(name, &linked) == 1)
@@ -55,7 +55,7 @@ static int	get_file_stat(t_ls *ls, char *name, t_ls_tree_node *content)
 			return (1);
 		}
 		if (S_ISDIR(linked.st_mode))
-			ft_memcpy(&content->info, &linked, sizeof(struct stat));
+			ft_memcpy(info, &linked, sizeof(struct stat));
 	}
 	return (0);
 }
@@ -69,19 +69,20 @@ static int	get_file_stat(t_ls *ls, char *name, t_ls_tree_node *content)
 */
 static void	from_operand_to_tree_node(t_ls *ls, char *name)
 {
-	t_ls_tree_node	content;
-	int				ret;
+	t_create_node	data;
+	struct stat		info;
 
-	if (get_file_stat(ls, name, &content))
+	if (get_file_stat(ls, name, &info))
 		return ;
-	content.path = name;
-	content.fullpath = name;
-	ret = 0;
-	if (!is_directory(&content) || is_option_activated(ls,
+	data.name = name;
+	data.fullpath = name;
+	data.info = &info;
+	data.ls = ls;
+	if (!is_directory(&info) || is_option_activated(ls,
 			FL_DISPLAY_DIR_AS_PLAIN_FILES))
-		ft_btree_gen_add_node(&ls->main_files_tree, (void *)&content);
+		ft_btree_gen_add_node(&ls->main_files_tree, (void *)&data);
 	else
-		ft_btree_gen_add_node(&ls->main_dir_tree, (void *)&content);
+		ft_btree_gen_add_node(&ls->main_dir_tree, (void *)&data);
 	return ;
 }
 

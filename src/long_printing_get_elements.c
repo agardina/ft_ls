@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   long_printing_display_group.c                      :+:      :+:    :+:   */
+/*   long_printing_get_elements.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agardina <agardina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/07 15:28:38 by agardina          #+#    #+#             */
-/*   Updated: 2021/10/07 15:28:45 by agardina         ###   ########.fr       */
+/*   Created: 2021/11/03 12:37:53 by agardina          #+#    #+#             */
+/*   Updated: 2021/11/03 12:37:57 by agardina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prototypes.h"
 
-void	display_group(t_ls *ls, struct stat *info,
-			t_column_lengths *column_lengths)
+void	get_long_printing_elements(t_ls *ls, t_ls_tree_node *content)
 {
-	struct group	*gr;
-
-	gr = getgrgid(info->st_gid);
-	if (is_option_activated(ls, FL_DISPLAY_UID_GID) || !gr)
-		ft_printf("%-*d  ", column_lengths->group, info->st_gid);
-	else
-		ft_printf("%-*s  ", column_lengths->group, gr->gr_name);
+	get_file_type(content);
+	get_file_modes(content);
+	get_nb_links(content);
+	get_owner(ls, content);
+	get_group(ls, content);
+	get_size_or_devices(content);
+	get_date(ls, content);
 }

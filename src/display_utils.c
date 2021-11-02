@@ -17,7 +17,7 @@ char	*get_path_from_tree_node(t_ls *ls, void *content)
 	(void)ls;
 	if (!content)
 		return (NULL);
-	return (((t_ls_tree_node *)content)->path);
+	return (((t_ls_tree_node *)content)->name);
 }
 
 char	*get_fullpath(const char *dir_path, const char *entry_name)

@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_ls_tree_node.c                                :+:      :+:    :+:   */
+/*   long_printing_get_group.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agardina <agardina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/07 15:27:44 by agardina          #+#    #+#             */
-/*   Updated: 2021/10/07 15:27:50 by agardina         ###   ########.fr       */
+/*   Created: 2021/11/03 12:38:10 by agardina          #+#    #+#             */
+/*   Updated: 2021/11/03 12:38:19 by agardina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prototypes.h"
 
-void	init_ls_tree_node(t_ls_tree_node *node)
+void	get_group(t_ls *ls, t_ls_tree_node *content)
 {
-	node->fullpath = NULL;
-	node->path = NULL;
-	node->id = 1;
+	struct group	*gr;
+
+	gr = getgrgid(content->info.st_gid);
+	if (is_option_activated(ls, FL_DISPLAY_UID_GID) || !gr)
+		content->group = ft_itoa(content->info.st_gid);
+	else
+		content->group = ft_strdup(gr->gr_name);
 }

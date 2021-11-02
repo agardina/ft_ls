@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_options_utils_2.c                          :+:      :+:    :+:   */
+/*   tree_init_content.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agardina <agardina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/07 15:36:59 by agardina          #+#    #+#             */
-/*   Updated: 2021/10/07 15:37:03 by agardina         ###   ########.fr       */
+/*   Created: 2021/11/03 12:40:31 by agardina          #+#    #+#             */
+/*   Updated: 2021/11/03 12:40:33 by agardina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prototypes.h"
 
-void	add_option_from_flag(t_ls *ls, unsigned int flag)
+void	ls_tree_init_content(t_ls_tree_node *content)
 {
-	ls->flags |= flag;
+	ft_bzero(content->date, 14);
+	content->fullpath = NULL;
+	content->group = NULL;
+	content->id = 1;
+	ft_bzero(content->mode, 12);
+	content->name = NULL;
+	content->owner = NULL;
+	content->size = NULL;
 }
