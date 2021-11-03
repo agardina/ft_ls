@@ -617,4 +617,6 @@ void	tree_copy_functions(t_btree_gen *to, t_btree_gen *from);
 
 void	debug_display_tree(t_btree_gen *tree);
 
+void	debug_print_tree(t_btree_gen *tree);
+
 #endif

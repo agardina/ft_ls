@@ -32,7 +32,6 @@ static int	add_dir_entry_to_tree(t_ls *ls, struct dirent *entry,
 	t_create_node	data;
 	struct stat		info;
 
-	ret = 0;
 	data.fullpath = NULL;
 	data.name = entry->d_name;
 	fullpath = get_fullpath(dir_path, entry->d_name);

@@ -91,17 +91,13 @@ static void	get_file_modes_u(t_ls_tree_node *content)
 // A commenter
 static void	get_xattr_acl_indicator(t_ls_tree_node *node)
 {
-	const char	*path;
 	char		buffer[__DARWIN_MAXPATHLEN + 1];
 
 	if (S_ISLNK(node->info.st_mode))
 	{
 		ft_bzero(buffer, __DARWIN_MAXPATHLEN + 1);
 		readlink(node->fullpath, buffer, __DARWIN_MAXPATHLEN);
-		path = (const char *)buffer;
 	}
-	else
-		path = (const char *)node->fullpath;
 	if (file_has_xattr(node) && file_has_acl_free(node))
 		node->mode[10] = '@';
 	else if (file_has_xattr(node))

@@ -26,14 +26,14 @@ static void	copy_data_from_content(t_ls_tree_node **new, void *content)
 	(*new)->fullpath = strdup(((t_create_node *)content)->fullpath);
 	if (!(*new)->fullpath)
 	{
-		free(new);
+		free(*new);
 		*new = NULL;
 	}
 	(*new)->name = strdup(((t_create_node *)content)->name);
 	if (!(*new)->name)
 	{
 		free((*new)->fullpath);
-		free(new);
+		free(*new);
 		*new = NULL;
 	}
 }

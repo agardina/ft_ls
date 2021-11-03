@@ -21,9 +21,6 @@
 */
 static void	print_dir_path(t_ls *ls, const char *dir_path, int is_first_dir)
 {
-	t_ls_tree_node	*content;
-
-	content = (t_ls_tree_node *)ls->first_displayed_dir->content;
 	if (is_first_dir)
 	{
 		if (1 < ls->nb_operands)
@@ -76,11 +73,9 @@ static int	display_subdirs_content(t_ls *ls, const char *dir_path,
 int	display_dir_content(t_ls *ls, const char *dir_path, int is_first_dir)
 {
 	t_btree_gen		dir_entries;
-	unsigned int	i;
 	int				ret;
 
 	print_dir_path(ls, dir_path, is_first_dir);
-	i = 0;
 	ft_btree_gen_init(&dir_entries);
 	tree_copy_functions(&dir_entries, &ls->main_dir_tree);
 	get_dir_entries(ls, dir_path, &dir_entries);

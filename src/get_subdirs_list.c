@@ -59,7 +59,6 @@ static int	get_subdirs_list_cb(const char *dir_path, t_btree_gen_node *node,
 
 	if (!node)
 		return (0);
-	ret = 0;
 	content = (t_ls_tree_node *)node->content;
 	ret = get_subdirs_list_cb(dir_path, node->left_child, subdirs);
 	if (ret)

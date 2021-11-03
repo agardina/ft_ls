@@ -33,11 +33,11 @@ static void	acl_display_user_or_group(char **word)
 {
 	int	word_length;
 
-	word_length = ft_strchr(*word, ':') - *word;
+	word_length = (int)(ft_strchr(*word, ':') - *word);
 	ft_printf("%.*s:", word_length, *word);
 	acl_skip_next_word(word);
 	acl_skip_next_word(word);
-	word_length = ft_strchr(*word, ':') - *word;
+	word_length = (int)(ft_strchr(*word, ':') - *word);
 	ft_printf("%.*s ", word_length, *word);
 }
 
@@ -50,10 +50,10 @@ static void	acl_display_permission(char **word)
 {
 	int	word_length;
 
-	word_length = ft_strchr(*word, ':') - *word;
+	word_length = (int)(ft_strchr(*word, ':') - *word);
 	ft_printf("%.*s ", word_length, *word);
 	acl_skip_next_word(word);
-	word_length = ft_strchr(*word, '\n') - *word;
+	word_length = (int)(ft_strchr(*word, '\n') - *word);
 	ft_printf("%.*s", word_length, *word);
 }
 
