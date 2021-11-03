@@ -35,11 +35,12 @@ static int	is_valid_option(char c)
 **
 ** \param c the invalid option that was specified
 */
-static void	display_message_illegal_option(char c)
+static int	display_message_illegal_option(char c)
 {
 	ft_dprintf(2,
 		"ft_ls: illegal option -- %c\nusage: ./ft_ls [-@FHRSUadelnrtu1]"
 		"[file ...]\n", c);
+	return (-1);
 }
 
 /**
@@ -73,14 +74,13 @@ int	ls_parsing_options(t_ls *ls, int argc, char **argv)
 		{
 			if (argv[arg_nb][pos] != '-' || argv[arg_nb][pos + 1] == '\0')
 				return (arg_nb);
+			if (argv[arg_nb][pos] == '-' && argv[arg_nb][pos + 1] == '-')
+				return (arg_nb + 1);
 		}
 		else
 		{
 			if (!is_valid_option(argv[arg_nb][pos]))
-			{
-				display_message_illegal_option(argv[arg_nb][pos]);
-				return (-1);
-			}
+				return (display_message_illegal_option(argv[arg_nb][pos]));
 			else
 				add_option_from_letter(ls, argv[arg_nb][pos]);
 		}
