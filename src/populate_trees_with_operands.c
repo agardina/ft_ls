@@ -49,11 +49,8 @@ static int	get_file_stat(t_ls *ls, char *name, struct stat *info)
 	if (S_ISLNK(info->st_mode)
 		&& is_option_activated(ls, FL_SYMLNK_CMD_FOLLOWED))
 	{
-		if (stat(name, &linked) == 1)
-		{
-			ft_dprintf(2, "ft_ls: %s: %s\n", name, strerror(errno));
-			return (1);
-		}
+		if (stat(name, &linked) == -1)
+			return (0);
 		if (S_ISDIR(linked.st_mode))
 			ft_memcpy(info, &linked, sizeof(struct stat));
 	}
