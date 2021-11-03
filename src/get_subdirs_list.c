@@ -30,8 +30,6 @@ static int	fill_array_of_subdirs(t_str_vector **subdirs, const char *dir_path,
 	subdir_path = get_fullpath(dir_path, subdir_name);
 	if (!subdir_path)
 		return (1);
-	//Debug
-	// ft_printf("Sous-dossier trouvé : %s\n", subdir_path);
 	if (str_vector_append(*subdirs, subdir_path) == 1)
 	{
 		free(subdir_path);

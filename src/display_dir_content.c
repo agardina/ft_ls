@@ -79,13 +79,9 @@ int	display_dir_content(t_ls *ls, const char *dir_path, int is_first_dir)
 	ft_btree_gen_init(&dir_entries);
 	tree_copy_functions(&dir_entries, &ls->main_dir_tree);
 	get_dir_entries(ls, dir_path, &dir_entries);
-	// debug_print_tree(&dir_entries);
 	if (is_option_activated(ls, FL_LONG_PRINTING) && dir_entries.nb_nodes)
 		ft_display_total_sum(&dir_entries);
 	display_dir_entries(ls, &dir_entries);
-	// Debug
-	// ft_printf("Nombre de sous-dossiers : %u\n", subdirs->used_size);
-	// str_vector_print(subdirs);
 	ret = 0;
 	if (is_option_activated(ls, FL_RECURSIVE_MODE))
 		ret = display_subdirs_content(ls, dir_path, &dir_entries);

@@ -24,7 +24,6 @@ LIB = $(addprefix $(LIB_DIR), $(LIB_NAME))
 SRC_DIR = src/
 SRC_FILES = acl_display.c \
 				acl_utils.c \
-				debug_print_tree.c \
 				display.c \
 				display_char_to_indicate_type.c \
 				display_dir_content.c \

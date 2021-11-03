@@ -88,7 +88,17 @@ static void	get_file_modes_u(t_ls_tree_node *content)
 		content->mode[3] = '-';
 }
 
-// A commenter
+/**
+** \brief Get the char that will be printed after the file's permissions
+**
+** \details
+** - If the file has extended attributes and has ACL, a '@' will be printed
+** - If the file only has extended attributes a '@' will be printed
+** - If the file only has ACL, a '+' will be printed
+** - Otherwise, a ' ' will be printed
+**
+** \param node
+*/
 static void	get_xattr_acl_indicator(t_ls_tree_node *node)
 {
 	char		buffer[__DARWIN_MAXPATHLEN + 1];

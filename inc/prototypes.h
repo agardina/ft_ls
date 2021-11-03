@@ -51,7 +51,8 @@
 void	add_option_from_flag(t_ls *ls, unsigned int flag);
 
 /**
-** \brief Add an option to the ft_ls structure from a letter parsed in the command line
+** \brief Add an option to the ft_ls structure from a letter parsed in the
+** command line
 **
 ** \details
 ** - The option -S always trumps the options -t, -tu and -tU.
@@ -77,56 +78,77 @@ void	clean_options(t_ls *ls);
 /**
 ** \brief Compare two operands using their date of last access (ascending order)
 **
-** \details If both operands have the same date, then they will be compared by their names
+** \details If both operands have the same date, then they will be compared by
+** their names
 **
 ** \param content1 content of a tree node associated the first operand
 ** \param content2 content of a tree node associated the second operand
 **
-** \retval -1 if the name of the first operand's date is more recent than that of the second one, or if they are equal and the name of the first operand is more recent than that of the second one
+** \retval -1 if the name of the first operand's date is more recent than that
+** of the second one, or if they are equal and the name of the first operand
+** is more recent than that of the second one
 ** \retval 0 if both operands have the same date and name
-** \retval 1 if the name of the first operand's date is less recent than that of the second one, or if they are equal and the name of the first operand is less recent than that of the second one
+** \retval 1 if the name of the first operand's date is less recent than that
+** of the second one, or if they are equal and the name of the first operand is
+** less recent than that of the second one
 */
 int		cmp_operands_atime(void *content1, void *content2);
 
 /**
-** \brief Compare two operands using their date of last access (descending order)
+** \brief Compare two operands using their date of last access
+** (descending order)
 **
-** \details If both operands have the same date, then they will be compared by their names
+** \details If both operands have the same date, then they will be compared
+** by their names
 **
 ** \param content1 content of a tree node associated the first operand
 ** \param content2 content of a tree node associated the second operand
 **
-** \retval -1 if the name of the first operand's date is less recent than that of the second one, or if they are equal and the name of the first operand is less recent than that of the second one
+** \retval -1 if the name of the first operand's date is less recent than that
+** of the second one, or if they are equal and the name of the first operand
+** is less recent than that of the second one
 ** \retval 0 if both operands have the same date and name
-** \retval 1 if the name of the first operand's date is more recent than that of the second one, or if they are equal and the name of the first operand is more recent than that of the second one
+** \retval 1 if the name of the first operand's date is more recent than that
+** of the second one, or if they are equal and the name of the first operand
+** is more recent than that of the second one
 */
 int		cmp_operands_atime_reverse(void *content1, void *content2);
 
 /**
 ** \brief Compare two operands using their date of birth (ascending order)
 **
-** \details If both operands have the same date, then they will be compared by their names
+** \details If both operands have the same date, then they will be compared
+** by their names
 **
 ** \param content1 content of a tree node associated the first operand
 ** \param content2 content of a tree node associated the second operand
 **
-** \retval -1 if the name of the first operand's date is more recent than that of the second one, or if they are equal and the name of the first operand is more recent than that of the second one
+** \retval -1 if the name of the first operand's date is more recent than that
+** of the second one, or if they are equal and the name of the first operand is
+** more recent than that of the second one
 ** \retval 0 if both operands have the same date and name
-** \retval 1 if the name of the first operand's date is less recent than that of the second one, or if they are equal and the name of the first operand is less recent than that of the second one
+** \retval 1 if the name of the first operand's date is less recent than that
+** of the second one, or if they are equal and the name of the first operand is
+** less recent than that of the second one
 */
 int		cmp_operands_btime(void *content1, void *content2);
 
 /**
 ** \brief Compare two operands using their date of birth (descending order)
 **
-** \details If both operands have the same date, then they will be compared by their names
+** \details If both operands have the same date, then they will be compared
+** by their names
 **
 ** \param content1 content of a tree node associated the first operand
 ** \param content2 content of a tree node associated the second operand
 **
-** \retval -1 if the name of the first operand's date is less recent than that of the second one, or if they are equal and the name of the first operand is less recent than that of the second one
+** \retval -1 if the name of the first operand's date is less recent than that
+** of the second one, or if they are equal and the name of the first operand is
+** less recent than that of the second one
 ** \retval 0 if both operands have the same date and name
-** \retval 1 if the name of the first operand's date is more recent than that of the second one, or if they are equal and the name of the first operand is more recent than that of the second one
+** \retval 1 if the name of the first operand's date is more recent than that
+** of the second one, or if they are equal and the name of the first operand is
+** more recent than that of the second one
 */
 int		cmp_operands_btime_reverse(void *content1, void *content2);
 
@@ -136,9 +158,12 @@ int		cmp_operands_btime_reverse(void *content1, void *content2);
 ** \param content1 content of a tree node associated to the first operand
 ** \param content2 content of a tree node associated to the second operand
 **
-** \retval -1 if the name of the first operand is less than that of the second one
-** \retval 0 if the name of the first operand is equal to that of the second one
-** \retval 1 if the name of the first operand is greater than that of the second one
+** \retval -1 if the name of the first operand is less than that of the
+** second one
+** \retval 0 if the name of the first operand is equal to that of the
+** second one
+** \retval 1 if the name of the first operand is greater than that of the
+** second one
 */
 int		cmp_operands_lexico(void *content1, void *content2);
 
@@ -148,65 +173,90 @@ int		cmp_operands_lexico(void *content1, void *content2);
 ** \param content1 content of a tree node associated the first operand
 ** \param content2 content of a tree node associated the second operand
 **
-** \retval -1 if the name of the first operand is greater than that of the second one
-** \retval 0 if the name of the first operand is equal to that of the second one
-** \retval 1 if the name of the first operand is less than that of the second one
+** \retval -1 if the name of the first operand is greater than that of the
+** second one
+** \retval 0 if the name of the first operand is equal to that of the
+** second one
+** \retval 1 if the name of the first operand is less than that of the
+** second one
 */
 int		cmp_operands_lexico_reverse(void *content1, void *content2);
 
 /**
-** \brief Compare two operands using their date of last modification (ascending order)
+** \brief Compare two operands using their date of last modification
+** (ascending order)
 **
-** \details If both operands have the same date, then they will be compared by their names
+** \details If both operands have the same date, then they will be compared
+** by their names
 **
 ** \param content1 content of a tree node associated the first operand
 ** \param content2 content of a tree node associated the second operand
 **
-** \retval -1 if the name of the first operand's date is more recent than that of the second one, or if they are equal and the name of the first operand is more recent than that of the second one
+** \retval -1 if the name of the first operand's date is more recent than that
+** of the second one, or if they are equal and the name of the first operand is
+** more recent than that of the second one
 ** \retval 0 if both operands have the same date and name
-** \retval 1 if the name of the first operand's date is less recent than that of the second one, or if they are equal and the name of the first operand is less recent than that of the second one
+** \retval 1 if the name of the first operand's date is less recent than that
+** of the second one, or if they are equal and the name of the first operand is
+** less recent than that of the second one
 */
 int		cmp_operands_mtime(void *content1, void *content2);
 
 /**
-** \brief Compare two operands using their date of last modification (descending order)
+** \brief Compare two operands using their date of last modification
+** (descending order)
 **
-** \details If both operands have the same date, then they will be compared by their names
+** \details If both operands have the same date, then they will be compared by
+** their names
 **
 ** \param content1 content of a tree node associated the first operand
 ** \param content2 content of a tree node associated the second operand
 **
-** \retval -1 if the name of the first operand's date is less recent than that of the second one, or if they are equal and the name of the first operand is less recent than that of the second one
+** \retval -1 if the name of the first operand's date is less recent than that
+** of the second one, or if they are equal and the name of the first operand is
+** less recent than that of the second one
 ** \retval 0 if both operands have the same date and name
-** \retval 1 if the name of the first operand's date is more recent than that of the second one, or if they are equal and the name of the first operand is more recent than that of the second one
+** \retval 1 if the name of the first operand's date is more recent than that
+** of the second one, or if they are equal and the name of the first operand is
+** more recent than that of the second one
 */
 int		cmp_operands_mtime_reverse(void *content1, void *content2);
 
 /**
 ** \brief Compare two operands using their size (ascending order)
 **
-** \details If both operands have the same size, then they will be compared by their names
+** \details If both operands have the same size, then they will be compared by
+** their names
 **
 ** \param content1 content of a tree node associated the first operand
 ** \param content2 content of a tree node associated the second operand
 **
-** \retval -1 if the name of the first operand's size is less than that of the second one, or if they are equal and the name of the first operand is less than that of the second one
+** \retval -1 if the name of the first operand's size is less than that of the
+** second one, or if they are equal and the name of the first operand is less
+** than that of the second one
 ** \retval 0 if both operands have the same size and name
-** \retval 1 if the name of the first operand's size is greater than that of the second one, or if they are equal and the name of the first operand is greater than that of the second one
+** \retval 1 if the name of the first operand's size is greater than that of
+** the second one, or if they are equal and the name of the first operand is
+** greater than that of the second one
 */
 int		cmp_operands_size(void *content1, void *content2);
 
 /**
 ** \brief Compare two operands using their size (descending order)
 **
-** \details If both operands have the same size, then they will be compared by their names
+** \details If both operands have the same size, then they will be compared by
+** their names
 **
 ** \param content1 content of a tree node associated the first operand
 ** \param content2 content of a tree node associated the second operand
 **
-** \retval -1 if the name of the first operand's size is greater than that of the second one, or if they are equal and the name of the first operand is greater than that of the second one
+** \retval -1 if the name of the first operand's size is greater than that of
+** the second one, or if they are equal and the name of the first operand is
+** greater than that of the second one
 ** \retval 0 if both operands have the same size and name
-** \retval 1 if the name of the first operand's size is less than that of the second one, or if they are equal and the name of the first operand is less than that of the second one
+** \retval 1 if the name of the first operand's size is less than that of the
+** second one, or if they are equal and the name of the first operand is less
+** than that of the second one
 */
 int		cmp_operands_size_reverse(void *content1, void *content2);
 
@@ -296,7 +346,8 @@ void	display_dir_entries(t_ls *ls, t_btree_gen *dir_entries);
 /**
 ** \brief Display an entry (file or directory)
 */
-void	display_entry(t_ls *ls, t_btree_gen_node *node, t_column_lengths *column_lengths);
+void	display_entry(t_ls *ls, t_btree_gen_node *node,
+			t_column_lengths *column_lengths);
 
 /**
 ** \brief Print the name of the file a link links to
@@ -340,13 +391,14 @@ void	display_xattr_list(t_ls_tree_node *node);
 int		file_has_acl_free(t_ls_tree_node *node);
 
 /**
-** \brief Find out if a file has an ACL and return a pointer to the ACL that was retrieved
+** \brief Find out if a file has an ACL and return a pointer to the ACL that
+** was retrieved
 **
 ** \param node the content of a tree node related to the file
 **
 ** \return a pointer to the ACL that was retrieved if success, NULL otherwise
 */
-acl_t 	file_has_acl_return_ptr(t_ls_tree_node *node);
+acl_t	file_has_acl_return_ptr(t_ls_tree_node *node);
 
 /**
 ** \brief Find out if a file has extended attributes
@@ -359,9 +411,11 @@ acl_t 	file_has_acl_return_ptr(t_ls_tree_node *node);
 int		file_has_xattr(t_ls_tree_node *node);
 
 /**
-** \brief Print the total sum for all the file sizes in a directory (used when the long printing option is activated)
+** \brief Print the total sum for all the file sizes in a directory (used when
+** the long printing option is activated)
 **
-** \param dir_entries a tree whose nodes correspond to the entries of a directory
+** \param dir_entries a tree whose nodes correspond to the entries of
+** a directory
 */
 void	ft_display_total_sum(t_btree_gen *dir_entries);
 
@@ -374,7 +428,8 @@ void	ft_display_total_sum(t_btree_gen *dir_entries);
 ** \param data the structure containing the column lengths associated to the
 ** tree
 */
-void	get_columns_length(t_ls *ls, t_btree_gen_node *root, t_column_lengths *data);
+void	get_columns_length(t_ls *ls, t_btree_gen_node *root,
+			t_column_lengths *data);
 
 /**
 ** \brief Get the date a file was last modified, last accessed, or created
@@ -391,7 +446,8 @@ void	get_date(t_ls *ls, t_ls_tree_node *content);
 ** \param dir_path the path of a directory
 ** \param dir_entries the tree of directory entries
 */
-void	get_dir_entries(t_ls *ls, const char *dir_path, t_btree_gen *dir_entries);
+void	get_dir_entries(t_ls *ls, const char *dir_path,
+			t_btree_gen *dir_entries);
 
 /**
 ** \brief Get the modes of a file
@@ -454,7 +510,8 @@ void	get_owner(t_ls *ls, t_ls_tree_node *content);
 ** \param ls the ft_ls structure
 ** \param content the content of a tree node
 **
-** \return the path of a file or a directory if content is not NULL, NULL otherwise
+** \return the path of a file or a directory if content is not NULL,
+** NULL otherwise
 **
 ** \remark the returned pointer was allocated before this function was called
 */
@@ -463,15 +520,16 @@ char	*get_path_from_tree_node(t_ls *ls, void *content);
 /**
 ** \brief Get the size field (when the long printing option is activated)
 **
-** \details If the file is a character special or block special file, the major and minor device numbers for the file are
-** retrieved instead of the size
+** \details If the file is a character special or block special file, the major
+** and minor device numbers for the file are retrieved instead of the size
 **
 ** \param content the content of the tree node associated to the file
 */
 void	get_size_or_devices(t_ls_tree_node *content);
 
 /**
-** \brief Get the list of the subdirectories contained in the given directory and put them into a string vector
+** \brief Get the list of the subdirectories contained in the given directory
+** and put them into a string vector
 **
 ** \param dir_path path to the directory
 ** \param dir_entries tree of the directory entries
@@ -480,7 +538,8 @@ void	get_size_or_devices(t_ls_tree_node *content);
 ** \retval 0 if success
 ** \retval 1 otherwise
 */
-int	get_subdirs_list(const char *dir_path,t_btree_gen *dir_entries, t_str_vector **subdirs);
+int		get_subdirs_list(const char *dir_path, t_btree_gen *dir_entries,
+			t_str_vector **subdirs);
 
 /**
 ** \brief Find out if the given ft_ls option is activated
@@ -545,28 +604,32 @@ int		ls_parsing_operands(t_ls *ls, int argc, char **argv, int index_parsed);
 int		ls_parsing_options(t_ls *ls, int argc, char **argv);
 
 /**
-** \brief Assign the right node content comparison function to the trees contained in the ft_ls structure
+** \brief Assign the right node content comparison function to the trees
+** contained in the ft_ls structure
 **
 ** \param ls the ft_ls structure
 */
 void	ls_tree_configure_comparison_function(t_ls *ls);
 
 /**
-** \brief Assign the right node content creation function to the trees contained the t_ls structure
+** \brief Assign the right node content creation function to the trees
+** contained the t_ls structure
 **
 ** \param ls the ft_ls structure
 */
 void	ls_tree_configure_creation_function(t_ls *ls);
 
 /**
-** \brief Assign the right node content deletion function to the trees contained the ft_ls structure
+** \brief Assign the right node content deletion function to the trees
+** contained the ft_ls structure
 **
 ** \param ls the ft_ls structure
 */
 void	ls_tree_configure_free_function(t_ls *ls);
 
 /**
-** \brief Assign the right node content manipulation functions to the trees contained the ft_ls structure
+** \brief Assign the right node content manipulation functions to the trees
+** contained the ft_ls structure
 **
 ** \param ls the ft_ls structure
 */
