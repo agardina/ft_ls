@@ -58,8 +58,8 @@ typedef struct s_ls
 // A commenter
 typedef struct s_create_node
 {
-	t_ls		*ls;
 	struct stat	*info;
+	t_ls		*ls;
 	char		*fullpath;
 	char		*name;
 }	t_create_node;
@@ -69,18 +69,19 @@ typedef struct s_create_node
 */
 typedef struct s_ls_tree_node
 {
+	struct stat			info;
+	char				date[14];
+	char				padding[2];
+	char				mode[12];
+	unsigned int		id;
+	unsigned long long	links;
+	unsigned long long	major;
+	unsigned long long	minor;
 	char				*name;
 	char				*fullpath;
-	struct stat			info;
-	unsigned int		id;
-	char				mode[12];
-	unsigned long long	links;
 	char				*owner;
 	char				*group;
 	char				*size;
-	unsigned long long	major;
-	unsigned long long	minor;
-	char				date[14];
 }	t_ls_tree_node;
 
 #endif

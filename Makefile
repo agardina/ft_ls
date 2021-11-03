@@ -8,7 +8,7 @@ ERASE_LINE = "\\033[A\\033[K\\033[A"
 ##### COMPILATION #####
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -Wall -Wextra -Werror -Wpadded -g3
 NAME = ft_ls
 
 ##### LIB #####
