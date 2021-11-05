@@ -42,10 +42,7 @@ static int	get_file_stat(t_ls *ls, char *name, struct stat *info)
 	struct stat	linked;
 
 	if (lstat(name, info) == -1)
-	{
-		ft_dprintf(2, "ft_ls: %s: %s\n", name, strerror(errno));
-		return (1);
-	}
+		return (ft_deal_error(ls, LS_ERR_OPENFILE, name, 1));
 	if (S_ISLNK(info->st_mode)
 		&& is_option_activated(ls, FL_SYMLNK_CMD_FOLLOWED))
 	{

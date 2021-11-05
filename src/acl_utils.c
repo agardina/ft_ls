@@ -12,7 +12,7 @@
 
 #include "prototypes.h"
 
-int	file_has_acl_free(t_ls_tree_node *node)
+int	file_has_acl_free(t_ls *ls, t_ls_tree_node *node)
 {
 	acl_t		a;
 	const char	*path;
@@ -29,7 +29,7 @@ int	file_has_acl_free(t_ls_tree_node *node)
 	a = NULL;
 	a = acl_get_file(path, ACL_TYPE_EXTENDED);
 	if (!a)
-		return (0);
+		return (ft_deal_error(ls, LS_ERR_OTHER, NULL, 0));
 	acl_free((void *)a);
 	return (1);
 }

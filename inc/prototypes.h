@@ -42,6 +42,12 @@
 # define FL_ONE_ENTRY_PER_LINE 0x2000
 # define FL_SYMLNK_CMD_FOLLOWED 0x4000
 
+# define LS_ERR_OPENFILE 1
+# define LS_ERR_OPENDIR 2
+# define LS_ERR_BADOPT 3
+# define LS_ERR_MEM 4
+# define LS_ERR_OTHER 5
+
 /**
 ** \brief Add an option to the ft_ls structure from a flag
 **
@@ -311,9 +317,10 @@ void	deal_with_little_u_option(t_ls *ls);
 /**
 ** \brief Display the ACL of a file
 **
+** \param ls the ft_ls structure
 ** \param node the content of a tree node related to the file
 */
-void	display_acl(t_ls_tree_node *node);
+void	display_acl(t_ls *ls, t_ls_tree_node *node);
 
 /**
 ** \brief Display a char to indicate the type of a file
@@ -376,19 +383,21 @@ void	display_main_files_tree(t_ls *ls);
 /**
 ** \brief Display the extended attributes of a file
 **
+** \param ls the ft_ls structure
 ** \param node the content of a tree node related to the file
 */
-void	display_xattr_list(t_ls_tree_node *node);
+void	display_xattr_list(t_ls *ls, t_ls_tree_node *node);
 
 /**
 ** \brief Find out if a file has an ACL and free the ACL that was retrieved
 **
+** \param ls the ft_ls structure
 ** \param node the content of a tree node related to the file
 **
 ** \retval 0 if the file does not have an ACL
 ** \retval 1 otherwise
 */
-int		file_has_acl_free(t_ls_tree_node *node);
+int		file_has_acl_free(t_ls *ls, t_ls_tree_node *node);
 
 /**
 ** \brief Find out if a file has an ACL and return a pointer to the ACL that
@@ -409,6 +418,19 @@ acl_t	file_has_acl_return_ptr(t_ls_tree_node *node);
 ** \retval 1 otherwise
 */
 int		file_has_xattr(t_ls_tree_node *node);
+
+/**
+** \brief Print the ad-hoc error message and set the value of the field err of
+** the ft_ls structure to 1
+**
+** \param ls the ft_ls structure
+** \param err_type the type of error (LS_ERR_*)
+** \param arg part of the error message
+** \param ret the value to return
+**
+** \return the value of the parameter ret
+*/
+int		ft_deal_error(t_ls *ls, int err_type, const char *arg, int ret);
 
 /**
 ** \brief Print the total sum for all the file sizes in a directory (used when
@@ -452,9 +474,10 @@ void	get_dir_entries(t_ls *ls, const char *dir_path,
 /**
 ** \brief Get the modes of a file
 **
+** \param ls the ft_ls structure
 ** \param content the content of the tree node associated to the file
 */
-void	get_file_modes(t_ls_tree_node *content);
+void	get_file_modes(t_ls *ls, t_ls_tree_node *content);
 
 /**
 ** \brief Get the type of the file
@@ -466,12 +489,13 @@ void	get_file_type(t_ls_tree_node *content);
 /**
 ** \brief Get the fullpath of a directory entry
 **
+** \param ls the ft_ls structure
 ** \param dir_path path of directory
 ** \param entry_name name of the directory entry
 **
 ** \return a newly allocated string if success, NULL otherwise
 */
-char	*get_fullpath(const char *dir_path, const char *entry_name);
+char	*get_fullpath(t_ls *ls, const char *dir_path, const char *entry_name);
 
 /**
 ** \brief Get the group that owns the specified file
@@ -531,6 +555,7 @@ void	get_size_or_devices(t_ls_tree_node *content);
 ** \brief Get the list of the subdirectories contained in the given directory
 ** and put them into a string vector
 **
+** \param ls the ft_ls structure
 ** \param dir_path path to the directory
 ** \param dir_entries tree of the directory entries
 ** \param subdirs the string vector to be filled
@@ -538,8 +563,8 @@ void	get_size_or_devices(t_ls_tree_node *content);
 ** \retval 0 if success
 ** \retval 1 otherwise
 */
-int		get_subdirs_list(const char *dir_path, t_btree_gen *dir_entries,
-			t_str_vector **subdirs);
+int		get_subdirs_list(t_ls *ls, const char *dir_path,
+			t_btree_gen *dir_entries, t_str_vector **subdirs);
 
 /**
 ** \brief Find out if the given ft_ls option is activated

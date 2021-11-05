@@ -83,7 +83,7 @@ static void	print_acl_text(const char *text)
 	}
 }
 
-void	display_acl(t_ls_tree_node *node)
+void	display_acl(t_ls *ls, t_ls_tree_node *node)
 {
 	acl_t	a;
 	char	*text;
@@ -98,7 +98,7 @@ void	display_acl(t_ls_tree_node *node)
 	if (text)
 		print_acl_text((const char *)text);
 	else
-		perror(NULL);
+		ft_deal_error(ls, LS_ERR_OTHER, NULL, 1);
 	acl_free((void *)a);
 	acl_free((void *)text);
 }

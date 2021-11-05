@@ -30,20 +30,6 @@ static int	is_valid_option(char c)
 }
 
 /**
-** \brief Print a message to let the user know he or she has specified
-** an invalid ft_ls option
-**
-** \param c the invalid option that was specified
-*/
-static int	display_message_illegal_option(char c)
-{
-	ft_dprintf(2,
-		"ft_ls: illegal option -- %c\nusage: ./ft_ls [-@FHRSUadelnrtu1]"
-		"[file ...]\n", c);
-	return (-1);
-}
-
-/**
 ** \brief Move forward to the next option to parse
 **
 ** \param argv array of command line arguments
@@ -80,7 +66,8 @@ int	ls_parsing_options(t_ls *ls, int argc, char **argv)
 		else
 		{
 			if (!is_valid_option(argv[arg_nb][pos]))
-				return (display_message_illegal_option(argv[arg_nb][pos]));
+				return (ft_deal_error(ls, LS_ERR_BADOPT,
+						&argv[arg_nb][pos], -1));
 			else
 				add_option_from_letter(ls, argv[arg_nb][pos]);
 		}

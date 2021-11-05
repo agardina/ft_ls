@@ -30,6 +30,7 @@ static void	clean_ls_structure(t_ls *ls)
 */
 static void	init_ls_structure(t_ls *ls)
 {
+	ls->err = 0;
 	ls->first_displayed_dir = NULL;
 	ls->flags = FL_ONE_ENTRY_PER_LINE;
 	ls->nb_operands = 0;
@@ -54,7 +55,7 @@ int	main(int argc, char **argv)
 	init_ls_structure(&ls);
 	ret = ls_parsing(&ls, argc, argv);
 	if (!ret)
-		ret = ls_display(&ls);
+		ls_display(&ls);
 	clean_ls_structure(&ls);
-	return (ret);
+	return (ls.err);
 }

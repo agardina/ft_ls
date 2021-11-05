@@ -40,9 +40,9 @@ static void	display_entry_long_format(t_ls *ls, t_ls_tree_node *content,
 	if (S_ISLNK(content->info.st_mode))
 		display_linked_file(content);
 	if (is_option_activated(ls, FL_DISPLAY_XATTR))
-		display_xattr_list(content);
+		display_xattr_list(ls, content);
 	if (is_option_activated(ls, FL_DISPLAY_ACL))
-		display_acl(content);
+		display_acl(ls, content);
 	ft_printf("\n");
 }
 

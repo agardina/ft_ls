@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   long_printing_get_elements.c                       :+:      :+:    :+:   */
+/*   ft_deal_error.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agardina <agardina@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/03 12:37:53 by agardina          #+#    #+#             */
-/*   Updated: 2021/11/03 12:37:57 by agardina         ###   ########.fr       */
+/*   Created: 2021/11/05 17:54:34 by agardina          #+#    #+#             */
+/*   Updated: 2021/11/05 17:54:37 by agardina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prototypes.h"
 
-void	get_long_printing_elements(t_ls *ls, t_ls_tree_node *content)
+int	ft_deal_error(t_ls *ls, int err_type, const char *arg, int ret)
 {
-	get_file_type(content);
-	get_file_modes(ls, content);
-	get_nb_links(content);
-	get_owner(ls, content);
-	get_group(ls, content);
-	get_size_or_devices(content);
-	get_date(ls, content);
+	ls->err = 1;
+	if (err_type == LS_ERR_OPENFILE || err_type == LS_ERR_OPENDIR)
+		ft_dprintf(2, "ft_ls: %s: %s\n", arg, strerror(errno));
+	else if (err_type == LS_ERR_BADOPT)
+		ft_dprintf(2, "ft_ls: illegal option -- %c\nusage: "
+			"./ft_ls [-@FHRSUadelnrtu1][file ...]\n", *arg);
+	return (ret);
 }

@@ -25,20 +25,25 @@ int	file_has_xattr(t_ls_tree_node *node)
 /**
 ** \brief Store the extended attributes of a file in a buffer
 **
+** \param ls the ft_ls structure
 ** \param node the content of a tree node associated to a file
 ** \param xattr_list_length will hold length of the list of extended
 ** attributes at the end of the function
 **
 ** \return a pointer to the newly allocated buffer if success, NULL otherwise
 */
-static char	*store_xattr_list(t_ls_tree_node *node, ssize_t	*xattr_list_length)
+static char	*store_xattr_list(t_ls *ls, t_ls_tree_node *node,
+								ssize_t *xattr_list_length)
 {
 	char	*buffer;
 
 	*xattr_list_length = listxattr(node->fullpath, NULL, 0, XATTR_NOFOLLOW);
 	buffer = (char *)malloc(sizeof(char) * (*xattr_list_length + 1));
 	if (!buffer)
+	{
+		ft_deal_error(ls, LS_ERR_MEM, NULL, 1);
 		return (NULL);
+	}
 	ft_bzero((void *)buffer, *xattr_list_length + 1);
 	listxattr(node->fullpath, buffer, *xattr_list_length + 1, XATTR_NOFOLLOW);
 	return (buffer);
@@ -47,11 +52,12 @@ static char	*store_xattr_list(t_ls_tree_node *node, ssize_t	*xattr_list_length)
 /**
 ** \brief This function prints the list of extended attributes of a file
 **
+** \param ls the ft_ls structure
 ** \param node the content of a tree node associated to a file
 ** \param xattr_list the list of extended attributes
 ** \param xattr_list_length the length of the list of extended attributes
 */
-static void	print_xattr_list(t_ls_tree_node *node, char	*xattr_list,
+static void	print_xattr_list(t_ls *ls, t_ls_tree_node *node, char *xattr_list,
 								ssize_t xattr_list_length)
 {
 	ssize_t	index;
@@ -67,12 +73,12 @@ static void	print_xattr_list(t_ls_tree_node *node, char	*xattr_list,
 		if (0 <= value_size)
 			ft_printf("%lu", value_size);
 		else
-			perror(NULL);
+			ft_deal_error(ls, LS_ERR_OTHER, NULL, 1);
 		index += ft_strlen(xattr_list + index) + 1;
 	}
 }
 
-void	display_xattr_list(t_ls_tree_node *node)
+void	display_xattr_list(t_ls *ls, t_ls_tree_node *node)
 {
 	ssize_t	xattr_list_length;
 	char	*xattr_list;
@@ -80,10 +86,13 @@ void	display_xattr_list(t_ls_tree_node *node)
 	if (!file_has_xattr(node))
 		return ;
 	xattr_list_length = 0;
-	xattr_list = store_xattr_list(node, &xattr_list_length);
+	xattr_list = store_xattr_list(ls, node, &xattr_list_length);
 	if (!xattr_list)
+	{
+		ft_deal_error(ls, LS_ERR_OTHER, NULL, 1);
 		return ;
-	print_xattr_list(node, xattr_list, xattr_list_length);
+	}
+	print_xattr_list(ls, node, xattr_list, xattr_list_length);
 	free(xattr_list);
 	xattr_list = NULL;
 }

@@ -34,17 +34,16 @@ static int	add_dir_entry_to_tree(t_ls *ls, struct dirent *entry,
 
 	data.fullpath = NULL;
 	data.name = entry->d_name;
-	fullpath = get_fullpath(dir_path, entry->d_name);
+	fullpath = get_fullpath(ls, dir_path, entry->d_name);
 	if (!fullpath)
-		return (1);
+		return (ft_deal_error(ls, LS_ERR_MEM, NULL, 1));
 	data.fullpath = fullpath;
 	data.info = &info;
 	data.ls = ls;
 	if (lstat(fullpath, &info) == -1)
 	{
 		free(fullpath);
-		ft_dprintf(2, "./ft_ls: %s: %s\n", entry->d_name, strerror(errno));
-		return (0);
+		return (ft_deal_error(ls, LS_ERR_OPENFILE, entry->d_name, 0));
 	}
 	ret = ft_btree_gen_add_node(dir_entries, (void *)&data);
 	free(fullpath);
@@ -112,8 +111,7 @@ void	get_dir_entries(t_ls *ls, const char *dir_path,
 	dir = opendir(dir_path);
 	if (!dir)
 	{
-		ft_dprintf(2, "./ft_ls: %s: %s\n",
-			ft_transform_name(dir_path), strerror(errno));
+		ft_deal_error(ls, LS_ERR_OPENDIR, ft_transform_name(dir_path), 1);
 		return ;
 	}
 	fill_tree_of_dir_entries(ls, dir, dir_path, dir_entries);

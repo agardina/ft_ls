@@ -99,7 +99,7 @@ static void	get_file_modes_u(t_ls_tree_node *content)
 **
 ** \param node
 */
-static void	get_xattr_acl_indicator(t_ls_tree_node *node)
+static void	get_xattr_acl_indicator(t_ls *ls, t_ls_tree_node *node)
 {
 	char		buffer[__DARWIN_MAXPATHLEN + 1];
 
@@ -108,20 +108,20 @@ static void	get_xattr_acl_indicator(t_ls_tree_node *node)
 		ft_bzero(buffer, __DARWIN_MAXPATHLEN + 1);
 		readlink(node->fullpath, buffer, __DARWIN_MAXPATHLEN);
 	}
-	if (file_has_xattr(node) && file_has_acl_free(node))
+	if (file_has_xattr(node) && file_has_acl_free(ls, node))
 		node->mode[10] = '@';
 	else if (file_has_xattr(node))
 		node->mode[10] = '@';
-	else if (file_has_acl_free(node))
+	else if (file_has_acl_free(ls, node))
 		node->mode[10] = '+';
 	else
 		node->mode[10] = ' ';
 }
 
-void	get_file_modes(t_ls_tree_node *content)
+void	get_file_modes(t_ls *ls, t_ls_tree_node *content)
 {
 	get_file_modes_u(content);
 	get_file_modes_g(content);
 	get_file_modes_o(content);
-	get_xattr_acl_indicator(content);
+	get_xattr_acl_indicator(ls, content);
 }

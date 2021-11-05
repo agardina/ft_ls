@@ -32,6 +32,7 @@ SRC_FILES = acl_display.c \
 				display_main_dir_tree.c \
 				display_main_files_tree.c \
 				display_utils.c \
+				ft_deal_error.c \
 				get_dir_entries.c \
 				get_subdirs_list.c \
 				long_printing_columns_length.c \

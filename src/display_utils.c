@@ -20,7 +20,7 @@ char	*get_path_from_tree_node(t_ls *ls, void *content)
 	return (((t_ls_tree_node *)content)->name);
 }
 
-char	*get_fullpath(const char *dir_path, const char *entry_name)
+char	*get_fullpath(t_ls *ls, const char *dir_path, const char *entry_name)
 {
 	char			*fullpath;
 	unsigned int	dir_path_len;
@@ -33,7 +33,10 @@ char	*get_fullpath(const char *dir_path, const char *entry_name)
 	fullpath = (char *)malloc(sizeof(char)
 			* (dir_path_len + 1 + entry_name_len + 1));
 	if (!fullpath)
+	{
+		ft_deal_error(ls, LS_ERR_MEM, NULL, 1);
 		return (NULL);
+	}
 	ft_bzero(fullpath, dir_path_len + 1 + entry_name_len + 1);
 	ft_strncpy(fullpath, dir_path, dir_path_len);
 	ft_strcpy(fullpath + dir_path_len, "/");

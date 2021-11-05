@@ -50,9 +50,9 @@ static int	display_subdirs_content(t_ls *ls, const char *dir_path,
 	ret = 0;
 	subdirs = str_vector_create();
 	if (!subdirs)
-		return (1);
+		return (ft_deal_error(ls, LS_ERR_MEM, NULL, 1));
 	i = 0;
-	if (get_subdirs_list(dir_path, dir_entries, &subdirs))
+	if (get_subdirs_list(ls, dir_path, dir_entries, &subdirs))
 	{
 		str_vector_destroy(&subdirs);
 		return (1);
